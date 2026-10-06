@@ -1,0 +1,178 @@
+{
+  "@@locale": "uz",
+  "appTitle": "Pixel Bar",
+  "loginSubtitle": "Bar kassasiga kirish uchun login va parolni kiriting",
+  "loginUsername": "Login",
+  "loginPassword": "Parol",
+  "loginShowPassword": "Parolni ko‘rsatish",
+  "loginButton": "Kirish",
+  "loginInvalid": "Login yoki parol noto‘g‘ri",
+  "language": "Til",
+  "languageUzbek": "O‘zbekcha",
+  "languageRussian": "Русский",
+  "menu": "Menyu",
+  "menuHistory": "Smena tarixi",
+  "menuCloseShift": "Smenani yopish",
+  "menuSettings": "Sozlamalar",
+  "logout": "Chiqish",
+  "logoutConfirmTitle": "Tizimdan chiqish",
+  "logoutConfirmMessage": "Hisobdan chiqasizmi? Ochiq smena serverda ochiq qoladi — keyingi kirishda davom etadi.",
+  "back": "Orqaga",
+  "cancel": "Bekor qilish",
+  "ok": "OK",
+  "retry": "Qayta urinish",
+  "refresh": "Yangilash",
+  "shiftRevenue": "SMENA TUSHUMI",
+  "shiftOpenedAt": "Smena: {time} dan",
+  "@shiftOpenedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noOpenShiftTitle": "Smena ochilmagan",
+  "noOpenShiftMessage": "Sotuvni boshlash uchun smenani oching",
+  "openShift": "Smenani ochish",
+  "categoryAll": "Hammasi",
+  "refreshProducts": "Mahsulotlarni yangilash",
+  "productsEmpty": "Bu barda hali faol mahsulot yo‘q",
+  "cartTitle": "Savat",
+  "cartEmpty": "Savat bo‘sh — mahsulotni bosib qo‘shing",
+  "cartItemsCount": "{count} dona",
+  "@cartItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cartClear": "Tozalash",
+  "cartClearTitle": "Savatni tozalash",
+  "cartClearMessage": "Savatdagi barcha mahsulotlar o‘chiriladi. Davom etasizmi?",
+  "increase": "Ko‘paytirish",
+  "decrease": "Kamaytirish",
+  "removeLine": "Olib tashlash",
+  "total": "Jami",
+  "paymentCash": "Naqd",
+  "paymentCard": "Karta",
+  "saleCompleted": "Chek #{receiptNo} — {total} sotildi",
+  "@saleCompleted": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptPrintFailed": "Sotuv saqlandi, lekin chek chop etilmadi. Printerni tekshiring.",
+  "saleErrorNetwork": "Internet aloqasi yo‘q. Savat saqlandi — to‘lov tugmasini qayta bosing, pul ikki marta yechilmaydi.",
+  "saleErrorServer": "Serverda xatolik. Savat saqlandi — qayta urinib ko‘ring, sotuv ikki marta yozilmaydi.",
+  "saleErrorUnknownOutcome": "Server javobini o‘qib bo‘lmadi. Savat saqlandi — qayta bosing, sotuv ikki marta yozilmaydi.",
+  "errorNoInternet": "Internet aloqasi yo‘q. Ulanishni tekshirib, qayta urinib ko‘ring.",
+  "errorServer": "Serverda xatolik yuz berdi. Birozdan keyin qayta urinib ko‘ring.",
+  "errorUnknown": "Nimadir noto‘g‘ri ketdi",
+  "errorTooManyAttempts": "Juda ko‘p urinish. Bir daqiqadan keyin qayta urinib ko‘ring.",
+  "errorShiftNotOpen": "Smena ochilmagan. Avval smenani oching.",
+  "errorShiftAlreadyOpen": "Smena allaqachon ochilgan",
+  "errorProductUnavailable": "Savatdagi ba’zi mahsulotlar endi sotuvda yo‘q. Ro‘yxat yangilandi — savatni tekshirib, qayta to‘lang.",
+  "errorEmptyCart": "Savat bo‘sh",
+  "errorCashierInactive": "Hisobingiz faol emas. Administratorga murojaat qiling.",
+  "errorBarInactive": "Bu bar faol emas. Administratorga murojaat qiling.",
+  "errorSaleNotInShift": "Faqat joriy ochiq smenadagi sotuvni bekor qilish mumkin",
+  "errorSaleAlreadyRefunded": "Bu sotuv allaqachon bekor qilingan",
+  "historyTitle": "Smena tarixi",
+  "historyEmpty": "Bu smenada hali sotuv yo‘q",
+  "statusRefunded": "Bekor qilingan",
+  "refund": "Bekor qilish",
+  "refundTitle": "Chek #{receiptNo} ni bekor qilish",
+  "@refundTitle": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      }
+    }
+  },
+  "refundMessage": "Butun sotuv bekor qilinadi va {total} smena tushumidan chiqariladi. Pulni xaridorga qaytaring.",
+  "@refundMessage": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "refundReasonOptional": "Sabab (ixtiyoriy)",
+  "refundConfirm": "Ha, bekor qilish",
+  "refundDone": "Chek #{receiptNo} bekor qilindi",
+  "@refundDone": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      }
+    }
+  },
+  "refundReasonShown": "Sabab: {reason}",
+  "@refundReasonShown": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "closeShift": "Smenani yopish",
+  "receiptsCount": "Cheklar",
+  "refundedCount": "Bekor qilinganlar",
+  "countedCash": "Kassadagi naqd pul (sanalgan)",
+  "countedCashHint": "Kassadagi naqd pulni sanab kiriting",
+  "expectedCash": "Kutilgan naqd",
+  "cashDifference": "Farq",
+  "noteOptional": "Izoh (ixtiyoriy)",
+  "closeShiftConfirmTitle": "Smenani yopasizmi?",
+  "closeShiftConfirmMessage": "Yopilgan smenada sotuv va bekor qilish mumkin bo‘lmaydi.",
+  "shiftClosedTitle": "Smena yopildi",
+  "shiftPeriod": "Smena vaqti",
+  "barLabel": "Bar",
+  "version": "Versiya",
+  "printerSettings": "Chek printeri",
+  "receiptPrinter": "Printer",
+  "printerNone": "Printer yo‘q (chek chop etilmaydi)",
+  "printerUnavailable": "{name} (hozir ulanmagan)",
+  "@printerUnavailable": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "printerHint": "Printer tanlansa, har bir sotuvdan keyin chek avtomatik chop etiladi.",
+  "noPrintersFound": "Kompyuterda o‘rnatilgan printer topilmadi",
+  "updateTitle": "Yangilanish",
+  "updateCheck": "Yangilanishni tekshirish",
+  "updateUpToDate": "Eng so‘nggi versiya o‘rnatilgan",
+  "updateAvailable": "Yangi versiya mavjud: {version}",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateDownload": "Yuklab olish va o‘rnatish",
+  "updateDownloading": "Yuklanmoqda…",
+  "updateReady": "Yangilanish tayyor",
+  "updateRestart": "Qayta ishga tushirish",
+  "updateConfirmTitle": "Ilovani yangilash",
+  "updateConfirmMessage": "Ilova yopiladi va yangi versiyada qayta ochiladi. Smena ochiq qoladi. Davom etasizmi?",
+  "updateConfirm": "Davom etish",
+  "updateCancel": "Bekor qilish",
+  "updateFailed": "Yangilanmadi",
+  "updateFailedGeneric": "Yangilanmadi. Internet aloqasini tekshiring va qayta urinib ko‘ring.",
+  "updateManualHint": "Qo‘lda yuklab olish uchun:",
+  "updateWindowsOnly": "Avtomatik yangilash faqat Windows’da ishlaydi",
+  "updateFailureChecksumMismatch": "Yuklab olingan fayl buzilgan chiqdi — tekshiruv summasi mos kelmadi",
+  "updateFailureChecksumUnreadable": "Nashr etilgan tekshiruv summasini o‘qib bo‘lmadi — tasdiqlanmagan yangilanish o‘rnatilmaydi",
+  "updateFailureExecutableMissing": "Yuklab olingan arxivda ilova dasturi topilmadi",
+  "updateFailureIncompleteExtraction": "Yangilanish to‘liq yozilmadi. Yuklangan fayl bekor qilindi — qaytadan urinib ko‘ring"
+}

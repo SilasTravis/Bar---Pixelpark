@@ -1,0 +1,178 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Pixel Bar",
+  "loginSubtitle": "Введите логин и пароль для входа в кассу бара",
+  "loginUsername": "Логин",
+  "loginPassword": "Пароль",
+  "loginShowPassword": "Показать пароль",
+  "loginButton": "Войти",
+  "loginInvalid": "Неверный логин или пароль",
+  "language": "Язык",
+  "languageUzbek": "O‘zbekcha",
+  "languageRussian": "Русский",
+  "menu": "Меню",
+  "menuHistory": "История смены",
+  "menuCloseShift": "Закрыть смену",
+  "menuSettings": "Настройки",
+  "logout": "Выйти",
+  "logoutConfirmTitle": "Выход из системы",
+  "logoutConfirmMessage": "Выйти из аккаунта? Открытая смена останется открытой на сервере и продолжится при следующем входе.",
+  "back": "Назад",
+  "cancel": "Отмена",
+  "ok": "OK",
+  "retry": "Повторить",
+  "refresh": "Обновить",
+  "shiftRevenue": "ВЫРУЧКА СМЕНЫ",
+  "shiftOpenedAt": "Смена с {time}",
+  "@shiftOpenedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noOpenShiftTitle": "Смена не открыта",
+  "noOpenShiftMessage": "Откройте смену, чтобы начать продажи",
+  "openShift": "Открыть смену",
+  "categoryAll": "Все",
+  "refreshProducts": "Обновить товары",
+  "productsEmpty": "В этом баре пока нет активных товаров",
+  "cartTitle": "Корзина",
+  "cartEmpty": "Корзина пуста — нажмите на товар, чтобы добавить",
+  "cartItemsCount": "{count} шт.",
+  "@cartItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cartClear": "Очистить",
+  "cartClearTitle": "Очистить корзину",
+  "cartClearMessage": "Все товары будут удалены из корзины. Продолжить?",
+  "increase": "Увеличить",
+  "decrease": "Уменьшить",
+  "removeLine": "Удалить",
+  "total": "Итого",
+  "paymentCash": "Наличные",
+  "paymentCard": "Карта",
+  "saleCompleted": "Чек #{receiptNo} — продано на {total}",
+  "@saleCompleted": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptPrintFailed": "Продажа сохранена, но чек не напечатан. Проверьте принтер.",
+  "saleErrorNetwork": "Нет подключения к интернету. Корзина сохранена — нажмите кнопку оплаты ещё раз, двойного списания не будет.",
+  "saleErrorServer": "Ошибка сервера. Корзина сохранена — повторите, продажа не задвоится.",
+  "saleErrorUnknownOutcome": "Не удалось прочитать ответ сервера. Корзина сохранена — повторите, продажа не задвоится.",
+  "errorNoInternet": "Нет подключения к интернету. Проверьте соединение и повторите.",
+  "errorServer": "Произошла ошибка сервера. Повторите чуть позже.",
+  "errorUnknown": "Что-то пошло не так",
+  "errorTooManyAttempts": "Слишком много попыток. Повторите через минуту.",
+  "errorShiftNotOpen": "Смена не открыта. Сначала откройте смену.",
+  "errorShiftAlreadyOpen": "Смена уже открыта",
+  "errorProductUnavailable": "Некоторые товары из корзины больше не продаются. Список обновлён — проверьте корзину и оплатите снова.",
+  "errorEmptyCart": "Корзина пуста",
+  "errorCashierInactive": "Ваш аккаунт неактивен. Обратитесь к администратору.",
+  "errorBarInactive": "Этот бар неактивен. Обратитесь к администратору.",
+  "errorSaleNotInShift": "Отменить можно только продажу текущей открытой смены",
+  "errorSaleAlreadyRefunded": "Эта продажа уже отменена",
+  "historyTitle": "История смены",
+  "historyEmpty": "В этой смене ещё нет продаж",
+  "statusRefunded": "Отменён",
+  "refund": "Отменить",
+  "refundTitle": "Отмена чека #{receiptNo}",
+  "@refundTitle": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      }
+    }
+  },
+  "refundMessage": "Вся продажа будет отменена, {total} исключится из выручки смены. Верните деньги покупателю.",
+  "@refundMessage": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "refundReasonOptional": "Причина (необязательно)",
+  "refundConfirm": "Да, отменить",
+  "refundDone": "Чек #{receiptNo} отменён",
+  "@refundDone": {
+    "placeholders": {
+      "receiptNo": {
+        "type": "int"
+      }
+    }
+  },
+  "refundReasonShown": "Причина: {reason}",
+  "@refundReasonShown": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "closeShift": "Закрыть смену",
+  "receiptsCount": "Чеки",
+  "refundedCount": "Отменённые",
+  "countedCash": "Наличные в кассе (пересчитано)",
+  "countedCashHint": "Пересчитайте наличные в кассе и введите сумму",
+  "expectedCash": "Ожидаемые наличные",
+  "cashDifference": "Разница",
+  "noteOptional": "Комментарий (необязательно)",
+  "closeShiftConfirmTitle": "Закрыть смену?",
+  "closeShiftConfirmMessage": "В закрытой смене нельзя продавать и отменять продажи.",
+  "shiftClosedTitle": "Смена закрыта",
+  "shiftPeriod": "Время смены",
+  "barLabel": "Бар",
+  "version": "Версия",
+  "printerSettings": "Принтер чеков",
+  "receiptPrinter": "Принтер",
+  "printerNone": "Без принтера (чек не печатается)",
+  "printerUnavailable": "{name} (сейчас не подключён)",
+  "@printerUnavailable": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "printerHint": "Если выбран принтер, чек печатается автоматически после каждой продажи.",
+  "noPrintersFound": "На компьютере не найдено установленных принтеров",
+  "updateTitle": "Обновление",
+  "updateCheck": "Проверить обновления",
+  "updateUpToDate": "Установлена последняя версия",
+  "updateAvailable": "Доступна новая версия: {version}",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateDownload": "Скачать и установить",
+  "updateDownloading": "Загрузка…",
+  "updateReady": "Обновление готово",
+  "updateRestart": "Перезапустить",
+  "updateConfirmTitle": "Обновление приложения",
+  "updateConfirmMessage": "Приложение закроется и откроется в новой версии. Смена останется открытой. Продолжить?",
+  "updateConfirm": "Продолжить",
+  "updateCancel": "Отмена",
+  "updateFailed": "Не удалось обновить",
+  "updateFailedGeneric": "Не удалось обновить. Проверьте интернет и попробуйте ещё раз.",
+  "updateManualHint": "Скачать вручную:",
+  "updateWindowsOnly": "Автообновление работает только в Windows",
+  "updateFailureChecksumMismatch": "Загруженный файл повреждён — контрольная сумма не совпала",
+  "updateFailureChecksumUnreadable": "Не удалось прочитать опубликованную контрольную сумму — непроверенное обновление не устанавливается",
+  "updateFailureExecutableMissing": "В загруженном архиве не найден исполняемый файл приложения",
+  "updateFailureIncompleteExtraction": "Обновление распаковано не полностью. Загрузка удалена — попробуйте ещё раз"
+}
