@@ -1,0 +1,66 @@
+name: bar_app
+description: "Pixel Bar — bar kassasi. Flutter Windows + macOS desktop POS."
+publish_to: 'none'
+
+# The version (without +build) is the release tag: a bump on `main` is what
+# publishes a new GitHub Release (see .github/workflows/windows-build.yml).
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # di
+  get_it: ^9.2.1
+  dartz: ^0.10.1
+  # state manager
+  flutter_bloc: ^9.1.1
+  equatable: ^2.1.0
+  # cache
+  hive_ce: ^2.19.3
+  path_provider: ^2.1.6
+  # rest api
+  dio: ^5.11.0
+  dio_retry_plus: ^2.0.8
+  # language
+  intl: ^0.20.2
+  # product receipt print job + OS printer list
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  # icons matching the Cashier design system (Phosphor) — funccloud fork,
+  # not upstream phosphor_flutter: upstream subclasses IconData, which
+  # Flutter 3.43+ made a final class, breaking the build.
+  phosphor_icons: ^3.0.1
+  # frameless window + custom title bar
+  window_manager: ^0.4.3
+  # app version, compared against the latest GitHub release tag
+  package_info_plus: ^10.2.1
+  # clientSaleId (idempotency key per cart)
+  uuid: ^4.6.0
+  # self-update: unpack the release zip and verify its published SHA-256
+  archive: ^4.0.9
+  crypto: ^3.0.7
+  path: ^1.9.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  intl_utils: ^2.8.7
+  fake_async: ^1.3.3
+
+flutter:
+  uses-material-design: true
+
+flutter_intl:
+  enabled: true
+  class_name: AppLocalization
+  main_locale: uz
+  arb_dir: lib/l10n
+  output_dir: lib/generated
+  use_deferred_loading: false
