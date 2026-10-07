@@ -177,10 +177,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "Bu barda hali faol mahsulot yo‘q",
     ),
+    "receiptCashier": MessageLookupByLibrary.simpleMessage("Kassir"),
+    "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Chek №"),
+    "receiptCurrency": MessageLookupByLibrary.simpleMessage("so‘m"),
+    "receiptDate": MessageLookupByLibrary.simpleMessage("Sana"),
+    "receiptPaymentMethod": MessageLookupByLibrary.simpleMessage(
+      "To‘lov usuli",
+    ),
     "receiptPrintFailed": MessageLookupByLibrary.simpleMessage(
       "Sotuv saqlandi, lekin chek chop etilmadi. Printerni tekshiring.",
     ),
     "receiptPrinter": MessageLookupByLibrary.simpleMessage("Printer"),
+    "receiptRefunded": MessageLookupByLibrary.simpleMessage("BEKOR QILINGAN"),
+    "receiptThanks": MessageLookupByLibrary.simpleMessage(
+      "Xaridingiz uchun rahmat!",
+    ),
+    "receiptTotal": MessageLookupByLibrary.simpleMessage("JAMI"),
     "receiptsCount": MessageLookupByLibrary.simpleMessage("Cheklar"),
     "refresh": MessageLookupByLibrary.simpleMessage("Yangilash"),
     "refreshProducts": MessageLookupByLibrary.simpleMessage(

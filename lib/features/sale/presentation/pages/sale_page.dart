@@ -96,22 +96,25 @@ class SalePage extends StatelessWidget {
         context.read<SessionCubit>().state.cashier?.fullName ??
         sale.cashierName;
     final printFailedText = l10n.receiptPrintFailed;
+    final receiptStrings = ReceiptStrings.of(l10n);
     // Fire-and-forget: the sale is done; a printer problem must never block
     // the next customer, it only earns a warning.
     unawaited(
-      printer.printSale(sale, cashierName: cashierName).then((result) {
-        if (result == ReceiptPrintResult.failed) {
-          messenger.showSnackBar(
-            SnackBar(
-              backgroundColor: AppColors.warning,
-              content: Text(
-                printFailedText,
-                style: const TextStyle(color: AppColors.text),
-              ),
-            ),
-          );
-        }
-      }),
+      printer
+          .printSale(sale, cashierName: cashierName, strings: receiptStrings)
+          .then((result) {
+            if (result == ReceiptPrintResult.failed) {
+              messenger.showSnackBar(
+                SnackBar(
+                  backgroundColor: AppColors.warning,
+                  content: Text(
+                    printFailedText,
+                    style: const TextStyle(color: AppColors.text),
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 

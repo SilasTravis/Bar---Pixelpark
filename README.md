@@ -67,6 +67,12 @@ Printing is optional. The default is "Printer yo'q", and a receipt prints
 (80 mm, PDF via `printing`) only after a printer is picked in Settings. A
 print failure never blocks the sale; it only shows a warning.
 
+The receipt (`lib/core/printing/bar_receipt_printer.dart`) uses the bundled
+Roboto font (`assets/fonts`, Apache-2.0) so Uzbek oʻ/gʻ and Russian text
+print correctly, follows the app language (uz/ru), and its page height is
+measured from the laid-out content. To preview it, render
+`BarReceiptPrinter.render(...)` to a PDF and run `pdftoppm -png -r 203`.
+
 ## Releases and self-update
 
 - Bumping `version:` in `pubspec.yaml` on **`main`** is the release.

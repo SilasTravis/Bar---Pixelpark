@@ -56,6 +56,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    # Receipt font (Roboto, Apache-2.0 — see Roboto-LICENSE.txt): Latin incl.
+    # Uzbek oʻ/gʻ apostrophes + Cyrillic, tabular digits for the amounts.
+    - assets/fonts/
 
 flutter_intl:
   enabled: true

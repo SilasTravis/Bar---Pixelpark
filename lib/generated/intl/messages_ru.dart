@@ -178,10 +178,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "В этом баре пока нет активных товаров",
     ),
+    "receiptCashier": MessageLookupByLibrary.simpleMessage("Кассир"),
+    "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Чек №"),
+    "receiptCurrency": MessageLookupByLibrary.simpleMessage("сум"),
+    "receiptDate": MessageLookupByLibrary.simpleMessage("Дата"),
+    "receiptPaymentMethod": MessageLookupByLibrary.simpleMessage(
+      "Способ оплаты",
+    ),
     "receiptPrintFailed": MessageLookupByLibrary.simpleMessage(
       "Продажа сохранена, но чек не напечатан. Проверьте принтер.",
     ),
     "receiptPrinter": MessageLookupByLibrary.simpleMessage("Принтер"),
+    "receiptRefunded": MessageLookupByLibrary.simpleMessage("ЧЕК ОТМЕНЁН"),
+    "receiptThanks": MessageLookupByLibrary.simpleMessage(
+      "Спасибо за покупку!",
+    ),
+    "receiptTotal": MessageLookupByLibrary.simpleMessage("ИТОГО"),
     "receiptsCount": MessageLookupByLibrary.simpleMessage("Чеки"),
     "refresh": MessageLookupByLibrary.simpleMessage("Обновить"),
     "refreshProducts": MessageLookupByLibrary.simpleMessage("Обновить товары"),

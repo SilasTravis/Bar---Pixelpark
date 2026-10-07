@@ -439,6 +439,61 @@ class AppLocalization {
     );
   }
 
+  /// `Chek №`
+  String get receiptCheckNo {
+    return Intl.message('Chek №', name: 'receiptCheckNo', desc: '', args: []);
+  }
+
+  /// `Sana`
+  String get receiptDate {
+    return Intl.message('Sana', name: 'receiptDate', desc: '', args: []);
+  }
+
+  /// `Kassir`
+  String get receiptCashier {
+    return Intl.message('Kassir', name: 'receiptCashier', desc: '', args: []);
+  }
+
+  /// `JAMI`
+  String get receiptTotal {
+    return Intl.message('JAMI', name: 'receiptTotal', desc: '', args: []);
+  }
+
+  /// `To‘lov usuli`
+  String get receiptPaymentMethod {
+    return Intl.message(
+      'To‘lov usuli',
+      name: 'receiptPaymentMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `so‘m`
+  String get receiptCurrency {
+    return Intl.message('so‘m', name: 'receiptCurrency', desc: '', args: []);
+  }
+
+  /// `Xaridingiz uchun rahmat!`
+  String get receiptThanks {
+    return Intl.message(
+      'Xaridingiz uchun rahmat!',
+      name: 'receiptThanks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BEKOR QILINGAN`
+  String get receiptRefunded {
+    return Intl.message(
+      'BEKOR QILINGAN',
+      name: 'receiptRefunded',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Internet aloqasi yo‘q. Savat saqlandi — to‘lov tugmasini qayta bosing, pul ikki marta yechilmaydi.`
   String get saleErrorNetwork {
     return Intl.message(
