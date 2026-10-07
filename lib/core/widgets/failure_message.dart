@@ -24,6 +24,8 @@ String failureMessage(AppLocalization l10n, Failure failure) {
       return l10n.errorSaleNotInShift;
     case BarErrorCodes.saleAlreadyRefunded:
       return l10n.errorSaleAlreadyRefunded;
+    case BarErrorCodes.invalidPaymentSplit:
+      return l10n.errorInvalidPaymentSplit;
   }
   if (failure.statusCode == 429) return l10n.errorTooManyAttempts;
   if (failure.isServerError) return l10n.errorServer;

@@ -359,6 +359,66 @@ class AppLocalization {
     return Intl.message('Karta', name: 'paymentCard', desc: '', args: []);
   }
 
+  /// `Aralash`
+  String get paymentMixed {
+    return Intl.message('Aralash', name: 'paymentMixed', desc: '', args: []);
+  }
+
+  /// `Aralash to‘lov`
+  String get mixedTitle {
+    return Intl.message(
+      'Aralash to‘lov',
+      name: 'mixedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Jami: {total}`
+  String mixedTotal(String total) {
+    return Intl.message(
+      'Jami: $total',
+      name: 'mixedTotal',
+      desc: '',
+      args: [total],
+    );
+  }
+
+  /// `To‘lash`
+  String get mixedPay {
+    return Intl.message('To‘lash', name: 'mixedPay', desc: '', args: []);
+  }
+
+  /// `Naqd va karta jami summaga teng bo‘lishi kerak`
+  String get mixedInvalid {
+    return Intl.message(
+      'Naqd va karta jami summaga teng bo‘lishi kerak',
+      name: 'mixedInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `N {cash} · K {card}`
+  String mixedSplitShort(String cash, String card) {
+    return Intl.message(
+      'N $cash · K $card',
+      name: 'mixedSplitShort',
+      desc: '',
+      args: [cash, card],
+    );
+  }
+
+  /// `Naqd va karta summasi jami summaga to‘g‘ri kelmadi. Aralash to‘lovni qaytadan kiriting.`
+  String get errorInvalidPaymentSplit {
+    return Intl.message(
+      'Naqd va karta summasi jami summaga to‘g‘ri kelmadi. Aralash to‘lovni qaytadan kiriting.',
+      name: 'errorInvalidPaymentSplit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Chek #{receiptNo} — {total} sotildi`
   String saleCompleted(int receiptNo, String total) {
     return Intl.message(

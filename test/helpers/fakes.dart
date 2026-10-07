@@ -30,11 +30,13 @@ class FakeProductsRepository implements ProductsRepository {
 
 /// One recorded `POST /v1/bar/sales`.
 class SaleRequest {
-  SaleRequest(this.clientSaleId, this.method, this.items);
+  SaleRequest(this.clientSaleId, this.payment, this.items);
 
   final String clientSaleId;
-  final PaymentMethod method;
+  final SalePayment payment;
   final List<Map<String, dynamic>> items;
+
+  PaymentMethod get method => payment.method;
 }
 
 class FakeSalesRepository implements SalesRepository {
@@ -48,18 +50,21 @@ class FakeSalesRepository implements SalesRepository {
   @override
   Future<Either<Failure, BarSale>> createSale({
     required Cart cart,
-    required PaymentMethod paymentMethod,
+    required SalePayment payment,
   }) async {
     requests.add(
-      SaleRequest(cart.clientSaleId!, paymentMethod, cart.toRequestItems()),
+      SaleRequest(cart.clientSaleId!, payment, cart.toRequestItems()),
     );
     if (gate != null) await gate!.future;
     return createResults.removeFirst();
   }
 
+  /// What `GET /v1/bar/sales` answers.
+  List<BarSale> shiftSales = const [];
+
   @override
   Future<Either<Failure, List<BarSale>>> fetchShiftSales() async =>
-      const Right([]);
+      Right(shiftSales);
 
   @override
   Future<Either<Failure, BarSale>> refund(String saleId, {String? reason}) =>

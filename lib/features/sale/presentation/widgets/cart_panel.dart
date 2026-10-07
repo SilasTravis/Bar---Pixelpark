@@ -9,12 +9,20 @@ import '../../../../core/widgets/failure_message.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/bar_sale.dart';
 import '../../domain/cart.dart';
+import '../../domain/mixed_split.dart';
 import '../cubit/sale_cubit.dart';
+import 'mixed_payment_dialog.dart';
 
 /// Right column of the sale screen: cart lines with +/−/remove, the total,
-/// the last checkout error, and the two big payment buttons.
+/// the last checkout error, the two big payment buttons and the "Aralash"
+/// (cash + card split) button under them.
 class CartPanel extends StatelessWidget {
   const CartPanel({super.key});
+
+  /// Below this panel height (the app's 800x600 minimum window leaves
+  /// ~460) the payment area tightens so an error banner, the two pay
+  /// buttons and "Aralash" still fit under the cart.
+  static const double _shortPanelHeight = 560;
 
   @override
   Widget build(BuildContext context) {
@@ -32,202 +40,229 @@ class CartPanel extends StatelessWidget {
           SaleFailed(:final failure) => failure,
           _ => null,
         };
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 8, 6),
-              child: Row(
-                children: [
-                  Text(
-                    l10n.cartTitle,
-                    style: AppTextStyles.h4.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: cart.isEmpty
-                        ? const SizedBox.shrink()
-                        : Text(
-                            l10n.cartItemsCount(cart.itemCount),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.muted(
-                              AppTextStyles.body,
-                            ).copyWith(fontSize: 14),
-                          ),
-                  ),
-                  if (cart.isNotEmpty)
-                    IconButton(
-                      tooltip: l10n.cartClear,
-                      onPressed: busy ? null : () => _confirmClear(context),
-                      icon: const Icon(
-                        PhosphorIconsRegular.trash,
-                        size: 20,
-                        color: AppColors.textMuted,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final short = constraints.maxHeight < _shortPanelHeight;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 10, 8, 6),
+                  child: Row(
+                    children: [
+                      Text(
+                        l10n.cartTitle,
+                        style: AppTextStyles.h4.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                ],
-              ),
-            ),
-            const Divider(height: 1),
-            Expanded(
-              child: cart.isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              PhosphorIconsRegular.basket,
-                              size: 40,
-                              color: AppColors.textDisabled,
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: cart.isEmpty
+                            ? const SizedBox.shrink()
+                            : Text(
+                                l10n.cartItemsCount(cart.itemCount),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.muted(
+                                  AppTextStyles.body,
+                                ).copyWith(fontSize: 14),
+                              ),
+                      ),
+                      if (cart.isNotEmpty)
+                        IconButton(
+                          tooltip: l10n.cartClear,
+                          onPressed: busy ? null : () => _confirmClear(context),
+                          icon: const Icon(
+                            PhosphorIconsRegular.trash,
+                            size: 20,
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const Divider(height: 1),
+                Expanded(
+                  child: cart.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  PhosphorIconsRegular.basket,
+                                  size: 40,
+                                  color: AppColors.textDisabled,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  l10n.cartEmpty,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.muted(
+                                    AppTextStyles.body,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 10),
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          itemCount: cart.lines.length,
+                          separatorBuilder: (_, _) => const SizedBox(height: 8),
+                          itemBuilder: (context, index) => _CartLineRow(
+                            line: cart.lines[index],
+                            enabled: !busy,
+                            onIncrement: () =>
+                                cubit.increment(cart.lines[index].product.id),
+                            onDecrement: () =>
+                                cubit.decrement(cart.lines[index].product.id),
+                            onRemove: () =>
+                                cubit.removeLine(cart.lines[index].product.id),
+                          ),
+                        ),
+                ),
+                const Divider(height: 1),
+                Padding(
+                  padding: EdgeInsets.all(short ? 12 : 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: short ? 8 : 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.accentSoft,
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          border: Border.all(color: AppColors.accentBorder),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
-                              l10n.cartEmpty,
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.muted(AppTextStyles.body),
+                              l10n.total,
+                              style: AppTextStyles.h4.copyWith(
+                                color: AppColors.accent,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            // Scales down instead of overflowing on a narrow
+                            // window with a large total.
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  formatUzs(cart.totalUzs),
+                                  maxLines: 1,
+                                  style: AppTextStyles.h2.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontFeatures: const [
+                                      FontFeature.tabularFigures(),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      itemCount: cart.lines.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 8),
-                      itemBuilder: (context, index) => _CartLineRow(
-                        line: cart.lines[index],
-                        enabled: !busy,
-                        onIncrement: () =>
-                            cubit.increment(cart.lines[index].product.id),
-                        onDecrement: () =>
-                            cubit.decrement(cart.lines[index].product.id),
-                        onRemove: () =>
-                            cubit.removeLine(cart.lines[index].product.id),
-                      ),
-                    ),
-            ),
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.accentSoft,
-                      borderRadius: BorderRadius.circular(AppRadius.md),
-                      border: Border.all(color: AppColors.accentBorder),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          l10n.total,
-                          style: AppTextStyles.h4.copyWith(
-                            color: AppColors.accent,
-                            fontWeight: FontWeight.w600,
+                      if (failure != null) ...[
+                        SizedBox(height: short ? 8 : 10),
+                        Container(
+                          padding: EdgeInsets.all(short ? 8 : 10),
+                          decoration: BoxDecoration(
+                            color: AppColors.dangerSoft,
+                            borderRadius: BorderRadius.circular(AppRadius.md),
+                            border: Border.all(color: AppColors.dangerBorder),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        // Scales down instead of overflowing on a narrow
-                        // window with a large total.
-                        Flexible(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              formatUzs(cart.totalUzs),
-                              maxLines: 1,
-                              style: AppTextStyles.h2.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontFeatures: const [
-                                  FontFeature.tabularFigures(),
-                                ],
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                PhosphorIconsRegular.warning,
+                                size: 20,
+                                color: AppColors.danger,
                               ),
-                            ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  saleFailureMessage(l10n, failure),
+                                  style: AppTextStyles.body.copyWith(
+                                    fontSize: short ? 13 : 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  if (failure != null) ...[
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.dangerSoft,
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                        border: Border.all(color: AppColors.dangerBorder),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(height: short ? 10 : 14),
+                      Row(
                         children: [
-                          const Icon(
-                            PhosphorIconsRegular.warning,
-                            size: 20,
-                            color: AppColors.danger,
-                          ),
-                          const SizedBox(width: 8),
                           Expanded(
-                            child: Text(
-                              saleFailureMessage(l10n, failure),
-                              style: AppTextStyles.body.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: _PayButton(
+                              label: l10n.paymentCash,
+                              icon: PhosphorIconsRegular.money,
+                              color: AppColors.cash,
+                              height: short ? 56 : 72,
+                              loading:
+                                  state.submittingMethod == PaymentMethod.cash,
+                              onPressed: cart.isEmpty || busy
+                                  ? null
+                                  : () => cubit.checkout(PaymentMethod.cash),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _PayButton(
+                              label: l10n.paymentCard,
+                              icon: PhosphorIconsRegular.creditCard,
+                              color: AppColors.card,
+                              height: short ? 56 : 72,
+                              loading:
+                                  state.submittingMethod == PaymentMethod.card,
+                              onPressed: cart.isEmpty || busy
+                                  ? null
+                                  : () => cubit.checkout(PaymentMethod.card),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                  const SizedBox(height: 14),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _PayButton(
-                          label: l10n.paymentCash,
-                          icon: PhosphorIconsRegular.money,
-                          color: AppColors.cash,
-                          loading: state.submittingMethod == PaymentMethod.cash,
-                          onPressed: cart.isEmpty || busy
-                              ? null
-                              : () => cubit.checkout(PaymentMethod.cash),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _PayButton(
-                          label: l10n.paymentCard,
-                          icon: PhosphorIconsRegular.creditCard,
-                          color: AppColors.card,
-                          loading: state.submittingMethod == PaymentMethod.card,
-                          onPressed: cart.isEmpty || busy
-                              ? null
-                              : () => cubit.checkout(PaymentMethod.card),
-                        ),
+                      SizedBox(height: short ? 8 : 10),
+                      _MixedButton(
+                        label: l10n.paymentMixed,
+                        height: short ? 44 : 52,
+                        loading: state.submittingMethod == PaymentMethod.mixed,
+                        onPressed:
+                            busy || cart.totalUzs < MixedSplit.minTotalUzs
+                            ? null
+                            : () => _payMixed(context, cart.totalUzs),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         );
       },
     );
+  }
+
+  Future<void> _payMixed(BuildContext context, int totalUzs) async {
+    final cubit = context.read<SaleCubit>();
+    final cashUzs = await showMixedPaymentDialog(context, totalUzs: totalUzs);
+    if (cashUzs != null) await cubit.checkoutMixed(cashUzs: cashUzs);
   }
 
   Future<void> _confirmClear(BuildContext context) async {
@@ -384,12 +419,14 @@ class _PayButton extends StatelessWidget {
     required this.label,
     required this.icon,
     required this.color,
+    required this.height,
     required this.loading,
     required this.onPressed,
   });
 
   final String label;
   final IconData icon;
+  final double height;
 
   /// Cash green / card blue: the two buttons must never be confused.
   final Color color;
@@ -399,7 +436,7 @@ class _PayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 72,
+      height: height,
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: color,
@@ -439,6 +476,71 @@ class _PayButton extends StatelessWidget {
                 )
               else
                 Icon(icon, size: 26),
+              const SizedBox(width: 10),
+              Text(label),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "Aralash": secondary to the two big buttons — outlined, purple-tinted,
+/// full width.
+class _MixedButton extends StatelessWidget {
+  const _MixedButton({
+    required this.label,
+    required this.height,
+    required this.loading,
+    required this.onPressed,
+  });
+
+  final String label;
+  final double height;
+  final bool loading;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.accent,
+          backgroundColor: AppColors.accentSoft,
+          side: const BorderSide(color: AppColors.accentBorder, width: 1.5),
+          disabledForegroundColor: loading
+              ? AppColors.accent
+              : AppColors.accent.withValues(alpha: 0.45),
+          disabledBackgroundColor: loading
+              ? AppColors.accentSoft
+              : AppColors.accentSoft.withValues(alpha: 0.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+          ),
+          textStyle: AppTextStyles.h5.copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onPressed: onPressed,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (loading)
+                const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: AppColors.accent,
+                  ),
+                )
+              else
+                const Icon(PhosphorIconsRegular.arrowsSplit, size: 22),
               const SizedBox(width: 10),
               Text(label),
             ],

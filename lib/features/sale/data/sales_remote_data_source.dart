@@ -7,7 +7,7 @@ import '../domain/bar_sale.dart';
 abstract class SalesRemoteDataSource {
   Future<BarSale> createSale({
     required String clientSaleId,
-    required PaymentMethod paymentMethod,
+    required SalePayment payment,
     required List<Map<String, dynamic>> items,
   });
   Future<List<BarSale>> fetchShiftSales();
@@ -22,7 +22,7 @@ class SalesRemoteDataSourceImpl implements SalesRemoteDataSource {
   @override
   Future<BarSale> createSale({
     required String clientSaleId,
-    required PaymentMethod paymentMethod,
+    required SalePayment payment,
     required List<Map<String, dynamic>> items,
   }) async {
     try {
@@ -30,7 +30,7 @@ class SalesRemoteDataSourceImpl implements SalesRemoteDataSource {
         '/v1/bar/sales',
         data: {
           'clientSaleId': clientSaleId,
-          'paymentMethod': paymentMethod.apiValue,
+          ...payment.toRequestFields(),
           'items': items,
         },
       );

@@ -160,6 +160,24 @@ class _SaleCard extends StatelessWidget {
     );
   }
 
+  _Chip _paymentChip(AppLocalization l10n) => switch (sale.paymentMethod) {
+    PaymentMethod.cash => _Chip(
+      icon: PhosphorIconsRegular.money,
+      label: l10n.paymentCash,
+      color: AppColors.cash,
+    ),
+    PaymentMethod.card => _Chip(
+      icon: PhosphorIconsRegular.creditCard,
+      label: l10n.paymentCard,
+      color: AppColors.card,
+    ),
+    PaymentMethod.mixed => _Chip(
+      icon: PhosphorIconsRegular.arrowsSplit,
+      label: l10n.paymentMixed,
+      color: AppColors.accent,
+    ),
+  };
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalization.of(context);
@@ -197,17 +215,19 @@ class _SaleCard extends StatelessWidget {
                         DateFormat('HH:mm').format(sale.createdAt.toLocal()),
                         style: muted.copyWith(fontSize: 13),
                       ),
-                      _Chip(
-                        icon: sale.paymentMethod == PaymentMethod.card
-                            ? PhosphorIconsRegular.creditCard
-                            : PhosphorIconsRegular.money,
-                        label: sale.paymentMethod == PaymentMethod.card
-                            ? l10n.paymentCard
-                            : l10n.paymentCash,
-                        color: sale.paymentMethod == PaymentMethod.card
-                            ? AppColors.card
-                            : AppColors.cash,
-                      ),
+                      _paymentChip(l10n),
+                      if (sale.isMixed)
+                        Text(
+                          l10n.mixedSplitShort(
+                            groupThousands(sale.cashUzs),
+                            groupThousands(sale.cardUzs),
+                          ),
+                          style: muted.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
                       if (refunded)
                         _Chip(
                           icon: PhosphorIconsRegular.arrowCounterClockwise,

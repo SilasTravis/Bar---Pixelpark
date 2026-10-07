@@ -13,11 +13,12 @@ part 'sale_state.dart';
 
 /// The sale screen: product catalog + category filter + cart + checkout.
 ///
-/// Retry safety lives in [Cart]: [checkout] stamps the cart with a
-/// `clientSaleId` once and every failure keeps that stamped cart, so pressing
-/// "Naqd"/"Karta" again re-sends the same id. Only a success (cart replaced
-/// by an empty one) or a content change (new cart without an id) moves on to
-/// a new id.
+/// Retry safety lives in [Cart]: [checkout] / [checkoutMixed] stamp the cart
+/// with a `clientSaleId` once and every failure keeps that stamped cart, so
+/// pressing "Naqd"/"Karta"/"Aralash" again re-sends the same id — even with
+/// a different method or split, because the first attempt may already be
+/// recorded. Only a success (cart replaced by an empty one) or a content
+/// change (new cart without an id) moves on to a new id.
 class SaleCubit extends Cubit<SaleState> {
   SaleCubit(this._products, this._sales, {String Function()? newClientSaleId})
     : _newClientSaleId = newClientSaleId ?? _uuidV4,
@@ -80,12 +81,28 @@ class SaleCubit extends Cubit<SaleState> {
 
   void clearCart() => _editCart((cart) => cart.clear());
 
-  Future<void> checkout(PaymentMethod method) async {
+  /// Pays the whole cart in cash or by card. A split goes through
+  /// [checkoutMixed].
+  Future<void> checkout(PaymentMethod method) => switch (method) {
+    PaymentMethod.cash => _submit(const SalePayment.cash()),
+    PaymentMethod.card => _submit(const SalePayment.card()),
+    // A split needs its cash part; nothing to submit without it.
+    PaymentMethod.mixed => Future.value(),
+  };
+
+  /// "Aralash": [cashUzs] in cash, the rest of the total by card. Ignored
+  /// unless `0 < cashUzs < total` (the dialog only confirms such a split).
+  Future<void> checkoutMixed({required int cashUzs}) {
+    if (cashUzs <= 0 || cashUzs >= state.cart.totalUzs) return Future.value();
+    return _submit(SalePayment.mixed(cashUzs: cashUzs));
+  }
+
+  Future<void> _submit(SalePayment payment) async {
     if (state.isSubmitting || state.cart.isEmpty) return;
     final cart = state.cart.withClientSaleId(_newClientSaleId);
-    _emit(state.copyWith(cart: cart, submittingMethod: method));
+    _emit(state.copyWith(cart: cart, submittingMethod: payment.method));
 
-    final result = await _sales.createSale(cart: cart, paymentMethod: method);
+    final result = await _sales.createSale(cart: cart, payment: payment);
     result.fold(
       (failure) {
         // Every failure keeps the stamped cart: after a timeout or a 5xx the

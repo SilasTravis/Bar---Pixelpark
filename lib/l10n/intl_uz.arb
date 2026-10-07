@@ -56,6 +56,30 @@
   "total": "Jami",
   "paymentCash": "Naqd",
   "paymentCard": "Karta",
+  "paymentMixed": "Aralash",
+  "mixedTitle": "Aralash to‘lov",
+  "mixedTotal": "Jami: {total}",
+  "@mixedTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "mixedPay": "To‘lash",
+  "mixedInvalid": "Naqd va karta jami summaga teng bo‘lishi kerak",
+  "mixedSplitShort": "N {cash} · K {card}",
+  "@mixedSplitShort": {
+    "placeholders": {
+      "cash": {
+        "type": "String"
+      },
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "errorInvalidPaymentSplit": "Naqd va karta summasi jami summaga to‘g‘ri kelmadi. Aralash to‘lovni qaytadan kiriting.",
   "saleCompleted": "Chek #{receiptNo} — {total} sotildi",
   "@saleCompleted": {
     "placeholders": {

@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:bar_app/core/error/exceptions.dart';
 import 'package:bar_app/core/error/failure.dart';
+import 'package:bar_app/core/widgets/failure_message.dart';
 import 'package:bar_app/features/auth/data/models/auth_models.dart';
 import 'package:bar_app/features/products/domain/bar_product.dart';
 import 'package:bar_app/features/sale/domain/bar_sale.dart';
 import 'package:bar_app/features/shift/domain/bar_shift.dart';
+import 'package:bar_app/generated/l10n.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Payloads shaped exactly like the bar design spec's "API contract".
@@ -192,6 +195,84 @@ void main() {
     expect(sale.refundedAt, isNotNull);
   });
 
+  group('BarSale payment parts', () {
+    BarSale parse(Map<String, dynamic> payment) => BarSale.fromJson({
+      'id': 's-1',
+      'receiptNo': 1,
+      'bar': barJson,
+      'shiftId': 'sh-1',
+      'cashierId': 'c-1',
+      'cashierName': 'Aziz',
+      'totalUzs': 44000,
+      'status': 'completed',
+      'createdAt': '2026-10-07T09:00:00.000Z',
+      'items': <dynamic>[],
+      ...payment,
+    });
+
+    test('mixed with both parts', () {
+      final sale = parse({
+        'paymentMethod': 'mixed',
+        'cashUzs': 30000,
+        'cardUzs': 14000,
+      });
+      expect(sale.paymentMethod, PaymentMethod.mixed);
+      expect(sale.isMixed, isTrue);
+      expect(sale.cashUzs, 30000);
+      expect(sale.cardUzs, 14000);
+    });
+
+    test('parts leaked as strings (BIGINT) still parse', () {
+      final sale = parse({
+        'paymentMethod': 'mixed',
+        'cashUzs': '30000',
+        'cardUzs': '14000',
+      });
+      expect(sale.cashUzs, 30000);
+      expect(sale.cardUzs, 14000);
+    });
+
+    test('older server without parts: derived from the method', () {
+      final cash = parse({'paymentMethod': 'cash'});
+      expect(cash.isMixed, isFalse);
+      expect((cash.cashUzs, cash.cardUzs), (44000, 0));
+      final card = parse({'paymentMethod': 'card'});
+      expect((card.cashUzs, card.cardUzs), (0, 44000));
+    });
+
+    test('cash/card with explicit parts keep them', () {
+      final cash = parse({
+        'paymentMethod': 'cash',
+        'cashUzs': 44000,
+        'cardUzs': 0,
+      });
+      expect((cash.cashUzs, cash.cardUzs), (44000, 0));
+    });
+
+    test('mixed with one part: the other is the rest of the total', () {
+      final onlyCash = parse({'paymentMethod': 'mixed', 'cashUzs': 10000});
+      expect((onlyCash.cashUzs, onlyCash.cardUzs), (10000, 34000));
+      final onlyCard = parse({'paymentMethod': 'mixed', 'cardUzs': 4000});
+      expect((onlyCard.cashUzs, onlyCard.cardUzs), (40000, 4000));
+    });
+
+    test('null parts count as missing', () {
+      final sale = parse({
+        'paymentMethod': 'card',
+        'cashUzs': null,
+        'cardUzs': null,
+      });
+      expect((sale.cashUzs, sale.cardUzs), (0, 44000));
+    });
+
+    test('unknown method falls back to cash', () {
+      expect(
+        parse({'paymentMethod': 'crypto'}).paymentMethod,
+        PaymentMethod.cash,
+      );
+    });
+  });
+
   test('BarShift open (nullable close fields) via shifts/current', () {
     final shift = BarShift.fromCurrentResponse({
       'shift': {
@@ -339,6 +420,19 @@ void main() {
       );
       expect(parse.isLeft(), isTrue);
       expect(await guardFailures(() async => 5), const Right<Failure, int>(5));
+    });
+
+    test('BAR_INVALID_PAYMENT_SPLIT has its own uz/ru wording', () async {
+      final failure = ServerFailure(
+        message: 'raw backend text',
+        code: BarErrorCodes.invalidPaymentSplit,
+        statusCode: 400,
+      );
+      final uz = await AppLocalization.load(const Locale('uz'));
+      expect(failureMessage(uz, failure), uz.errorInvalidPaymentSplit);
+      expect(saleFailureMessage(uz, failure), contains('Aralash'));
+      final ru = await AppLocalization.load(const Locale('ru'));
+      expect(saleFailureMessage(ru, failure), contains('смешанную'));
     });
 
     test('5xx is flagged as a server error; account blocks are detected', () {

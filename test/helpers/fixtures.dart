@@ -35,6 +35,9 @@ BarSale saleFixture({
   PaymentMethod method = PaymentMethod.cash,
   SaleStatus status = SaleStatus.completed,
   int totalUzs = 24000,
+
+  /// The cash part of a [PaymentMethod.mixed] sale.
+  int? cashUzs,
 }) => BarSale(
   id: 'sale-$receiptNo',
   receiptNo: receiptNo,
@@ -44,6 +47,16 @@ BarSale saleFixture({
   cashierName: 'Aziz',
   paymentMethod: method,
   totalUzs: totalUzs,
+  cashUzs: switch (method) {
+    PaymentMethod.cash => totalUzs,
+    PaymentMethod.card => 0,
+    PaymentMethod.mixed => cashUzs!,
+  },
+  cardUzs: switch (method) {
+    PaymentMethod.cash => 0,
+    PaymentMethod.card => totalUzs,
+    PaymentMethod.mixed => totalUzs - cashUzs!,
+  },
   status: status,
   createdAt: DateTime.utc(2026, 10, 6, 9, 30),
   items: const [

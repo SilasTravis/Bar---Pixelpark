@@ -14,7 +14,7 @@ class SalesRepositoryImpl implements SalesRepository {
   @override
   Future<Either<Failure, BarSale>> createSale({
     required Cart cart,
-    required PaymentMethod paymentMethod,
+    required SalePayment payment,
   }) {
     final clientSaleId = cart.clientSaleId;
     if (clientSaleId == null) {
@@ -23,7 +23,7 @@ class SalesRepositoryImpl implements SalesRepository {
     return guardFailures(
       () => remote.createSale(
         clientSaleId: clientSaleId,
-        paymentMethod: paymentMethod,
+        payment: payment,
         items: cart.toRequestItems(),
       ),
     );

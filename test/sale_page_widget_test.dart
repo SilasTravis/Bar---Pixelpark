@@ -120,6 +120,112 @@ void main() {
     },
   );
 
+  ButtonStyleButton aralash(WidgetTester tester) => tester.widget(
+    find.ancestor(
+      of: find.text('Aralash'),
+      matching: find.byWidgetPredicate((w) => w is ButtonStyleButton),
+    ),
+  );
+
+  testWidgets('Aralash: disabled on an empty cart, splits and sells', (
+    tester,
+  ) async {
+    await saleCubit.loadProducts();
+    await pump(
+      tester,
+      SalePage(receiptPrinter: BarReceiptPrinter(printerName: () => null)),
+    );
+    expect(aralash(tester).onPressed, isNull, reason: 'empty cart');
+
+    await tester.tap(find.text('Coca-Cola 0.5'));
+    await tester.tap(find.text('Kofe'));
+    await tester.pumpAndSettle(); // 30 000
+    expect(aralash(tester).onPressed, isNotNull);
+
+    sales.createResults.add(
+      Right(
+        saleFixture(
+          receiptNo: 4,
+          method: PaymentMethod.mixed,
+          totalUzs: 30000,
+          cashUzs: 20000,
+        ),
+      ),
+    );
+    shifts.currentResults.add(const Right(null));
+
+    await tester.tap(find.text('Aralash'));
+    await tester.pumpAndSettle();
+    expect(find.text("Jami: 30 000 so'm"), findsOneWidget);
+
+    final cash = find.descendant(
+      of: find.byKey(const ValueKey('mixed-cash')),
+      matching: find.byType(TextField),
+    );
+    await tester.enterText(cash, '20000');
+    await tester.pump();
+    final card = find.descendant(
+      of: find.byKey(const ValueKey('mixed-card')),
+      matching: find.byType(TextField),
+    );
+    expect(
+      tester.widget<TextField>(card).controller!.text,
+      '10 000',
+      reason: 'Karta auto-filled',
+    );
+    await tester.tap(find.byKey(const ValueKey('mixed-pay')));
+    await tester.pumpAndSettle();
+
+    expect(
+      sales.requests.single.payment,
+      const SalePayment.mixed(cashUzs: 20000),
+    );
+    expect(sales.requests.single.clientSaleId, 'uuid-1');
+    expect(find.textContaining('Chek #4'), findsOneWidget);
+    expect(find.textContaining('Savat bo‘sh'), findsOneWidget);
+  });
+
+  testWidgets('Aralash: cancelling the dialog sells nothing', (tester) async {
+    await saleCubit.loadProducts();
+    await pump(
+      tester,
+      SalePage(receiptPrinter: BarReceiptPrinter(printerName: () => null)),
+    );
+    await tester.tap(find.text('Coca-Cola 0.5'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Aralash'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Bekor qilish'));
+    await tester.pumpAndSettle();
+    expect(sales.requests, isEmpty);
+    expect(find.text("12 000 so'm"), findsWidgets, reason: 'cart kept');
+  });
+
+  testWidgets('BAR_INVALID_PAYMENT_SPLIT is shown inline, cart kept', (
+    tester,
+  ) async {
+    await saleCubit.loadProducts();
+    await pump(
+      tester,
+      SalePage(receiptPrinter: BarReceiptPrinter(printerName: () => null)),
+    );
+    await tester.tap(find.text('Coca-Cola 0.5'));
+    await tester.pumpAndSettle();
+    sales.createResults.add(
+      Left(
+        ServerFailure(
+          message: 'raw',
+          code: BarErrorCodes.invalidPaymentSplit,
+          statusCode: 400,
+        ),
+      ),
+    );
+    await saleCubit.checkoutMixed(cashUzs: 5000);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Aralash to‘lovni qaytadan'), findsOneWidget);
+    expect(saleCubit.state.cart.clientSaleId, 'uuid-1');
+  });
+
   testWidgets('category tab filters the grid', (tester) async {
     await saleCubit.loadProducts();
     await pump(
@@ -143,5 +249,6 @@ void main() {
   test('payment method enum maps to the API values', () {
     expect(PaymentMethod.cash.apiValue, 'cash');
     expect(PaymentMethod.card.apiValue, 'card');
+    expect(PaymentMethod.mixed.apiValue, 'mixed');
   });
 }

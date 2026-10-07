@@ -18,8 +18,8 @@ enum ReceiptPrintResult {
 }
 
 /// Prints a bar sale on the 80mm receipt printer chosen in Settings.
-/// Adapted from the cashier app's `SaleReceiptPrinter`, minus discounts,
-/// split payments and balance.
+/// Adapted from the cashier app's `SaleReceiptPrinter`, minus discounts and
+/// balance. A mixed (cash + card) sale prints both parts.
 class BarReceiptPrinter {
   BarReceiptPrinter({required this._printerName});
 
@@ -130,11 +130,7 @@ class BarReceiptPrinter {
                 ],
                 pw.Divider(borderStyle: pw.BorderStyle.dashed),
                 _textRow('JAMI', formatUzs(sale.totalUzs), bold, fontSize: 12),
-                _textRow(
-                  sale.paymentMethod == PaymentMethod.card ? 'Karta' : 'Naqd',
-                  formatUzs(sale.totalUzs),
-                  regular,
-                ),
+                ..._paymentRows(sale, regular),
                 pw.SizedBox(height: 12),
                 pw.Text(
                   'Xaridingiz uchun rahmat!',
@@ -161,6 +157,24 @@ class BarReceiptPrinter {
       folded.runes.map((rune) => rune <= 0xFF ? rune : 0x3F),
     );
   }
+
+  static List<pw.Widget> _paymentRows(BarSale sale, pw.Font font) => [
+    for (final (label, value) in paymentLines(sale))
+      _textRow(label, value, font),
+  ];
+
+  /// The receipt's payment lines (label, amount): one for a cash or card
+  /// sale, both parts for a split.
+  @visibleForTesting
+  static List<(String, String)> paymentLines(BarSale sale) =>
+      switch (sale.paymentMethod) {
+        PaymentMethod.cash => [('Naqd', formatUzs(sale.totalUzs))],
+        PaymentMethod.card => [('Karta', formatUzs(sale.totalUzs))],
+        PaymentMethod.mixed => [
+          ('Naqd', formatUzs(sale.cashUzs)),
+          ('Karta', formatUzs(sale.cardUzs)),
+        ],
+      };
 
   static pw.Widget _textRow(
     String label,
@@ -192,7 +206,8 @@ class BarReceiptPrinter {
 
   @visibleForTesting
   static double receiptHeightMm(BarSale sale) {
-    var height = 92.0;
+    // A split prints one more payment line.
+    var height = sale.paymentMethod == PaymentMethod.mixed ? 97.0 : 92.0;
     for (final item in sale.items) {
       final nameLines = (item.name.length / 28).ceil().clamp(1, 3);
       height += 11 + (nameLines - 1) * 5;

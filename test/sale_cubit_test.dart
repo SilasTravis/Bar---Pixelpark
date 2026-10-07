@@ -121,6 +121,97 @@ void main() {
     expect(sales.requests.map((r) => r.clientSaleId), ['uuid-1', 'uuid-1']);
   });
 
+  test('checkoutMixed sends the cash part; server returns the split', () async {
+    sales.createResults.add(
+      Right(
+        saleFixture(
+          receiptNo: 3,
+          method: PaymentMethod.mixed,
+          totalUzs: 42000,
+          cashUzs: 30000,
+        ),
+      ),
+    );
+    cubit
+      ..addProduct(cola)
+      ..addProduct(cola)
+      ..addProduct(coffee); // 42 000
+
+    await cubit.checkoutMixed(cashUzs: 30000);
+    expect(
+      sales.requests.single.payment,
+      const SalePayment.mixed(cashUzs: 30000),
+    );
+    expect(cubit.state.cart, Cart.empty);
+    final sale = (cubit.state.outcome as SaleSucceeded).sale;
+    expect((sale.cashUzs, sale.cardUzs), (30000, 12000));
+  });
+
+  test('checkoutMixed ignores a split that is not 0 < cash < total', () async {
+    cubit.addProduct(cola); // 12 000
+    await cubit.checkoutMixed(cashUzs: 0);
+    await cubit.checkoutMixed(cashUzs: -5);
+    await cubit.checkoutMixed(cashUzs: 12000);
+    await cubit.checkoutMixed(cashUzs: 50000);
+    await cubit.checkout(PaymentMethod.mixed); // no cash part → nothing
+    expect(sales.requests, isEmpty);
+    expect(cubit.state.cart.clientSaleId, isNull);
+  });
+
+  test('checkoutMixed on an empty cart never submits', () async {
+    await cubit.checkoutMixed(cashUzs: 1);
+    expect(sales.requests, isEmpty);
+  });
+
+  test('while a split is in flight the mixed method is submitting', () async {
+    sales.gate = Completer<void>();
+    sales.createResults.add(Right(saleFixture()));
+    cubit.addProduct(cola);
+    final pending = cubit.checkoutMixed(cashUzs: 2000);
+    expect(cubit.state.submittingMethod, PaymentMethod.mixed);
+    unawaited(cubit.checkout(PaymentMethod.cash)); // ignored
+    sales.gate!.complete();
+    await pending;
+    expect(sales.requests, hasLength(1));
+  });
+
+  test(
+    'switching between cash and a split on retry keeps the SAME id',
+    () async {
+      sales.createResults
+        ..add(Left(NoInternetFailure()))
+        ..add(
+          Left(
+            ServerFailure(
+              message: 'split',
+              code: BarErrorCodes.invalidPaymentSplit,
+              statusCode: 400,
+            ),
+          ),
+        )
+        ..add(Right(saleFixture()));
+      cubit.addProduct(cola);
+
+      await cubit.checkout(PaymentMethod.cash);
+      await cubit.checkoutMixed(cashUzs: 5000);
+      expect(cubit.state.cart.clientSaleId, 'uuid-1');
+      expect(cubit.state.outcome, isA<SaleFailed>());
+      await cubit.checkoutMixed(cashUzs: 7000);
+
+      expect(sales.requests.map((r) => r.clientSaleId), [
+        'uuid-1',
+        'uuid-1',
+        'uuid-1',
+      ]);
+      expect(sales.requests.map((r) => r.payment), const [
+        SalePayment.cash(),
+        SalePayment.mixed(cashUzs: 5000),
+        SalePayment.mixed(cashUzs: 7000),
+      ]);
+      expect(minted, 1);
+    },
+  );
+
   test('cart is frozen and double-submit is ignored while in flight', () async {
     sales.gate = Completer<void>();
     sales.createResults.add(Right(saleFixture()));

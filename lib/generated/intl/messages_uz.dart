@@ -22,22 +22,26 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(count) => "${count} dona";
 
-  static String m1(name) => "${name} (hozir ulanmagan)";
+  static String m1(cash, card) => "N ${cash} · K ${card}";
 
-  static String m2(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+  static String m2(total) => "Jami: ${total}";
 
-  static String m3(total) =>
+  static String m3(name) => "${name} (hozir ulanmagan)";
+
+  static String m4(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+
+  static String m5(total) =>
       "Butun sotuv bekor qilinadi va ${total} smena tushumidan chiqariladi. Pulni xaridorga qaytaring.";
 
-  static String m4(reason) => "Sabab: ${reason}";
+  static String m6(reason) => "Sabab: ${reason}";
 
-  static String m5(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
+  static String m7(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
 
-  static String m6(receiptNo, total) => "Chek #${receiptNo} — ${total} sotildi";
+  static String m8(receiptNo, total) => "Chek #${receiptNo} — ${total} sotildi";
 
-  static String m7(time) => "Smena: ${time} dan";
+  static String m9(time) => "Smena: ${time} dan";
 
-  static String m8(version) => "Yangi versiya mavjud: ${version}";
+  static String m10(version) => "Yangi versiya mavjud: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -78,6 +82,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Hisobingiz faol emas. Administratorga murojaat qiling.",
     ),
     "errorEmptyCart": MessageLookupByLibrary.simpleMessage("Savat bo‘sh"),
+    "errorInvalidPaymentSplit": MessageLookupByLibrary.simpleMessage(
+      "Naqd va karta summasi jami summaga to‘g‘ri kelmadi. Aralash to‘lovni qaytadan kiriting.",
+    ),
     "errorNoInternet": MessageLookupByLibrary.simpleMessage(
       "Internet aloqasi yo‘q. Ulanishni tekshirib, qayta urinib ko‘ring.",
     ),
@@ -137,6 +144,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "menuCloseShift": MessageLookupByLibrary.simpleMessage("Smenani yopish"),
     "menuHistory": MessageLookupByLibrary.simpleMessage("Smena tarixi"),
     "menuSettings": MessageLookupByLibrary.simpleMessage("Sozlamalar"),
+    "mixedInvalid": MessageLookupByLibrary.simpleMessage(
+      "Naqd va karta jami summaga teng bo‘lishi kerak",
+    ),
+    "mixedPay": MessageLookupByLibrary.simpleMessage("To‘lash"),
+    "mixedSplitShort": m1,
+    "mixedTitle": MessageLookupByLibrary.simpleMessage("Aralash to‘lov"),
+    "mixedTotal": m2,
     "noOpenShiftMessage": MessageLookupByLibrary.simpleMessage(
       "Sotuvni boshlash uchun smenani oching",
     ),
@@ -151,6 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "openShift": MessageLookupByLibrary.simpleMessage("Smenani ochish"),
     "paymentCard": MessageLookupByLibrary.simpleMessage("Karta"),
     "paymentCash": MessageLookupByLibrary.simpleMessage("Naqd"),
+    "paymentMixed": MessageLookupByLibrary.simpleMessage("Aralash"),
     "printerHint": MessageLookupByLibrary.simpleMessage(
       "Printer tanlansa, har bir sotuvdan keyin chek avtomatik chop etiladi.",
     ),
@@ -158,7 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Printer yo‘q (chek chop etilmaydi)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Chek printeri"),
-    "printerUnavailable": m1,
+    "printerUnavailable": m3,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "Bu barda hali faol mahsulot yo‘q",
     ),
@@ -173,17 +188,17 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "refund": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Ha, bekor qilish"),
-    "refundDone": m2,
-    "refundMessage": m3,
+    "refundDone": m4,
+    "refundMessage": m5,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Sabab (ixtiyoriy)",
     ),
-    "refundReasonShown": m4,
-    "refundTitle": m5,
+    "refundReasonShown": m6,
+    "refundTitle": m7,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Bekor qilinganlar"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Olib tashlash"),
     "retry": MessageLookupByLibrary.simpleMessage("Qayta urinish"),
-    "saleCompleted": m6,
+    "saleCompleted": m8,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Internet aloqasi yo‘q. Savat saqlandi — to‘lov tugmasini qayta bosing, pul ikki marta yechilmaydi.",
     ),
@@ -194,12 +209,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Server javobini o‘qib bo‘lmadi. Savat saqlandi — qayta bosing, sotuv ikki marta yozilmaydi.",
     ),
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Smena yopildi"),
-    "shiftOpenedAt": m7,
+    "shiftOpenedAt": m9,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Smena vaqti"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("SMENA TUSHUMI"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Bekor qilingan"),
     "total": MessageLookupByLibrary.simpleMessage("Jami"),
-    "updateAvailable": m8,
+    "updateAvailable": m10,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "updateCheck": MessageLookupByLibrary.simpleMessage(
       "Yangilanishni tekshirish",
