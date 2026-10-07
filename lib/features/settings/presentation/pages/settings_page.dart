@@ -5,7 +5,7 @@ import 'package:printing/printing.dart';
 
 import '../../../../core/local_source/local_source.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/update/update_cubit.dart';
 import '../../../../core/update/update_service.dart';
 import '../../../../core/widgets/page_header.dart';
@@ -47,12 +47,11 @@ class SettingsPage extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 26,
-                                  backgroundColor: NocturneColors.accent
-                                      .withValues(alpha: 0.15),
+                                  backgroundColor: AppColors.accentSoft,
                                   child: Text(
                                     _initial(cashier?.fullName),
                                     style: const TextStyle(
-                                      color: NocturneColors.accent,
+                                      color: AppColors.accent,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -183,7 +182,7 @@ class _PrinterCardState extends State<_PrinterCard> {
                 children: [
                   const Icon(
                     PhosphorIconsRegular.printer,
-                    color: NocturneColors.accent,
+                    color: AppColors.accent,
                     size: 20,
                   ),
                   const SizedBox(width: 10),
@@ -272,9 +271,9 @@ class _Card extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: NocturneColors.surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: AppShadow.sm,
+        border: Border.all(color: AppColors.border),
       ),
       child: child,
     );
@@ -293,7 +292,13 @@ class _InfoRow extends StatelessWidget {
       children: [
         Text(label, style: AppTextStyles.muted(AppTextStyles.body)),
         const Spacer(),
-        Text(value, style: AppTextStyles.body.copyWith(fontSize: 14)),
+        Text(
+          value,
+          style: AppTextStyles.body.copyWith(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }

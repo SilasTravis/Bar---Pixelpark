@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../core/widgets/title_bar.dart';
@@ -55,7 +55,7 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: NocturneColors.surface,
+        backgroundColor: AppColors.surface,
         title: Text(l10n.closeShiftConfirmTitle, style: AppTextStyles.h4),
         content: SizedBox(
           width: 360,
@@ -119,11 +119,11 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: NocturneColors.surface,
+        backgroundColor: AppColors.surface,
         icon: const Icon(
           PhosphorIconsRegular.checkCircle,
-          color: NocturneColors.accent,
-          size: 36,
+          color: AppColors.success,
+          size: 40,
         ),
         title: Text(l10n.shiftClosedTitle, style: AppTextStyles.h4),
         content: SizedBox(
@@ -184,9 +184,10 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
   static String _time(DateTime value) =>
       DateFormat('dd.MM HH:mm').format(value.toLocal());
 
+  /// Exact → green, short → red, over → amber.
   static Color _differenceColor(int difference) => difference == 0
-      ? NocturneColors.accent300
-      : (difference < 0 ? const Color(0xFFE5677A) : NocturneColors.warning);
+      ? AppColors.success
+      : (difference < 0 ? AppColors.danger : AppColors.warningText);
 
   @override
   Widget build(BuildContext context) {
@@ -324,14 +325,15 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                 Text(
                   _error!,
                   style: const TextStyle(
-                    color: NocturneColors.danger,
-                    fontSize: 13,
+                    color: AppColors.danger,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
               const SizedBox(height: 18),
               SizedBox(
-                height: 54,
+                height: 56,
                 child: FilledButton.icon(
                   onPressed: counted == null || _submitting
                       ? null
@@ -345,7 +347,7 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                       : const Icon(PhosphorIconsRegular.lockKey, size: 20),
                   label: Text(
                     l10n.closeShift,
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 17),
                   ),
                 ),
               ),
@@ -367,9 +369,9 @@ class _Card extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: NocturneColors.surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: AppShadow.sm,
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

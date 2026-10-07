@@ -5,7 +5,7 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../generated/l10n.dart';
@@ -67,11 +67,11 @@ class _RefundDialogState extends State<_RefundDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalization.of(context);
     return AlertDialog(
-      backgroundColor: NocturneColors.surface,
+      backgroundColor: AppColors.surface,
       icon: const Icon(
         PhosphorIconsRegular.arrowCounterClockwise,
-        color: Color(0xFFE5677A),
-        size: 30,
+        color: AppColors.danger,
+        size: 32,
       ),
       title: Text(
         l10n.refundTitle(widget.sale.receiptNo),
@@ -101,7 +101,7 @@ class _RefundDialogState extends State<_RefundDialog> {
               const SizedBox(height: 6),
               Text(
                 _error!,
-                style: const TextStyle(color: Color(0xFFE5677A), fontSize: 13),
+                style: const TextStyle(color: AppColors.danger, fontSize: 14),
               ),
             ],
           ],
@@ -113,7 +113,7 @@ class _RefundDialogState extends State<_RefundDialog> {
           child: Text(l10n.cancel),
         ),
         FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: NocturneColors.danger),
+          style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
           onPressed: _submitting ? null : _submit,
           child: _submitting
               ? const SizedBox(

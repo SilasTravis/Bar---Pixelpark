@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/responsive.dart';
 import '../../../../generated/l10n.dart';
 import '../cubit/sale_cubit.dart';
 
@@ -23,7 +24,7 @@ class CategoryTabs extends StatelessWidget {
         final cubit = context.read<SaleCubit>();
         final loading = state.productsStatus == ProductsStatus.loading;
         return SizedBox(
-          height: 40,
+          height: 48,
           child: Row(
             children: [
               Expanded(
@@ -59,8 +60,8 @@ class CategoryTabs extends StatelessWidget {
                       )
                     : const Icon(
                         PhosphorIconsRegular.arrowsClockwise,
-                        size: 18,
-                        color: NocturneColors.accent,
+                        size: 20,
+                        color: AppColors.accent,
                       ),
               ),
             ],
@@ -84,28 +85,30 @@ class _Tab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A little tighter at the minimum window so more categories show
+    // before the row has to scroll.
+    final compact = breakpointOfContext(context) == Breakpoint.compact;
     return Material(
-      color: selected
-          ? NocturneColors.accent.withValues(alpha: 0.15)
-          : NocturneColors.surface,
+      color: selected ? AppColors.accent : AppColors.surface,
       borderRadius: BorderRadius.circular(999),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
         child: Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: compact ? 16 : 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
             border: Border.all(
-              color: selected ? NocturneColors.accent : NocturneColors.divider,
+              color: selected ? AppColors.accent : AppColors.borderStrong,
             ),
           ),
           child: Text(
             label,
             style: AppTextStyles.body.copyWith(
-              fontSize: 13,
-              color: selected ? NocturneColors.accent : NocturneColors.text,
+              fontSize: compact ? 14 : 15,
+              fontWeight: FontWeight.w600,
+              color: selected ? AppColors.onAccent : AppColors.text,
             ),
           ),
         ),

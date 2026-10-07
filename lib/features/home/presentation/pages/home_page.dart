@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../core/widgets/title_bar.dart';
 import '../../../../generated/l10n.dart';
@@ -88,7 +88,7 @@ class _LoadFailure extends StatelessWidget {
             const Icon(
               PhosphorIconsRegular.wifiSlash,
               size: 40,
-              color: NocturneColors.neutral500,
+              color: AppColors.textMuted,
             ),
             const SizedBox(height: 14),
             Text(

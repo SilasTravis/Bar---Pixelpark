@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/update/update_service.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/language_switcher.dart';
@@ -35,8 +35,8 @@ class HomeHeader extends StatelessWidget {
       height: 72,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
-        color: NocturneColors.bg,
-        border: Border(bottom: BorderSide(color: NocturneColors.divider)),
+        color: AppColors.surface,
+        border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(
         children: [
@@ -44,14 +44,8 @@ class HomeHeader extends StatelessWidget {
             width: 5,
             height: 30,
             decoration: BoxDecoration(
-              color: NocturneColors.accent,
+              color: AppColors.accent,
               borderRadius: BorderRadius.circular(4),
-              boxShadow: [
-                BoxShadow(
-                  color: NocturneColors.accent.withValues(alpha: .24),
-                  blurRadius: 12,
-                ),
-              ],
             ),
           ),
           const SizedBox(width: 12),
@@ -66,15 +60,18 @@ class HomeHeader extends StatelessWidget {
                       : l10n.appTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.h4.copyWith(letterSpacing: -.25),
+                  style: AppTextStyles.h4.copyWith(
+                    letterSpacing: -.25,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Row(
                   children: [
                     const Icon(
                       PhosphorIconsRegular.user,
-                      size: 13,
-                      color: NocturneColors.neutral500,
+                      size: 14,
+                      color: AppColors.textMuted,
                     ),
                     const SizedBox(width: 5),
                     Flexible(
@@ -92,7 +89,7 @@ class HomeHeader extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.muted(
                           AppTextStyles.body,
-                        ).copyWith(fontSize: 12),
+                        ).copyWith(fontSize: 13),
                       ),
                     ),
                   ],
@@ -124,17 +121,17 @@ class _ShiftTotalChip extends StatelessWidget {
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: NocturneColors.accent900.withValues(alpha: .72),
+        color: AppColors.accentSoft,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: NocturneColors.accent.withValues(alpha: .28)),
+        border: Border.all(color: AppColors.accentBorder),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
             PhosphorIconsRegular.wallet,
-            size: 18,
-            color: NocturneColors.accent300,
+            size: 20,
+            color: AppColors.accent,
           ),
           const SizedBox(width: 9),
           Column(
@@ -144,13 +141,15 @@ class _ShiftTotalChip extends StatelessWidget {
               Text(
                 l10n.shiftRevenue,
                 style: AppTextStyles.kicker.copyWith(
-                  color: NocturneColors.neutral400,
+                  color: AppColors.textMuted,
                 ),
               ),
               Text(
                 formatUzs(totalUzs),
-                style: AppTextStyles.h5.copyWith(
-                  color: NocturneColors.accent200,
+                style: AppTextStyles.h4.copyWith(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.w700,
+                  fontFeatures: const [FontFeature.tabularFigures()],
                 ),
               ),
             ],
@@ -210,11 +209,6 @@ class _Menu extends StatelessWidget {
       builder: (context, hasUpdate, _) => PopupMenuButton<_MenuAction>(
         tooltip: l10n.menu,
         position: PopupMenuPosition.under,
-        color: NocturneColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          side: const BorderSide(color: NocturneColors.divider),
-        ),
         onSelected: (action) => _onSelected(context, action),
         itemBuilder: (_) => [
           if (shiftOpen) ...[
@@ -239,12 +233,12 @@ class _Menu extends StatelessWidget {
           _item(_MenuAction.logout, PhosphorIconsRegular.signOut, l10n.logout),
         ],
         child: Container(
-          height: 38,
-          padding: const EdgeInsets.symmetric(horizontal: 11),
+          height: 44,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: NocturneColors.surface,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(AppRadius.md),
-            border: Border.all(color: NocturneColors.divider),
+            border: Border.all(color: AppColors.borderStrong),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -252,15 +246,21 @@ class _Menu extends StatelessWidget {
               Badge(
                 isLabelVisible: hasUpdate,
                 smallSize: 8,
-                backgroundColor: NocturneColors.warning,
+                backgroundColor: AppColors.warning,
                 child: const Icon(
                   PhosphorIconsRegular.list,
                   size: 18,
-                  color: NocturneColors.accent,
+                  color: AppColors.accent,
                 ),
               ),
               const SizedBox(width: 7),
-              Text(l10n.menu, style: AppTextStyles.body.copyWith(fontSize: 13)),
+              Text(
+                l10n.menu,
+                style: AppTextStyles.body.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
@@ -277,7 +277,7 @@ class _Menu extends StatelessWidget {
     value: value,
     child: Row(
       children: [
-        Icon(icon, size: 18, color: NocturneColors.accent),
+        Icon(icon, size: 18, color: AppColors.accent),
         const SizedBox(width: 12),
         Expanded(child: Text(label)),
         if (badge)
@@ -285,7 +285,7 @@ class _Menu extends StatelessWidget {
             width: 8,
             height: 8,
             decoration: const BoxDecoration(
-              color: NocturneColors.warning,
+              color: AppColors.warning,
               shape: BoxShape.circle,
             ),
           ),
@@ -301,7 +301,7 @@ Future<bool> confirmLogout(BuildContext context) async {
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (dialogContext) => AlertDialog(
-      backgroundColor: NocturneColors.surface,
+      backgroundColor: AppColors.surface,
       title: Text(l10n.logoutConfirmTitle, style: AppTextStyles.h4),
       content: SizedBox(
         width: 360,

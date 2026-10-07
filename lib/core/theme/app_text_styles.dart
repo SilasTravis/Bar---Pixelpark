@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'nocturne_colors.dart';
+import 'app_colors.dart';
 
 /// `--font-heading` / `--font-body` is "Inter" in the design system. No
 /// Inter font binaries are bundled in this project yet (add them under
@@ -16,45 +16,45 @@ abstract final class AppTextStyles {
     fontFamily: _fontFamily,
     fontSize: 15,
     height: 1.4,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
 
   static const TextStyle h1 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 42,
     fontWeight: FontWeight.w500,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
   static const TextStyle h2 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 32,
     fontWeight: FontWeight.w500,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
   static const TextStyle h3 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 25,
     fontWeight: FontWeight.w500,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
   static const TextStyle h4 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 20,
     fontWeight: FontWeight.w500,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
   static const TextStyle h5 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
   static const TextStyle h6 = TextStyle(
     fontFamily: _fontFamily,
     fontSize: 13,
     fontWeight: FontWeight.w500,
     letterSpacing: 1.04, // 0.08em
-    color: NocturneColors.text,
+    color: AppColors.text,
   );
 
   /// Small uppercase kicker label — used all over the design (`Kassa 2 ·
@@ -66,10 +66,22 @@ abstract final class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle muted(TextStyle base, {double opacity = 0.55}) =>
-      base.copyWith(
-        color:
-            base.color?.withValues(alpha: opacity) ??
-            NocturneColors.text.withValues(alpha: opacity),
-      );
+  /// Secondary text. On the light theme a plain alpha of the ink drops
+  /// below AA quickly, so the default is the dedicated [AppColors.textMuted]
+  /// (6.9:1 on white); pass [opacity] only for a deliberately faded variant.
+  static TextStyle muted(TextStyle base, {double? opacity}) => base.copyWith(
+    color: opacity == null
+        ? AppColors.textMuted
+        : (base.color ?? AppColors.text).withValues(alpha: opacity),
+  );
+
+  /// Money on the sale screen — tabular figures so prices line up and do
+  /// not jitter as the total changes.
+  static const TextStyle price = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 17,
+    fontWeight: FontWeight.w700,
+    color: AppColors.accent,
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
 }

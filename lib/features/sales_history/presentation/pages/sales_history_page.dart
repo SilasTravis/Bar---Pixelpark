@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../core/widgets/page_header.dart';
@@ -41,7 +41,7 @@ class SalesHistoryPage extends StatelessWidget {
                       icon: const Icon(
                         PhosphorIconsRegular.arrowsClockwise,
                         size: 18,
-                        color: NocturneColors.accent,
+                        color: AppColors.accent,
                       ),
                     ),
                   ),
@@ -106,11 +106,20 @@ class _HistoryBody extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(8),
-                color: NocturneColors.danger.withValues(alpha: 0.2),
+                decoration: const BoxDecoration(
+                  color: AppColors.dangerSoft,
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.dangerBorder),
+                  ),
+                ),
                 child: Text(
                   failureMessage(l10n, state.failure!),
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.body.copyWith(fontSize: 13),
+                  style: AppTextStyles.body.copyWith(
+                    fontSize: 14,
+                    color: AppColors.danger,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             Expanded(
@@ -157,15 +166,15 @@ class _SaleCard extends StatelessWidget {
     final refunded = sale.isRefunded;
     final muted = AppTextStyles.muted(
       AppTextStyles.body,
-    ).copyWith(fontSize: 12);
+    ).copyWith(fontSize: 13);
     return Opacity(
       opacity: refunded ? 0.6 : 1,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: NocturneColors.surface,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          boxShadow: AppShadow.sm,
+          border: Border.all(color: AppColors.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -178,7 +187,12 @@ class _SaleCard extends StatelessWidget {
                     runSpacing: 6,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      Text('#${sale.receiptNo}', style: AppTextStyles.h5),
+                      Text(
+                        '#${sale.receiptNo}',
+                        style: AppTextStyles.h4.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       Text(
                         DateFormat('HH:mm').format(sale.createdAt.toLocal()),
                         style: muted.copyWith(fontSize: 13),
@@ -190,21 +204,24 @@ class _SaleCard extends StatelessWidget {
                         label: sale.paymentMethod == PaymentMethod.card
                             ? l10n.paymentCard
                             : l10n.paymentCash,
-                        color: NocturneColors.accent300,
+                        color: sale.paymentMethod == PaymentMethod.card
+                            ? AppColors.card
+                            : AppColors.cash,
                       ),
                       if (refunded)
                         _Chip(
                           icon: PhosphorIconsRegular.arrowCounterClockwise,
                           label: l10n.statusRefunded,
-                          color: const Color(0xFFE5677A),
+                          color: AppColors.danger,
                         ),
                     ],
                   ),
                 ),
                 Text(
                   formatUzs(sale.totalUzs),
-                  style: AppTextStyles.h5.copyWith(
-                    color: refunded ? null : NocturneColors.accent,
+                  style: AppTextStyles.h4.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: refunded ? AppColors.textMuted : AppColors.text,
                     decoration: refunded ? TextDecoration.lineThrough : null,
                   ),
                 ),
@@ -229,10 +246,13 @@ class _SaleCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         '${item.name}  × ${item.quantity}',
-                        style: AppTextStyles.body.copyWith(fontSize: 13),
+                        style: AppTextStyles.body.copyWith(fontSize: 14),
                       ),
                     ),
-                    Text(formatUzs(item.lineTotalUzs), style: muted),
+                    Text(
+                      formatUzs(item.lineTotalUzs),
+                      style: muted.copyWith(fontSize: 14),
+                    ),
                   ],
                 ),
               ),
@@ -257,17 +277,25 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: color),
-          const SizedBox(width: 4),
-          Text(label, style: TextStyle(fontSize: 12, color: color)),
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
+          ),
         ],
       ),
     );

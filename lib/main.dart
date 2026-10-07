@@ -4,7 +4,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
 import 'constants/app_constants.dart';
-import 'core/theme/nocturne_colors.dart';
+import 'core/theme/app_colors.dart';
 import 'core/update/update_service.dart';
 import 'injector_container.dart' as di;
 
@@ -22,7 +22,7 @@ void main() async {
     ),
     center: true,
     title: 'Pixel Bar',
-    backgroundColor: NocturneColors.bg,
+    backgroundColor: AppColors.bg,
     titleBarStyle: TitleBarStyle.hidden,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {

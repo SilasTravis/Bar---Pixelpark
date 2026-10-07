@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../core/widgets/language_switcher.dart';
 import '../../../../core/widgets/title_bar.dart';
@@ -86,25 +86,28 @@ class _LoginViewState extends State<_LoginView> {
                           width: 56,
                           height: 56,
                           decoration: BoxDecoration(
-                            color: NocturneColors.accent.withValues(
-                              alpha: 0.12,
-                            ),
+                            color: AppColors.accentSoft,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: const Icon(
                             PhosphorIconsRegular.martini,
-                            color: NocturneColors.accent,
+                            color: AppColors.accent,
                             size: 28,
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Text(l10n.appTitle, style: AppTextStyles.h3),
+                        Text(
+                          l10n.appTitle,
+                          style: AppTextStyles.h3.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           l10n.loginSubtitle,
                           style: AppTextStyles.muted(
                             AppTextStyles.body,
-                          ).copyWith(fontSize: 13),
+                          ).copyWith(fontSize: 14),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 28),
@@ -154,8 +157,9 @@ class _LoginViewState extends State<_LoginView> {
                           Text(
                             loginFailureMessage(l10n, failure),
                             style: const TextStyle(
-                              color: NocturneColors.danger,
-                              fontSize: 13,
+                              color: AppColors.danger,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -163,7 +167,7 @@ class _LoginViewState extends State<_LoginView> {
                         const SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
-                          height: 44,
+                          height: 50,
                           child: ElevatedButton(
                             onPressed: state.isLoading ? null : _submit,
                             child: state.isLoading
@@ -172,7 +176,7 @@ class _LoginViewState extends State<_LoginView> {
                                     height: 18,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      color: NocturneColors.accent,
+                                      color: AppColors.accent,
                                     ),
                                   )
                                 : Text(l10n.loginButton),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_text_styles.dart';
-import '../theme/nocturne_colors.dart';
+import '../theme/app_colors.dart';
 
 /// `label ........ value` row used by the shift totals and summaries.
 class SummaryRow extends StatelessWidget {
@@ -21,8 +21,14 @@ class SummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final base = emphasize
-        ? AppTextStyles.h5.copyWith(color: NocturneColors.accent)
-        : AppTextStyles.body.copyWith(fontSize: 14);
+        ? AppTextStyles.h4.copyWith(
+            color: AppColors.accent,
+            fontWeight: FontWeight.w700,
+          )
+        : AppTextStyles.body.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -33,7 +39,7 @@ class SummaryRow extends StatelessWidget {
               label,
               style: AppTextStyles.muted(
                 AppTextStyles.body,
-              ).copyWith(fontSize: 14),
+              ).copyWith(fontSize: 15),
             ),
           ),
           const SizedBox(width: 12),

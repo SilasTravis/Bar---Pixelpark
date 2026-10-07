@@ -5,7 +5,7 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import '../../generated/l10n.dart';
 import '../localization/locale_cubit.dart';
 import '../theme/app_text_styles.dart';
-import '../theme/nocturne_colors.dart';
+import '../theme/app_colors.dart';
 
 class LanguageSwitcher extends StatelessWidget {
   const LanguageSwitcher({super.key});
@@ -37,22 +37,17 @@ class LanguageSwitcher extends StatelessWidget {
       initialValue: languageCode,
       onSelected: localeCubit.changeLanguage,
       position: PopupMenuPosition.under,
-      color: NocturneColors.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        side: const BorderSide(color: NocturneColors.divider),
-      ),
       itemBuilder: (_) => [
         _item('uz', 'UZ', l10n.languageUzbek, languageCode),
         _item('ru', 'RU', l10n.languageRussian, languageCode),
       ],
       child: Container(
-        height: 38,
-        padding: const EdgeInsets.symmetric(horizontal: 11),
+        height: 44,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: NocturneColors.surface,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: NocturneColors.divider),
+          border: Border.all(color: AppColors.borderStrong),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -60,18 +55,22 @@ class LanguageSwitcher extends StatelessWidget {
             const Icon(
               PhosphorIconsRegular.translate,
               size: 16,
-              color: NocturneColors.accent,
+              color: AppColors.accent,
             ),
             const SizedBox(width: 7),
             Text(
               languageCode.toUpperCase(),
               style: AppTextStyles.body.copyWith(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(width: 5),
-            const Icon(PhosphorIconsRegular.caretDown, size: 12),
+            const Icon(
+              PhosphorIconsRegular.caretDown,
+              size: 12,
+              color: AppColors.textMuted,
+            ),
           ],
         ),
       ),
@@ -99,7 +98,7 @@ class LanguageSwitcher extends StatelessWidget {
           const Icon(
             PhosphorIconsRegular.check,
             size: 16,
-            color: NocturneColors.accent,
+            color: AppColors.accent,
           ),
       ],
     ),

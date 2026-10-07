@@ -27,9 +27,9 @@ class App extends StatelessWidget {
           onGenerateTitle: (context) => AppLocalization.of(context).appTitle,
           debugShowCheckedModeBanner: false,
           navigatorKey: rootNavigatorKey,
+          // Light only — even when the OS is in dark mode.
           theme: appTheme,
-          darkTheme: appTheme,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           locale: locale,
           supportedLocales: AppLocalization.delegate.supportedLocales,
           localizationsDelegates: const [

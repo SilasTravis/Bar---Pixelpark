@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/update/update_exception.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/update/update_cubit.dart';
@@ -45,9 +45,9 @@ class UpdateCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: NocturneColors.surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: AppShadow.sm,
+        border: Border.all(color: AppColors.border),
       ),
       child: BlocBuilder<UpdateCubit, UpdateState>(
         builder: (context, state) {
@@ -59,7 +59,7 @@ class UpdateCard extends StatelessWidget {
                 children: [
                   const Icon(
                     PhosphorIconsRegular.arrowCircleUp,
-                    color: NocturneColors.accent,
+                    color: AppColors.accent,
                     size: 20,
                   ),
                   const SizedBox(width: 10),
@@ -251,7 +251,7 @@ class UpdateCard extends StatelessWidget {
         text,
         style: AppTextStyles.body.copyWith(
           fontSize: 13,
-          color: NocturneColors.danger,
+          color: AppColors.danger,
         ),
       ),
       if (releasePageUrl != null && releasePageUrl.isNotEmpty) ...[
@@ -262,7 +262,7 @@ class UpdateCard extends StatelessWidget {
           releasePageUrl,
           style: AppTextStyles.body.copyWith(
             fontSize: 12,
-            color: NocturneColors.accent,
+            color: AppColors.accent,
           ),
         ),
       ],

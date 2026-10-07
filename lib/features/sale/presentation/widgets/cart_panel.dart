@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../generated/l10n.dart';
@@ -36,10 +36,15 @@ class CartPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 8, 6),
+              padding: const EdgeInsets.fromLTRB(16, 10, 8, 6),
               child: Row(
                 children: [
-                  Text(l10n.cartTitle, style: AppTextStyles.h5),
+                  Text(
+                    l10n.cartTitle,
+                    style: AppTextStyles.h4.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: cart.isEmpty
@@ -50,7 +55,7 @@ class CartPanel extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.muted(
                               AppTextStyles.body,
-                            ).copyWith(fontSize: 12),
+                            ).copyWith(fontSize: 14),
                           ),
                   ),
                   if (cart.isNotEmpty)
@@ -59,8 +64,8 @@ class CartPanel extends StatelessWidget {
                       onPressed: busy ? null : () => _confirmClear(context),
                       icon: const Icon(
                         PhosphorIconsRegular.trash,
-                        size: 18,
-                        color: NocturneColors.neutral400,
+                        size: 20,
+                        color: AppColors.textMuted,
                       ),
                     ),
                 ],
@@ -72,10 +77,21 @@ class CartPanel extends StatelessWidget {
                   ? Center(
                       child: Padding(
                         padding: const EdgeInsets.all(24),
-                        child: Text(
-                          l10n.cartEmpty,
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.muted(AppTextStyles.body),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              PhosphorIconsRegular.basket,
+                              size: 40,
+                              color: AppColors.textDisabled,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              l10n.cartEmpty,
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.muted(AppTextStyles.body),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -85,7 +101,7 @@ class CartPanel extends StatelessWidget {
                         vertical: 8,
                       ),
                       itemCount: cart.lines.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 6),
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
                       itemBuilder: (context, index) => _CartLineRow(
                         line: cart.lines[index],
                         enabled: !busy,
@@ -104,52 +120,73 @@ class CartPanel extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(l10n.total, style: AppTextStyles.h5),
-                      const SizedBox(width: 12),
-                      // Scales down instead of overflowing on a narrow
-                      // window with a large total.
-                      Flexible(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            formatUzs(cart.totalUzs),
-                            maxLines: 1,
-                            style: AppTextStyles.h3.copyWith(
-                              color: NocturneColors.accent,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.accentSoft,
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      border: Border.all(color: AppColors.accentBorder),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          l10n.total,
+                          style: AppTextStyles.h4.copyWith(
+                            color: AppColors.accent,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        // Scales down instead of overflowing on a narrow
+                        // window with a large total.
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              formatUzs(cart.totalUzs),
+                              maxLines: 1,
+                              style: AppTextStyles.h2.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontFeatures: const [
+                                  FontFeature.tabularFigures(),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   if (failure != null) ...[
                     const SizedBox(height: 10),
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: NocturneColors.danger.withValues(alpha: 0.18),
+                        color: AppColors.dangerSoft,
                         borderRadius: BorderRadius.circular(AppRadius.md),
-                        border: Border.all(
-                          color: NocturneColors.danger.withValues(alpha: 0.6),
-                        ),
+                        border: Border.all(color: AppColors.dangerBorder),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Icon(
                             PhosphorIconsRegular.warning,
-                            size: 18,
-                            color: Color(0xFFE5677A),
+                            size: 20,
+                            color: AppColors.danger,
                           ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               saleFailureMessage(l10n, failure),
-                              style: AppTextStyles.body.copyWith(fontSize: 13),
+                              style: AppTextStyles.body.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -163,6 +200,7 @@ class CartPanel extends StatelessWidget {
                         child: _PayButton(
                           label: l10n.paymentCash,
                           icon: PhosphorIconsRegular.money,
+                          color: AppColors.cash,
                           loading: state.submittingMethod == PaymentMethod.cash,
                           onPressed: cart.isEmpty || busy
                               ? null
@@ -174,6 +212,7 @@ class CartPanel extends StatelessWidget {
                         child: _PayButton(
                           label: l10n.paymentCard,
                           icon: PhosphorIconsRegular.creditCard,
+                          color: AppColors.card,
                           loading: state.submittingMethod == PaymentMethod.card,
                           onPressed: cart.isEmpty || busy
                               ? null
@@ -197,7 +236,7 @@ class CartPanel extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: NocturneColors.surface,
+        backgroundColor: AppColors.surface,
         title: Text(l10n.cartClearTitle, style: AppTextStyles.h4),
         content: Text(l10n.cartClearMessage, style: AppTextStyles.body),
         actions: [
@@ -207,6 +246,7 @@ class CartPanel extends StatelessWidget {
           ),
           FilledButton(
             autofocus: true,
+            style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
             onPressed: () => Navigator.pop(dialogContext, true),
             child: Text(l10n.cartClear),
           ),
@@ -236,9 +276,9 @@ class _CartLineRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalization.of(context);
     return Container(
-      padding: const EdgeInsets.fromLTRB(10, 8, 4, 8),
+      padding: const EdgeInsets.fromLTRB(12, 8, 2, 8),
       decoration: BoxDecoration(
-        color: NocturneColors.bg,
+        color: AppColors.surfaceAlt,
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: Row(
@@ -251,14 +291,17 @@ class _CartLineRow extends StatelessWidget {
                   line.product.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.body.copyWith(fontSize: 13),
+                  style: AppTextStyles.body.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '${formatUzs(line.product.priceUzs)} × ${line.quantity} = ${formatUzs(line.lineTotalUzs)}',
                   style: AppTextStyles.muted(
                     AppTextStyles.body,
-                  ).copyWith(fontSize: 11),
+                  ).copyWith(fontSize: 13),
                 ),
               ],
             ),
@@ -269,11 +312,11 @@ class _CartLineRow extends StatelessWidget {
             onTap: enabled ? onDecrement : null,
           ),
           SizedBox(
-            width: 32,
+            width: 34,
             child: Text(
               '${line.quantity}',
               textAlign: TextAlign.center,
-              style: AppTextStyles.h5,
+              style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
           _StepButton(
@@ -289,8 +332,8 @@ class _CartLineRow extends StatelessWidget {
             onPressed: enabled ? onRemove : null,
             icon: const Icon(
               PhosphorIconsRegular.x,
-              size: 16,
-              color: NocturneColors.neutral500,
+              size: 18,
+              color: AppColors.textMuted,
             ),
           ),
         ],
@@ -311,20 +354,23 @@ class _StepButton extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: SizedBox(
-        width: 32,
-        height: 32,
+        width: 40,
+        height: 40,
         child: Material(
-          color: NocturneColors.surface,
-          borderRadius: BorderRadius.circular(8),
+          color: AppColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            side: const BorderSide(color: AppColors.borderStrong),
+          ),
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(8),
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+            ),
             child: Icon(
               icon,
-              size: 14,
-              color: onTap == null
-                  ? NocturneColors.neutral700
-                  : NocturneColors.neutral300,
+              size: 18,
+              color: onTap == null ? AppColors.textDisabled : AppColors.text,
             ),
           ),
         ),
@@ -337,28 +383,43 @@ class _PayButton extends StatelessWidget {
   const _PayButton({
     required this.label,
     required this.icon,
+    required this.color,
     required this.loading,
     required this.onPressed,
   });
 
   final String label;
   final IconData icon;
+
+  /// Cash green / card blue: the two buttons must never be confused.
+  final Color color;
   final bool loading;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 64,
+      height: 72,
       child: FilledButton(
         style: FilledButton.styleFrom(
-          backgroundColor: NocturneColors.accent,
-          foregroundColor: NocturneColors.neutral100,
-          disabledBackgroundColor: NocturneColors.neutral800,
+          backgroundColor: color,
+          foregroundColor: AppColors.onAccent,
+          // While another payment is submitting, the other button keeps a
+          // faded version of its own colour, so the two never look alike.
+          disabledBackgroundColor: loading
+              ? color
+              : color.withValues(alpha: 0.12),
+          disabledForegroundColor: loading
+              ? AppColors.onAccent
+              : color.withValues(alpha: 0.55),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
-          textStyle: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w600),
+          textStyle: AppTextStyles.h4.copyWith(
+            fontSize: 21,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         onPressed: onPressed,
         // Scales down rather than overflowing: "Наличные" in a narrow cart.
@@ -369,15 +430,15 @@ class _PayButton extends StatelessWidget {
             children: [
               if (loading)
                 const SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: 22,
+                  height: 22,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: NocturneColors.neutral100,
+                    strokeWidth: 2.5,
+                    color: AppColors.onAccent,
                   ),
                 )
               else
-                Icon(icon, size: 24),
+                Icon(icon, size: 26),
               const SizedBox(width: 10),
               Text(label),
             ],

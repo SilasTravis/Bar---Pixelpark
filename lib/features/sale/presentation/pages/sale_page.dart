@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/printing/bar_receipt_printer.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/widgets/failure_message.dart';
@@ -63,10 +63,11 @@ class SalePage extends StatelessWidget {
             Container(
               width: _cartPanel.of(context),
               decoration: BoxDecoration(
-                color: NocturneColors.surface,
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
-                boxShadow: AppShadow.sm,
+                border: Border.all(color: AppColors.border),
               ),
+              clipBehavior: Clip.antiAlias,
               child: const CartPanel(),
             ),
           ],
@@ -80,6 +81,7 @@ class SalePage extends StatelessWidget {
     final messenger = ScaffoldMessenger.of(context);
     messenger.showSnackBar(
       SnackBar(
+        backgroundColor: AppColors.success,
         content: Text(
           l10n.saleCompleted(sale.receiptNo, formatUzs(sale.totalUzs)),
         ),
@@ -101,10 +103,10 @@ class SalePage extends StatelessWidget {
         if (result == ReceiptPrintResult.failed) {
           messenger.showSnackBar(
             SnackBar(
-              backgroundColor: NocturneColors.warning,
+              backgroundColor: AppColors.warning,
               content: Text(
                 printFailedText,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: AppColors.text),
               ),
             ),
           );
@@ -122,6 +124,7 @@ class SalePage extends StatelessWidget {
         failure.code == BarErrorCodes.shiftNotOpen) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          backgroundColor: AppColors.danger,
           content: Text(failureMessage(AppLocalization.of(context), failure)),
         ),
       );

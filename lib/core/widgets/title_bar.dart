@@ -5,11 +5,11 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../generated/l10n.dart';
-import '../theme/nocturne_colors.dart';
+import '../theme/app_colors.dart';
 
 /// Custom frameless title bar — `window_manager` hides the OS chrome
 /// (`TitleBarStyle.hidden`), so drag/minimize/maximize/close are reimplemented
-/// here to match the design's slim dark bar.
+/// here as a slim white bar.
 ///
 /// On macOS the native traffic-light buttons stay visible with a hidden
 /// title bar, so this bar only leaves room for them instead of drawing a
@@ -51,7 +51,7 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
   Widget build(BuildContext context) {
     return Container(
       height: 36,
-      color: NocturneColors.bg,
+      color: AppColors.surface,
       child: Row(
         children: [
           Expanded(
@@ -70,14 +70,15 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
                     const Icon(
                       PhosphorIconsFill.martini,
                       size: 14,
-                      color: NocturneColors.accent,
+                      color: AppColors.accent,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       AppLocalization.of(context).appTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
-                        color: NocturneColors.text.withValues(alpha: 0.6),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textMuted,
                       ),
                     ),
                   ],
@@ -101,7 +102,7 @@ class _TitleBarState extends State<TitleBar> with WindowListener {
             ),
             _TitleBarButton(
               icon: PhosphorIconsRegular.x,
-              hoverColor: NocturneColors.danger,
+              hoverColor: AppColors.dangerBorder,
               onPressed: () => windowManager.close(),
             ),
           ],
@@ -133,14 +134,8 @@ class _TitleBarButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          hoverColor: (hoverColor ?? NocturneColors.neutral800).withValues(
-            alpha: 0.5,
-          ),
-          child: Icon(
-            icon,
-            size: iconSize,
-            color: NocturneColors.text.withValues(alpha: 0.7),
-          ),
+          hoverColor: hoverColor ?? AppColors.surfaceAlt,
+          child: Icon(icon, size: iconSize, color: AppColors.textMuted),
         ),
       ),
     );
@@ -157,7 +152,7 @@ class WindowScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: NocturneColors.bg,
+      backgroundColor: AppColors.bg,
       body: Column(
         children: [
           const TitleBar(),

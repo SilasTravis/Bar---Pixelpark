@@ -57,6 +57,62 @@ void main() {
     expect(product.icon, 'ph ph-coffee');
   });
 
+  group('BarProduct.imageUrl', () {
+    BarProduct parse(Map<String, dynamic> extra) => BarProduct.fromJson({
+      'id': 'p-1',
+      'name': 'Latte',
+      'category': 'Issiq',
+      'icon': 'coffee',
+      'priceUzs': 25000,
+      'sortOrder': 0,
+      ...extra,
+    });
+
+    test('absolute URL is kept', () {
+      const url = 'https://cdn.pixelpark.uz/bar/latte.jpg';
+      expect(parse({'imageUrl': url}).imageUrl, url);
+      expect(
+        parse({'imageUrl': 'http://10.0.0.5/img/1.png'}).imageUrl,
+        'http://10.0.0.5/img/1.png',
+      );
+    });
+
+    test('missing (older server) → null', () {
+      expect(parse({}).imageUrl, isNull);
+    });
+
+    test('null → null', () {
+      expect(parse({'imageUrl': null}).imageUrl, isNull);
+    });
+
+    test('blank, relative or non-http values → null', () {
+      for (final bad in [
+        '',
+        '   ',
+        '/uploads/latte.jpg',
+        'latte.jpg',
+        'file:///etc/passwd',
+        'ftp://host/x.png',
+      ]) {
+        expect(parse({'imageUrl': bad}).imageUrl, isNull, reason: bad);
+      }
+    });
+
+    test('surrounding whitespace is trimmed', () {
+      expect(
+        parse({'imageUrl': '  https://cdn.pixelpark.uz/a.png '}).imageUrl,
+        'https://cdn.pixelpark.uz/a.png',
+      );
+    });
+
+    test('imageUrl takes part in equality (catalog refresh rebuilds)', () {
+      expect(
+        parse({'imageUrl': 'https://cdn.pixelpark.uz/a.png'}),
+        isNot(parse({})),
+      );
+    });
+  });
+
   test('money fields leaked as strings (BIGINT) still parse', () {
     final product = BarProduct.fromJson({
       'id': 'p-1',

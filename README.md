@@ -8,7 +8,8 @@ Spec: `maestro_backend/docs/superpowers/specs/2026-10-06-bar-design.md`.
 
 The architecture is copied from the park cashier app (`cashier_app`): features
 split into `data/domain/presentation`, `flutter_bloc` + `get_it` + `dartz`,
-`dio` with refresh-on-401, `hive_ce` for tokens, Nocturne dark theme,
+`dio` with refresh-on-401, `hive_ce` for tokens, a single light theme
+(`lib/core/theme`, retuned from the cashier's dark Nocturne for a bright bar counter),
 `window_manager` frameless window, and l10n with uz (primary) and ru.
 
 ## Run

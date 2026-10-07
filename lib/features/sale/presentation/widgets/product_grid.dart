@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_icons/phosphor_icons.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/theme/nocturne_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/utils/responsive.dart';
 import '../../../../core/widgets/failure_message.dart';
@@ -56,15 +56,18 @@ class ProductGrid extends StatelessWidget {
         return GridView.builder(
           padding: EdgeInsets.zero,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: compact ? 160 : 180,
-            mainAxisSpacing: compact ? 8 : 12,
-            crossAxisSpacing: compact ? 8 : 12,
-            childAspectRatio: compact ? 0.95 : 0.92,
+            maxCrossAxisExtent: compact ? 170 : 200,
+            mainAxisSpacing: compact ? 10 : 12,
+            crossAxisSpacing: compact ? 10 : 12,
+            // Every tile is the same size, so the photo area (whatever
+            // the tile leaves after name + price) has one aspect across the
+            // grid — ~1.1–1.3 : 1 — and the grid stays tidy.
+            childAspectRatio: compact ? 0.8 : 0.78,
           ),
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return _ProductTile(
+            return ProductTile(
               product: product,
               qtyInCart: state.cart.quantityOf(product.id),
               onTap: state.isSubmitting
@@ -91,7 +94,7 @@ class _Message extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 36, color: NocturneColors.neutral500),
+          Icon(icon, size: 40, color: AppColors.textMuted),
           const SizedBox(height: 12),
           Text(
             text,
@@ -105,8 +108,12 @@ class _Message extends StatelessWidget {
   }
 }
 
-class _ProductTile extends StatelessWidget {
-  const _ProductTile({
+/// One product: photo (or its icon), name and price. The whole tile is the
+/// tap target; the photo never gates it — taps work while it loads, after
+/// it fails, or when there is none.
+class ProductTile extends StatelessWidget {
+  const ProductTile({
+    super.key,
     required this.product,
     required this.qtyInCart,
     required this.onTap,
@@ -116,86 +123,174 @@ class _ProductTile extends StatelessWidget {
   final int qtyInCart;
   final VoidCallback? onTap;
 
+  static const _radius = 12.0;
+
   @override
   Widget build(BuildContext context) {
     final inCart = qtyInCart > 0;
+    // Room for exactly two name lines on every tile, so prices line up
+    // across a row whatever the name length (and OS text scale).
+    final nameHeight = MediaQuery.textScalerOf(context).scale(15 * 1.25 * 2);
     return Material(
-      color: NocturneColors.surface,
-      borderRadius: BorderRadius.circular(12),
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(_radius),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(_radius),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: inCart ? NocturneColors.accent : NocturneColors.divider,
-            ),
+            borderRadius: BorderRadius.circular(_radius),
+            border: inCart
+                ? Border.all(color: AppColors.accent, width: 2)
+                : Border.all(color: AppColors.border),
           ),
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: NocturneColors.accent.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(
-                      productIconFor(product.icon),
-                      size: 26,
-                      color: NocturneColors.accent,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ProductImage(product: product),
+                    if (inCart)
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: _QtyBadge(quantity: qtyInCart),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: nameHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Text(
                     product.name,
                     style: AppTextStyles.body.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1.25,
+                      fontWeight: FontWeight.w600,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    formatUzs(product.priceUzs),
-                    style: AppTextStyles.body.copyWith(
-                      fontSize: 13,
-                      color: NocturneColors.accent300,
-                    ),
-                  ),
-                ],
+                ),
               ),
-              if (inCart)
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    constraints: const BoxConstraints(minWidth: 24),
-                    height: 24,
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: NocturneColors.accent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '$qtyInCart',
-                      style: const TextStyle(
-                        color: NocturneColors.neutral100,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+              const SizedBox(height: 2),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    formatUzs(product.priceUzs),
+                    maxLines: 1,
+                    style: AppTextStyles.price,
                   ),
                 ),
+              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The product photo, cover-fit and rounded, filling whatever box it is
+/// given. Shows [ProductIconFallback] when there is no URL, until the first
+/// frame is decoded, and on any load/decode error.
+class ProductImage extends StatelessWidget {
+  const ProductImage({super.key, required this.product});
+
+  final BarProduct product;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = ProductIconFallback(icon: product.icon);
+    final url = product.imageUrl;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: url == null
+          ? fallback
+          : LayoutBuilder(
+              builder: (context, constraints) => Image.network(
+                url,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+                // Decode at tile size, not the photo's full resolution: a
+                // 2000px upload costs the memory of a ~200px thumbnail.
+                cacheWidth: _cacheWidth(
+                  constraints.maxWidth,
+                  MediaQuery.devicePixelRatioOf(context),
+                ),
+                filterQuality: FilterQuality.medium,
+                gaplessPlayback: true,
+                excludeFromSemantics: true,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                    wasSynchronouslyLoaded || frame != null ? child : fallback,
+                errorBuilder: (context, error, stackTrace) => fallback,
+              ),
+            ),
+    );
+  }
+
+  /// Rounded up to a 64px bucket so resizing the window by a few pixels
+  /// reuses the decoded image instead of decoding it again.
+  static int? _cacheWidth(double logicalWidth, double devicePixelRatio) {
+    if (!logicalWidth.isFinite || logicalWidth <= 0) return null;
+    final px = logicalWidth * devicePixelRatio;
+    return ((px / 64).ceil() * 64).clamp(64, 1024);
+  }
+}
+
+/// The tile's icon on a soft brand tint — the no-photo look, and the
+/// placeholder while a photo loads or after it fails.
+class ProductIconFallback extends StatelessWidget {
+  const ProductIconFallback({super.key, required this.icon});
+
+  /// Phosphor class name, see [productIconFor].
+  final String icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: AppColors.accentSoft,
+      child: Center(
+        child: Icon(productIconFor(icon), size: 40, color: AppColors.accent),
+      ),
+    );
+  }
+}
+
+class _QtyBadge extends StatelessWidget {
+  const _QtyBadge({required this.quantity});
+
+  final int quantity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(minWidth: 30),
+      height: 30,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: AppColors.accent,
+        borderRadius: BorderRadius.circular(15),
+        // White ring keeps the badge legible on any photo.
+        border: Border.all(color: AppColors.surface, width: 2),
+      ),
+      child: Text(
+        '$quantity',
+        style: const TextStyle(
+          color: AppColors.onAccent,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
