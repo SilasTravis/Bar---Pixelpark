@@ -42,9 +42,16 @@ Future<void> init() async {
   final packageInfo = await PackageInfo.fromPlatform();
   sl.registerSingleton<UpdateService>(
     UpdateService(
-      // GitHub Releases of the bar's own repo only — the bar has no backend
-      // update mirror in v1 (see GithubReleaseSource).
-      source: GithubReleaseSource(),
+      // The backend mirror comes first (some bar networks block github.com);
+      // GitHub Releases of the bar's own repo stay as the fallback for a
+      // backend without the mirror.
+      source: FallbackReleaseSource(
+        primary: BackendReleaseSource(
+          api: sl<Dio>(),
+          hasSession: () => sl<LocalSource>().hasSession,
+        ),
+        fallback: GithubReleaseSource(),
+      ),
       currentVersion: packageInfo.version,
       supportDirectory: getApplicationSupportDirectory,
     ),

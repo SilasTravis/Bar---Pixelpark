@@ -83,11 +83,19 @@ measured from the laid-out content. To preview it, render
 - The same workflow builds macOS (`flutter build macos --release`) and
   uploads the zipped `Pixel Bar.app` as an Actions artifact. The .app is
   unsigned, so open it the first time with right-click → Open.
-- The app checks `SilasTravis/Bar---Pixelpark` GitHub Releases every 4 h and
-  from Settings. Download, install and restart work on Windows only. Only the
-  `bar_app-windows-*.zip` asset is ever installed.
-- v1 has no backend update mirror (the cashier has `/v1/pos/app-update/*`).
-  Bar tills need to reach github.com to update.
+- The backend mirrors those GitHub Releases into our own storage
+  (`maestro_backend` module `bar-updates`, every 10 min, only the
+  `bar_app-windows-*.zip` asset). The app checks `GET /v1/bar/app-update/latest`
+  every 4 h and from Settings, downloads the zip from our API, and falls back
+  to the `SilasTravis/Bar---Pixelpark` GitHub Releases when the backend has no
+  mirror or can't be reached. Download, install and restart work on Windows
+  only.
+- A fresh till is installed from our domain: `pixelpark.uz/download/bar-app`
+  redirects to `GET /v1/bar/app-update/latest/download` (public, throttled).
+  The redirect itself lives in the web server config, not in this repo.
+- A release only reaches the mirror after CI has published it, so the first
+  tills to get the mirror-aware app (>= the version after 1.1.0) still update
+  from GitHub once.
 
 > **Before the first release:** create the GitHub repository
 > **`SilasTravis/Bar---Pixelpark`** (public, so the app can read releases
