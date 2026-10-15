@@ -1103,6 +1103,221 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `Chiqimlar`
+  String get menuExpenses {
+    return Intl.message('Chiqimlar', name: 'menuExpenses', desc: '', args: []);
+  }
+
+  /// `Chiqimlar`
+  String get expensesTitle {
+    return Intl.message('Chiqimlar', name: 'expensesTitle', desc: '', args: []);
+  }
+
+  /// `SMENA CHIQIMI`
+  String get expensesShiftTotal {
+    return Intl.message(
+      'SMENA CHIQIMI',
+      name: 'expensesShiftTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassadan: {amount}`
+  String expensesFromCashTotal(String amount) {
+    return Intl.message(
+      'Kassadan: $amount',
+      name: 'expensesFromCashTotal',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Bu smenada hali chiqim yo‘q`
+  String get expensesEmpty {
+    return Intl.message(
+      'Bu smenada hali chiqim yo‘q',
+      name: 'expensesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassadan yoki boshqa manbadan to‘langan xarajatni “Yangi chiqim” orqali yozing`
+  String get expensesEmptyHint {
+    return Intl.message(
+      'Kassadan yoki boshqa manbadan to‘langan xarajatni “Yangi chiqim” orqali yozing',
+      name: 'expensesEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yangi chiqim`
+  String get expenseNew {
+    return Intl.message('Yangi chiqim', name: 'expenseNew', desc: '', args: []);
+  }
+
+  /// `Tez tanlash`
+  String get expenseQuickPick {
+    return Intl.message(
+      'Tez tanlash',
+      name: 'expenseQuickPick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nomi`
+  String get expenseName {
+    return Intl.message('Nomi', name: 'expenseName', desc: '', args: []);
+  }
+
+  /// `Masalan: Sut`
+  String get expenseNameHint {
+    return Intl.message(
+      'Masalan: Sut',
+      name: 'expenseNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summa`
+  String get expenseAmount {
+    return Intl.message('Summa', name: 'expenseAmount', desc: '', args: []);
+  }
+
+  /// `Qayerdan to‘landi`
+  String get expensePaidFrom {
+    return Intl.message(
+      'Qayerdan to‘landi',
+      name: 'expensePaidFrom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassadan`
+  String get paidFromCash {
+    return Intl.message('Kassadan', name: 'paidFromCash', desc: '', args: []);
+  }
+
+  /// `Boshqa`
+  String get paidFromOther {
+    return Intl.message('Boshqa', name: 'paidFromOther', desc: '', args: []);
+  }
+
+  /// `Nomini kiriting`
+  String get expenseNameRequired {
+    return Intl.message(
+      'Nomini kiriting',
+      name: 'expenseNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)`
+  String get expenseAmountInvalid {
+    return Intl.message(
+      'Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)',
+      name: 'expenseAmountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saqlash`
+  String get expenseSave {
+    return Intl.message('Saqlash', name: 'expenseSave', desc: '', args: []);
+  }
+
+  /// `Chiqim saqlandi: {name} — {amount}`
+  String expenseSaved(String name, String amount) {
+    return Intl.message(
+      'Chiqim saqlandi: $name — $amount',
+      name: 'expenseSaved',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `O‘chirish`
+  String get expenseDelete {
+    return Intl.message('O‘chirish', name: 'expenseDelete', desc: '', args: []);
+  }
+
+  /// `Chiqimni o‘chirish`
+  String get expenseDeleteTitle {
+    return Intl.message(
+      'Chiqimni o‘chirish',
+      name: 'expenseDeleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{name}” — {amount} o‘chiriladi. Davom etasizmi?`
+  String expenseDeleteMessage(String name, String amount) {
+    return Intl.message(
+      '“$name” — $amount o‘chiriladi. Davom etasizmi?',
+      name: 'expenseDeleteMessage',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `Ha, o‘chirish`
+  String get expenseDeleteConfirm {
+    return Intl.message(
+      'Ha, o‘chirish',
+      name: 'expenseDeleteConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chiqim o‘chirildi`
+  String get expenseDeleted {
+    return Intl.message(
+      'Chiqim o‘chirildi',
+      name: 'expenseDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.`
+  String get errorExpenseNotFound {
+    return Intl.message(
+      'Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.',
+      name: 'errorExpenseNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Naqd savdo`
+  String get cashSales {
+    return Intl.message('Naqd savdo', name: 'cashSales', desc: '', args: []);
+  }
+
+  /// `Kassadan chiqim`
+  String get cashExpenses {
+    return Intl.message(
+      'Kassadan chiqim',
+      name: 'cashExpenses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chiqimlar`
+  String get shiftExpenses {
+    return Intl.message('Chiqimlar', name: 'shiftExpenses', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

@@ -22,27 +22,34 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(count) => "${count} шт.";
 
-  static String m1(cash, card) => "Н ${cash} · К ${card}";
+  static String m1(name, amount) =>
+      "«${name}» — ${amount} будет удалён. Продолжить?";
 
-  static String m2(total) => "Итого: ${total}";
+  static String m2(name, amount) => "Расход сохранён: ${name} — ${amount}";
 
-  static String m3(name) => "${name} (сейчас не подключён)";
+  static String m3(amount) => "Из кассы: ${amount}";
 
-  static String m4(receiptNo) => "Чек #${receiptNo} отменён";
+  static String m4(cash, card) => "Н ${cash} · К ${card}";
 
-  static String m5(total) =>
+  static String m5(total) => "Итого: ${total}";
+
+  static String m6(name) => "${name} (сейчас не подключён)";
+
+  static String m7(receiptNo) => "Чек #${receiptNo} отменён";
+
+  static String m8(total) =>
       "Вся продажа будет отменена, ${total} исключится из выручки смены. Верните деньги покупателю.";
 
-  static String m6(reason) => "Причина: ${reason}";
+  static String m9(reason) => "Причина: ${reason}";
 
-  static String m7(receiptNo) => "Отмена чека #${receiptNo}";
+  static String m10(receiptNo) => "Отмена чека #${receiptNo}";
 
-  static String m8(receiptNo, total) =>
+  static String m11(receiptNo, total) =>
       "Чек #${receiptNo} — продано на ${total}";
 
-  static String m9(time) => "Смена с ${time}";
+  static String m12(time) => "Смена с ${time}";
 
-  static String m10(version) => "Доступна новая версия: ${version}";
+  static String m13(version) => "Доступна новая версия: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -61,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "cartItemsCount": m0,
     "cartTitle": MessageLookupByLibrary.simpleMessage("Корзина"),
     "cashDifference": MessageLookupByLibrary.simpleMessage("Разница"),
+    "cashExpenses": MessageLookupByLibrary.simpleMessage("Расход из кассы"),
+    "cashSales": MessageLookupByLibrary.simpleMessage("Наличные продажи"),
     "categoryAll": MessageLookupByLibrary.simpleMessage("Все"),
     "closeShift": MessageLookupByLibrary.simpleMessage("Закрыть смену"),
     "closeShiftConfirmMessage": MessageLookupByLibrary.simpleMessage(
@@ -83,6 +92,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ваш аккаунт неактивен. Обратитесь к администратору.",
     ),
     "errorEmptyCart": MessageLookupByLibrary.simpleMessage("Корзина пуста"),
+    "errorExpenseNotFound": MessageLookupByLibrary.simpleMessage(
+      "Расход не найден. Удалить можно только свой расход в открытой смене.",
+    ),
     "errorInvalidPaymentSplit": MessageLookupByLibrary.simpleMessage(
       "Сумма наличных и карты не совпала с итогом. Введите смешанную оплату заново.",
     ),
@@ -112,6 +124,36 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorUnknown": MessageLookupByLibrary.simpleMessage("Что-то пошло не так"),
     "expectedCash": MessageLookupByLibrary.simpleMessage("Ожидаемые наличные"),
+    "expenseAmount": MessageLookupByLibrary.simpleMessage("Сумма"),
+    "expenseAmountInvalid": MessageLookupByLibrary.simpleMessage(
+      "Введите сумму (больше 0, не более 1 млрд)",
+    ),
+    "expenseDelete": MessageLookupByLibrary.simpleMessage("Удалить"),
+    "expenseDeleteConfirm": MessageLookupByLibrary.simpleMessage("Да, удалить"),
+    "expenseDeleteMessage": m1,
+    "expenseDeleteTitle": MessageLookupByLibrary.simpleMessage(
+      "Удалить расход",
+    ),
+    "expenseDeleted": MessageLookupByLibrary.simpleMessage("Расход удалён"),
+    "expenseName": MessageLookupByLibrary.simpleMessage("Название"),
+    "expenseNameHint": MessageLookupByLibrary.simpleMessage("Например: Молоко"),
+    "expenseNameRequired": MessageLookupByLibrary.simpleMessage(
+      "Введите название",
+    ),
+    "expenseNew": MessageLookupByLibrary.simpleMessage("Новый расход"),
+    "expensePaidFrom": MessageLookupByLibrary.simpleMessage("Откуда оплачено"),
+    "expenseQuickPick": MessageLookupByLibrary.simpleMessage("Быстрый выбор"),
+    "expenseSave": MessageLookupByLibrary.simpleMessage("Сохранить"),
+    "expenseSaved": m2,
+    "expensesEmpty": MessageLookupByLibrary.simpleMessage(
+      "В этой смене ещё нет расходов",
+    ),
+    "expensesEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Запишите расход из кассы или из другого источника через «Новый расход»",
+    ),
+    "expensesFromCashTotal": m3,
+    "expensesShiftTotal": MessageLookupByLibrary.simpleMessage("РАСХОДЫ СМЕНЫ"),
+    "expensesTitle": MessageLookupByLibrary.simpleMessage("Расходы"),
     "historyEmpty": MessageLookupByLibrary.simpleMessage(
       "В этой смене ещё нет продаж",
     ),
@@ -141,15 +183,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "menu": MessageLookupByLibrary.simpleMessage("Меню"),
     "menuCloseShift": MessageLookupByLibrary.simpleMessage("Закрыть смену"),
+    "menuExpenses": MessageLookupByLibrary.simpleMessage("Расходы"),
     "menuHistory": MessageLookupByLibrary.simpleMessage("История смены"),
     "menuSettings": MessageLookupByLibrary.simpleMessage("Настройки"),
     "mixedInvalid": MessageLookupByLibrary.simpleMessage(
       "Наличные и карта вместе должны равняться сумме",
     ),
     "mixedPay": MessageLookupByLibrary.simpleMessage("Оплатить"),
-    "mixedSplitShort": m1,
+    "mixedSplitShort": m4,
     "mixedTitle": MessageLookupByLibrary.simpleMessage("Смешанная оплата"),
-    "mixedTotal": m2,
+    "mixedTotal": m5,
     "noOpenShiftMessage": MessageLookupByLibrary.simpleMessage(
       "Откройте смену, чтобы начать продажи",
     ),
@@ -164,6 +207,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "openShift": MessageLookupByLibrary.simpleMessage("Открыть смену"),
+    "paidFromCash": MessageLookupByLibrary.simpleMessage("Из кассы"),
+    "paidFromOther": MessageLookupByLibrary.simpleMessage("Другое"),
     "paymentCard": MessageLookupByLibrary.simpleMessage("Карта"),
     "paymentCash": MessageLookupByLibrary.simpleMessage("Наличные"),
     "paymentMixed": MessageLookupByLibrary.simpleMessage("Смешанная"),
@@ -174,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Без принтера (чек не печатается)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Принтер чеков"),
-    "printerUnavailable": m3,
+    "printerUnavailable": m6,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "В этом баре пока нет активных товаров",
     ),
@@ -199,17 +244,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "refreshProducts": MessageLookupByLibrary.simpleMessage("Обновить товары"),
     "refund": MessageLookupByLibrary.simpleMessage("Отменить"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Да, отменить"),
-    "refundDone": m4,
-    "refundMessage": m5,
+    "refundDone": m7,
+    "refundMessage": m8,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Причина (необязательно)",
     ),
-    "refundReasonShown": m6,
-    "refundTitle": m7,
+    "refundReasonShown": m9,
+    "refundTitle": m10,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Отменённые"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Удалить"),
     "retry": MessageLookupByLibrary.simpleMessage("Повторить"),
-    "saleCompleted": m8,
+    "saleCompleted": m11,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Нет подключения к интернету. Корзина сохранена — нажмите кнопку оплаты ещё раз, двойного списания не будет.",
     ),
@@ -220,12 +265,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Не удалось прочитать ответ сервера. Корзина сохранена — повторите, продажа не задвоится.",
     ),
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Смена закрыта"),
-    "shiftOpenedAt": m9,
+    "shiftExpenses": MessageLookupByLibrary.simpleMessage("Расходы"),
+    "shiftOpenedAt": m12,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Время смены"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("ВЫРУЧКА СМЕНЫ"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Отменён"),
     "total": MessageLookupByLibrary.simpleMessage("Итого"),
-    "updateAvailable": m10,
+    "updateAvailable": m13,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "updateCheck": MessageLookupByLibrary.simpleMessage("Проверить обновления"),
     "updateConfirm": MessageLookupByLibrary.simpleMessage("Продолжить"),

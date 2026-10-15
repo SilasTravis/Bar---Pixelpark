@@ -99,9 +99,9 @@ void main() {
   });
 
   test('live cash difference', () {
-    expect(cashDifference(countedCashUzs: null, cashTotalUzs: 5000), isNull);
-    expect(cashDifference(countedCashUzs: 5000, cashTotalUzs: 5000), 0);
-    expect(cashDifference(countedCashUzs: 7000, cashTotalUzs: 5000), 2000);
-    expect(cashDifference(countedCashUzs: 0, cashTotalUzs: 5000), -5000);
+    expect(cashDifference(countedCashUzs: null, expectedCashUzs: 5000), isNull);
+    expect(cashDifference(countedCashUzs: 5000, expectedCashUzs: 5000), 0);
+    expect(cashDifference(countedCashUzs: 7000, expectedCashUzs: 5000), 2000);
+    expect(cashDifference(countedCashUzs: 0, expectedCashUzs: 5000), -5000);
   });
 }

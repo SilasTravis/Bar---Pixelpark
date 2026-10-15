@@ -17,6 +17,10 @@ import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/presentation/bloc/login_bloc.dart';
 import 'features/auth/presentation/cubit/session_cubit.dart';
+import 'features/expenses/data/expenses_remote_data_source.dart';
+import 'features/expenses/data/expenses_repository_impl.dart';
+import 'features/expenses/domain/expenses_repository.dart';
+import 'features/expenses/presentation/cubit/expenses_cubit.dart';
 import 'features/products/data/products_remote_data_source.dart';
 import 'features/products/data/products_repository_impl.dart';
 import 'features/products/domain/products_repository.dart';
@@ -68,6 +72,7 @@ Future<void> init() async {
   _shiftFeature();
   _productsFeature();
   _saleFeature();
+  _expensesFeature();
 }
 
 Future<void> _initHive() async {
@@ -112,5 +117,15 @@ void _saleFeature() {
   sl.registerLazySingleton<SalesRepository>(() => SalesRepositoryImpl(sl()));
   sl.registerLazySingleton<SalesRemoteDataSource>(
     () => SalesRemoteDataSourceImpl(sl()),
+  );
+}
+
+void _expensesFeature() {
+  sl.registerFactory<ExpensesCubit>(() => ExpensesCubit(sl()));
+  sl.registerLazySingleton<ExpensesRepository>(
+    () => ExpensesRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<ExpensesRemoteDataSource>(
+    () => ExpensesRemoteDataSourceImpl(sl()),
   );
 }

@@ -206,5 +206,59 @@
   "updateFailureChecksumMismatch": "Yuklab olingan fayl buzilgan chiqdi — tekshiruv summasi mos kelmadi",
   "updateFailureChecksumUnreadable": "Nashr etilgan tekshiruv summasini o‘qib bo‘lmadi — tasdiqlanmagan yangilanish o‘rnatilmaydi",
   "updateFailureExecutableMissing": "Yuklab olingan arxivda ilova dasturi topilmadi",
-  "updateFailureIncompleteExtraction": "Yangilanish to‘liq yozilmadi. Yuklangan fayl bekor qilindi — qaytadan urinib ko‘ring"
+  "updateFailureIncompleteExtraction": "Yangilanish to‘liq yozilmadi. Yuklangan fayl bekor qilindi — qaytadan urinib ko‘ring",
+  "menuExpenses": "Chiqimlar",
+  "expensesTitle": "Chiqimlar",
+  "expensesShiftTotal": "SMENA CHIQIMI",
+  "expensesFromCashTotal": "Kassadan: {amount}",
+  "@expensesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expensesEmpty": "Bu smenada hali chiqim yo‘q",
+  "expensesEmptyHint": "Kassadan yoki boshqa manbadan to‘langan xarajatni “Yangi chiqim” orqali yozing",
+  "expenseNew": "Yangi chiqim",
+  "expenseQuickPick": "Tez tanlash",
+  "expenseName": "Nomi",
+  "expenseNameHint": "Masalan: Sut",
+  "expenseAmount": "Summa",
+  "expensePaidFrom": "Qayerdan to‘landi",
+  "paidFromCash": "Kassadan",
+  "paidFromOther": "Boshqa",
+  "expenseNameRequired": "Nomini kiriting",
+  "expenseAmountInvalid": "Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)",
+  "expenseSave": "Saqlash",
+  "expenseSaved": "Chiqim saqlandi: {name} — {amount}",
+  "@expenseSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDelete": "O‘chirish",
+  "expenseDeleteTitle": "Chiqimni o‘chirish",
+  "expenseDeleteMessage": "“{name}” — {amount} o‘chiriladi. Davom etasizmi?",
+  "@expenseDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDeleteConfirm": "Ha, o‘chirish",
+  "expenseDeleted": "Chiqim o‘chirildi",
+  "errorExpenseNotFound": "Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.",
+  "cashSales": "Naqd savdo",
+  "cashExpenses": "Kassadan chiqim",
+  "shiftExpenses": "Chiqimlar"
 }

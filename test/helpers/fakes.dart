@@ -4,6 +4,8 @@ import 'dart:collection';
 import 'package:bar_app/core/error/failure.dart';
 import 'package:bar_app/features/auth/domain/entities/bar_cashier.dart';
 import 'package:bar_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:bar_app/features/expenses/domain/bar_expense.dart';
+import 'package:bar_app/features/expenses/domain/expenses_repository.dart';
 import 'package:bar_app/features/products/domain/bar_product.dart';
 import 'package:bar_app/features/products/domain/products_repository.dart';
 import 'package:bar_app/features/sale/domain/bar_sale.dart';
@@ -118,4 +120,69 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> clearLocalSession() async => loggedOut = true;
+}
+
+/// One recorded `POST /v1/bar/expenses`.
+class ExpenseRequest {
+  ExpenseRequest(
+    this.clientExpenseId,
+    this.name,
+    this.amountUzs,
+    this.paidFrom,
+    this.note,
+  );
+
+  final String clientExpenseId;
+  final String name;
+  final int amountUzs;
+  final ExpensePaidFrom paidFrom;
+  final String? note;
+}
+
+class FakeExpensesRepository implements ExpensesRepository {
+  /// What `GET /v1/bar/expenses` answers (each call consumes one when
+  /// queued, else [shiftExpenses]).
+  final Queue<Either<Failure, List<BarExpense>>> fetchResults = Queue();
+  List<BarExpense> shiftExpenses = const [];
+  int fetchCalls = 0;
+
+  List<ExpenseSuggestion> suggestions = const [];
+
+  final Queue<Either<Failure, BarExpense>> createResults = Queue();
+  final List<ExpenseRequest> created = [];
+
+  final Queue<Either<Failure, Unit>> deleteResults = Queue();
+  final List<String> deleted = [];
+
+  @override
+  Future<Either<Failure, List<BarExpense>>> fetchShiftExpenses() async {
+    fetchCalls++;
+    return fetchResults.isNotEmpty
+        ? fetchResults.removeFirst()
+        : Right(shiftExpenses);
+  }
+
+  @override
+  Future<Either<Failure, BarExpense>> create({
+    required String clientExpenseId,
+    required String name,
+    required int amountUzs,
+    required ExpensePaidFrom paidFrom,
+    String? note,
+  }) async {
+    created.add(
+      ExpenseRequest(clientExpenseId, name, amountUzs, paidFrom, note),
+    );
+    return createResults.removeFirst();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> delete(String expenseId) async {
+    deleted.add(expenseId);
+    return deleteResults.isNotEmpty ? deleteResults.removeFirst() : right(unit);
+  }
+
+  @override
+  Future<Either<Failure, List<ExpenseSuggestion>>> fetchSuggestions() async =>
+      Right(suggestions);
 }

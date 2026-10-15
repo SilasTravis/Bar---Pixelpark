@@ -1,4 +1,5 @@
 import 'package:bar_app/features/auth/domain/entities/bar_cashier.dart';
+import 'package:bar_app/features/expenses/domain/bar_expense.dart';
 import 'package:bar_app/features/products/domain/bar_product.dart';
 import 'package:bar_app/features/sale/domain/bar_sale.dart';
 
@@ -77,4 +78,23 @@ const colaPricier = BarProduct(
   category: 'Ichimliklar',
   icon: 'ph ph-beer-bottle',
   priceUzs: 15000,
+);
+
+BarExpense expenseFixture({
+  String id = 'exp-1',
+  String name = 'Sut',
+  int amountUzs = 25000,
+  ExpensePaidFrom paidFrom = ExpensePaidFrom.cash,
+  String? note,
+}) => BarExpense(
+  id: id,
+  shiftId: 'shift-1',
+  cashierId: 'c-1',
+  cashierName: 'Aziz',
+  name: name,
+  amountUzs: amountUzs,
+  paidFrom: paidFrom,
+  note: note,
+  spentAt: DateTime.utc(2026, 10, 15, 7, 5),
+  createdAt: DateTime.utc(2026, 10, 15, 7, 5),
 );

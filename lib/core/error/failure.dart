@@ -44,6 +44,7 @@ abstract final class BarErrorCodes {
   static const saleNotInShift = 'BAR_SALE_NOT_IN_SHIFT';
   static const saleAlreadyRefunded = 'BAR_SALE_ALREADY_REFUNDED';
   static const invalidPaymentSplit = 'BAR_INVALID_PAYMENT_SPLIT';
+  static const expenseNotFound = 'BAR_EXPENSE_NOT_FOUND';
 }
 
 /// True when the account itself can no longer work (deactivated cashier or

@@ -51,7 +51,7 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
     final counted = _counted;
     if (counted == null || _submitting) return;
     final l10n = AppLocalization.of(context);
-    final difference = counted - shift.cashTotalUzs;
+    final difference = counted - shift.expectedCashUzs;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -152,11 +152,25 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                 label: l10n.refundedCount,
                 value: '${closed.refundedCount}',
               ),
+              if (closed.expensesUzs > 0)
+                SummaryRow(
+                  label: l10n.shiftExpenses,
+                  value: formatUzs(closed.expensesUzs),
+                ),
               const Divider(height: 20),
               SummaryRow(
                 label: l10n.total,
                 value: formatUzs(closed.totalUzs),
                 emphasize: true,
+              ),
+              if (closed.cashExpensesUzs > 0)
+                SummaryRow(
+                  label: l10n.cashExpenses,
+                  value: formatUzs(-closed.cashExpensesUzs),
+                ),
+              SummaryRow(
+                label: l10n.expectedCash,
+                value: formatUzs(closed.expectedCashUzs),
               ),
               SummaryRow(
                 label: l10n.countedCash,
@@ -230,7 +244,7 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
     final counted = _counted;
     final difference = cashDifference(
       countedCashUzs: counted,
-      cashTotalUzs: shift.cashTotalUzs,
+      expectedCashUzs: shift.expectedCashUzs,
     );
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -265,6 +279,11 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                     label: l10n.refundedCount,
                     value: '${shift.refundedCount}',
                   ),
+                  if (shift.expensesUzs > 0)
+                    SummaryRow(
+                      label: l10n.shiftExpenses,
+                      value: formatUzs(shift.expensesUzs),
+                    ),
                   const Divider(height: 22),
                   SummaryRow(
                     label: l10n.total,
@@ -295,9 +314,21 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                     ),
                   ),
                   const SizedBox(height: 14),
+                  // Expected cash = cash sales − expenses paid from the drawer.
+                  SummaryRow(
+                    label: l10n.cashSales,
+                    value: formatUzs(shift.cashTotalUzs),
+                  ),
+                  SummaryRow(
+                    label: l10n.cashExpenses,
+                    value: formatUzs(-shift.cashExpensesUzs),
+                    valueColor: shift.cashExpensesUzs > 0
+                        ? AppColors.danger
+                        : null,
+                  ),
                   SummaryRow(
                     label: l10n.expectedCash,
-                    value: formatUzs(shift.cashTotalUzs),
+                    value: formatUzs(shift.expectedCashUzs),
                   ),
                   SummaryRow(
                     label: l10n.cashDifference,

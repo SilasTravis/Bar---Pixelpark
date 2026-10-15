@@ -206,5 +206,59 @@
   "updateFailureChecksumMismatch": "Загруженный файл повреждён — контрольная сумма не совпала",
   "updateFailureChecksumUnreadable": "Не удалось прочитать опубликованную контрольную сумму — непроверенное обновление не устанавливается",
   "updateFailureExecutableMissing": "В загруженном архиве не найден исполняемый файл приложения",
-  "updateFailureIncompleteExtraction": "Обновление распаковано не полностью. Загрузка удалена — попробуйте ещё раз"
+  "updateFailureIncompleteExtraction": "Обновление распаковано не полностью. Загрузка удалена — попробуйте ещё раз",
+  "menuExpenses": "Расходы",
+  "expensesTitle": "Расходы",
+  "expensesShiftTotal": "РАСХОДЫ СМЕНЫ",
+  "expensesFromCashTotal": "Из кассы: {amount}",
+  "@expensesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expensesEmpty": "В этой смене ещё нет расходов",
+  "expensesEmptyHint": "Запишите расход из кассы или из другого источника через «Новый расход»",
+  "expenseNew": "Новый расход",
+  "expenseQuickPick": "Быстрый выбор",
+  "expenseName": "Название",
+  "expenseNameHint": "Например: Молоко",
+  "expenseAmount": "Сумма",
+  "expensePaidFrom": "Откуда оплачено",
+  "paidFromCash": "Из кассы",
+  "paidFromOther": "Другое",
+  "expenseNameRequired": "Введите название",
+  "expenseAmountInvalid": "Введите сумму (больше 0, не более 1 млрд)",
+  "expenseSave": "Сохранить",
+  "expenseSaved": "Расход сохранён: {name} — {amount}",
+  "@expenseSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDelete": "Удалить",
+  "expenseDeleteTitle": "Удалить расход",
+  "expenseDeleteMessage": "«{name}» — {amount} будет удалён. Продолжить?",
+  "@expenseDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expenseDeleteConfirm": "Да, удалить",
+  "expenseDeleted": "Расход удалён",
+  "errorExpenseNotFound": "Расход не найден. Удалить можно только свой расход в открытой смене.",
+  "cashSales": "Наличные продажи",
+  "cashExpenses": "Расход из кассы",
+  "shiftExpenses": "Расходы"
 }

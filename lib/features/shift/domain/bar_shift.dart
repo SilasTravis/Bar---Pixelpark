@@ -4,7 +4,8 @@ import '../../../core/utils/json_read.dart';
 import '../../auth/domain/entities/bar_cashier.dart';
 
 /// `BarShift` from the bar API. Totals are computed server-side from
-/// completed sales, so a refund corrects them immediately.
+/// completed sales (and non-deleted expenses), so a refund or a deleted
+/// expense corrects them immediately.
 class BarShift extends Equatable {
   const BarShift({
     required this.id,
@@ -18,10 +19,15 @@ class BarShift extends Equatable {
     this.totalUzs = 0,
     this.salesCount = 0,
     this.refundedCount = 0,
+    this.expensesUzs = 0,
+    this.cashExpensesUzs = 0,
+    int? expectedCashUzs,
     this.countedCashUzs,
     this.cashDifferenceUzs,
     this.note,
-  });
+  }) : // Same formula as [expectedCashOf] (a const constructor cannot
+       // call it).
+       expectedCashUzs = expectedCashUzs ?? cashTotalUzs - cashExpensesUzs;
 
   final String id;
   final BarRef bar;
@@ -35,10 +41,21 @@ class BarShift extends Equatable {
   final int salesCount;
   final int refundedCount;
 
+  /// All of the shift's (non-deleted) expenses; 0 on a backend without
+  /// expenses.
+  final int expensesUzs;
+
+  /// The part of [expensesUzs] taken from the cash drawer.
+  final int cashExpensesUzs;
+
+  /// Cash that must be in the drawer: `cashTotalUzs − cashExpensesUzs`.
+  /// Derived locally when the backend predates expenses.
+  final int expectedCashUzs;
+
   /// Null until the shift is closed.
   final int? countedCashUzs;
 
-  /// `countedCashUzs - cashTotalUzs`; null until closed.
+  /// `countedCashUzs - expectedCashUzs`; null until closed.
   final int? cashDifferenceUzs;
   final String? note;
 
@@ -56,6 +73,9 @@ class BarShift extends Equatable {
     totalUzs: readInt(json['totalUzs']),
     salesCount: readInt(json['salesCount']),
     refundedCount: readInt(json['refundedCount']),
+    expensesUzs: readInt(json['expensesUzs']),
+    cashExpensesUzs: readInt(json['cashExpensesUzs']),
+    expectedCashUzs: readIntOrNull(json['expectedCashUzs']),
     countedCashUzs: readIntOrNull(json['countedCashUzs']),
     cashDifferenceUzs: readIntOrNull(json['cashDifferenceUzs']),
     note: readStringOrNull(json['note']),
@@ -82,16 +102,24 @@ class BarShift extends Equatable {
     totalUzs,
     salesCount,
     refundedCount,
+    expensesUzs,
+    cashExpensesUzs,
+    expectedCashUzs,
     countedCashUzs,
     cashDifferenceUzs,
     note,
   ];
 }
 
-/// The live "farq" on the close-shift screen: counted cash minus what the
-/// shift's cash sales say should be in the drawer. Same formula as the
+/// Cash that should be in the drawer: cash sales minus the expenses paid
+/// from the drawer. Same formula as the backend's `expectedCashUzs`.
+int expectedCashOf({required int cashTotalUzs, required int cashExpensesUzs}) =>
+    cashTotalUzs - cashExpensesUzs;
+
+/// The live "farq" on the close-shift screen: counted cash minus what
+/// should be in the drawer ([BarShift.expectedCashUzs]). Same formula as the
 /// backend's `cashDifferenceUzs`. Null while nothing is typed.
 int? cashDifference({
   required int? countedCashUzs,
-  required int cashTotalUzs,
-}) => countedCashUzs == null ? null : countedCashUzs - cashTotalUzs;
+  required int expectedCashUzs,
+}) => countedCashUzs == null ? null : countedCashUzs - expectedCashUzs;

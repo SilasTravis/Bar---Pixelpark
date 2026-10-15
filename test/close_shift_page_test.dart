@@ -1,4 +1,5 @@
 import 'package:bar_app/core/theme/app_theme.dart';
+import 'package:bar_app/core/widgets/summary_row.dart';
 import 'package:bar_app/features/shift/domain/bar_shift.dart';
 import 'package:bar_app/features/shift/presentation/cubit/shift_cubit.dart';
 import 'package:bar_app/features/shift/presentation/pages/close_shift_page.dart';
@@ -13,22 +14,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'helpers/fakes.dart';
 import 'helpers/fixtures.dart';
 
-BarShift _shift({DateTime? closedAt, int? counted, int? difference}) =>
-    BarShift(
-      id: 'shift-1',
-      bar: bar,
-      cashierId: 'c-1',
-      cashierName: 'Aziz',
-      openedAt: DateTime.utc(2026, 10, 6, 4),
-      closedAt: closedAt,
-      cashTotalUzs: 50000,
-      cardTotalUzs: 30000,
-      totalUzs: 80000,
-      salesCount: 5,
-      refundedCount: 1,
-      countedCashUzs: counted,
-      cashDifferenceUzs: difference,
-    );
+BarShift _shift({
+  DateTime? closedAt,
+  int? counted,
+  int? difference,
+  int cashExpensesUzs = 0,
+  int? expectedCashUzs,
+}) => BarShift(
+  id: 'shift-1',
+  bar: bar,
+  cashierId: 'c-1',
+  cashierName: 'Aziz',
+  openedAt: DateTime.utc(2026, 10, 6, 4),
+  closedAt: closedAt,
+  cashTotalUzs: 50000,
+  cardTotalUzs: 30000,
+  totalUzs: 80000,
+  salesCount: 5,
+  refundedCount: 1,
+  expensesUzs: cashExpensesUzs,
+  cashExpensesUzs: cashExpensesUzs,
+  expectedCashUzs: expectedCashUzs,
+  countedCashUzs: counted,
+  cashDifferenceUzs: difference,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -128,5 +137,59 @@ void main() {
 
     expect(find.byType(CloseShiftPage), findsNothing);
     expect(cubit.state.status, ShiftStatus.none);
+  });
+
+  testWidgets('cash expenses lower the expected cash and the difference', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1000, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    final repo = FakeShiftRepository();
+    final shift = _shift(cashExpensesUzs: 20000, expectedCashUzs: 30000);
+    repo.currentResults
+      ..add(Right(shift))
+      ..add(Right(shift));
+    final cubit = ShiftCubit(repo);
+    addTearDown(cubit.close);
+    await cubit.load();
+
+    await tester.pumpWidget(
+      BlocProvider.value(
+        value: cubit,
+        child: MaterialApp(
+          theme: appTheme,
+          locale: const Locale('uz'),
+          supportedLocales: AppLocalization.delegate.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: const CloseShiftPage(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Naqd savdo'), findsOneWidget);
+    expect(find.text('Kassadan chiqim'), findsOneWidget);
+    expect(find.text("-20 000 so'm"), findsOneWidget);
+    expect(
+      tester
+          .widget<SummaryRow>(find.widgetWithText(SummaryRow, 'Kutilgan naqd'))
+          .value,
+      "30 000 so'm",
+    );
+
+    await tester.enterText(find.byType(TextField).first, '30000');
+    await tester.pumpAndSettle();
+    expect(find.text("0 so'm"), findsOneWidget, reason: 'exact vs expected');
+
+    await tester.enterText(find.byType(TextField).first, '50000');
+    await tester.pumpAndSettle();
+    expect(find.text("+20 000 so'm"), findsOneWidget);
   });
 }
