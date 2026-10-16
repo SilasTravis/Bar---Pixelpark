@@ -7,6 +7,7 @@ import '../../../../core/local_source/local_source.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/update/update_cubit.dart';
+import '../../../../core/update/update_failure_log.dart';
 import '../../../../core/update/update_service.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/title_bar.dart';
@@ -94,7 +95,10 @@ class SettingsPage extends StatelessWidget {
                       const _PrinterCard(),
                       const SizedBox(height: 16),
                       BlocProvider<UpdateCubit>(
-                        create: (_) => UpdateCubit(updateService),
+                        create: (_) => UpdateCubit(
+                          updateService,
+                          failureLog: sl<UpdateFailureLog>(),
+                        ),
                         child: const UpdateCard(),
                       ),
                       const SizedBox(height: 16),

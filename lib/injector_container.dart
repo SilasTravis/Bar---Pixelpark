@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
@@ -9,7 +11,9 @@ import 'core/localization/locale_cubit.dart';
 import 'core/network/api_client.dart';
 import 'core/network/token_refresher.dart';
 import 'core/printing/bar_receipt_printer.dart';
+import 'core/terminal/terminal_heartbeat_service.dart';
 import 'core/update/release_source.dart';
+import 'core/update/update_failure_log.dart';
 import 'core/update/update_service.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
@@ -62,6 +66,10 @@ Future<void> init() async {
     dispose: (service) => service.dispose(),
   );
 
+  sl.registerSingleton<UpdateFailureLog>(
+    UpdateFailureLog(localSource: sl(), currentVersion: packageInfo.version),
+  );
+
   sl.registerFactory<LocaleCubit>(() => LocaleCubit(sl()));
   sl.registerLazySingleton<BarReceiptPrinter>(
     () =>
@@ -73,6 +81,25 @@ Future<void> init() async {
   _productsFeature();
   _saleFeature();
   _expensesFeature();
+  _terminalFeature(packageInfo.version);
+}
+
+/// Lazy and not started here: `main()` starts it, so `init()` in tests
+/// never leaves a periodic timer behind. `sl.reset()` disposes it.
+void _terminalFeature(String appVersion) {
+  sl.registerLazySingleton<TerminalHeartbeatService>(
+    () => TerminalHeartbeatService(
+      api: sl<Dio>(),
+      hasSession: () => sl<LocalSource>().hasSession,
+      sessionChanges: sl<LocalSource>().watchAccessToken(),
+      terminalId: sl<LocalSource>().getTerminalId,
+      appVersion: appVersion,
+      lastUpdateFailure: sl<UpdateFailureLog>().current,
+      hostname: () => Platform.localHostname,
+      osVersion: () => Platform.operatingSystemVersion,
+    ),
+    dispose: (service) => service.dispose(),
+  );
 }
 
 Future<void> _initHive() async {

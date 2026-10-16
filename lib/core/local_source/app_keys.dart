@@ -15,4 +15,13 @@ abstract final class AppKeys {
   /// printing at all (printing is optional for a bar). Device config, not
   /// session: never cleared on logout.
   static const String receiptPrinterName = 'receiptPrinterName';
+
+  /// This installation's identity for the backend's terminal monitoring.
+  /// Device config, not session: never cleared on logout.
+  static const String terminalId = 'terminalId';
+
+  /// The most recent failed self-update attempt (a JSON-compatible map, see
+  /// `UpdateFailureLog`). Device config, not session: never cleared on
+  /// logout.
+  static const String lastUpdateFailure = 'lastUpdateFailure';
 }

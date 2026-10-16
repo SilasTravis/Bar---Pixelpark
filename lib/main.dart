@@ -4,6 +4,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
 import 'constants/app_constants.dart';
+import 'core/terminal/terminal_heartbeat_service.dart';
 import 'core/theme/app_colors.dart';
 import 'core/update/update_service.dart';
 import 'injector_container.dart' as di;
@@ -12,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   di.sl<UpdateService>().startBackgroundChecks();
+  di.sl<TerminalHeartbeatService>().start();
 
   await windowManager.ensureInitialized();
   const windowOptions = WindowOptions(
