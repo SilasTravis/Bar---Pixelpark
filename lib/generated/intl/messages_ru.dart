@@ -36,27 +36,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(amount) => "В кассу: ${amount}";
 
-  static String m7(cash, card) => "Н ${cash} · К ${card}";
+  static String m7(qty) => "Минимум: ${qty}";
 
-  static String m8(total) => "Итого: ${total}";
+  static String m8(cash, card) => "Н ${cash} · К ${card}";
 
-  static String m9(name) => "${name} (сейчас не подключён)";
+  static String m9(total) => "Итого: ${total}";
 
-  static String m10(receiptNo) => "Чек #${receiptNo} отменён";
+  static String m10(name) => "${name} (сейчас не подключён)";
 
-  static String m11(total) =>
+  static String m11(name) => "Рецепт: ${name}";
+
+  static String m12(receiptNo) => "Чек #${receiptNo} отменён";
+
+  static String m13(total) =>
       "Вся продажа будет отменена, ${total} исключится из выручки смены. Верните деньги покупателю.";
 
-  static String m12(reason) => "Причина: ${reason}";
+  static String m14(reason) => "Причина: ${reason}";
 
-  static String m13(receiptNo) => "Отмена чека #${receiptNo}";
+  static String m15(receiptNo) => "Отмена чека #${receiptNo}";
 
-  static String m14(receiptNo, total) =>
+  static String m16(receiptNo, total) =>
       "Чек #${receiptNo} — продано на ${total}";
 
-  static String m15(time) => "Смена с ${time}";
+  static String m17(time) => "Смена с ${time}";
 
-  static String m16(version) => "Доступна новая версия: ${version}";
+  static String m18(version) => "Доступна новая версия: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -198,6 +202,57 @@ class MessageLookup extends MessageLookupByLibrary {
     "incomesShiftTotal": MessageLookupByLibrary.simpleMessage("ПРИХОДЫ СМЕНЫ"),
     "incomesTitle": MessageLookupByLibrary.simpleMessage("Приходы"),
     "increase": MessageLookupByLibrary.simpleMessage("Увеличить"),
+    "inventoryAll": MessageLookupByLibrary.simpleMessage("Все"),
+    "inventoryClose": MessageLookupByLibrary.simpleMessage("Закрыть"),
+    "inventoryEdit": MessageLookupByLibrary.simpleMessage("Изменить"),
+    "inventoryEmpty": MessageLookupByLibrary.simpleMessage(
+      "На складе пока нет товаров",
+    ),
+    "inventoryEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Добавьте кофе, молоко, сахар и т. д. через «Новый товар»",
+    ),
+    "inventoryEmptyLow": MessageLookupByLibrary.simpleMessage(
+      "Нет товаров с низким остатком",
+    ),
+    "inventoryEmptySearch": MessageLookupByLibrary.simpleMessage(
+      "Ничего не найдено",
+    ),
+    "inventoryInactive": MessageLookupByLibrary.simpleMessage("Неактивен"),
+    "inventoryLoadMore": MessageLookupByLibrary.simpleMessage("Загрузить ещё"),
+    "inventoryLowFilter": MessageLookupByLibrary.simpleMessage("Заканчиваются"),
+    "inventoryMinQty": m7,
+    "inventoryMovements": MessageLookupByLibrary.simpleMessage(
+      "Последние движения",
+    ),
+    "inventoryNewItem": MessageLookupByLibrary.simpleMessage("Новый товар"),
+    "inventoryNoMovements": MessageLookupByLibrary.simpleMessage(
+      "Движений нет",
+    ),
+    "inventoryOnHand": MessageLookupByLibrary.simpleMessage("Остаток"),
+    "inventorySave": MessageLookupByLibrary.simpleMessage("Сохранить"),
+    "inventorySaved": MessageLookupByLibrary.simpleMessage("Сохранено"),
+    "inventorySearchHint": MessageLookupByLibrary.simpleMessage("Поиск товара"),
+    "inventoryStatusLow": MessageLookupByLibrary.simpleMessage("Мало"),
+    "inventoryStatusOk": MessageLookupByLibrary.simpleMessage("В наличии"),
+    "inventoryStatusOut": MessageLookupByLibrary.simpleMessage("Закончился"),
+    "inventoryTitle": MessageLookupByLibrary.simpleMessage("Склад"),
+    "inventoryUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Склад пока недоступен. Продажи работают как обычно.",
+    ),
+    "itemActive": MessageLookupByLibrary.simpleMessage("Активен"),
+    "itemEditTitle": MessageLookupByLibrary.simpleMessage(
+      "Редактирование товара",
+    ),
+    "itemMinQty": MessageLookupByLibrary.simpleMessage("Порог «мало»"),
+    "itemMinQtyInvalid": MessageLookupByLibrary.simpleMessage(
+      "Введите порог (0 или больше)",
+    ),
+    "itemName": MessageLookupByLibrary.simpleMessage("Название"),
+    "itemNameHint": MessageLookupByLibrary.simpleMessage("Например: Кофе"),
+    "itemNameRequired": MessageLookupByLibrary.simpleMessage(
+      "Введите название",
+    ),
+    "itemUnit": MessageLookupByLibrary.simpleMessage("Единица измерения"),
     "language": MessageLookupByLibrary.simpleMessage("Язык"),
     "languageRussian": MessageLookupByLibrary.simpleMessage("Русский"),
     "languageUzbek": MessageLookupByLibrary.simpleMessage("O‘zbekcha"),
@@ -225,14 +280,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "menuExpenses": MessageLookupByLibrary.simpleMessage("Расходы"),
     "menuHistory": MessageLookupByLibrary.simpleMessage("История смены"),
     "menuIncomes": MessageLookupByLibrary.simpleMessage("Приходы"),
+    "menuInventory": MessageLookupByLibrary.simpleMessage("Склад"),
     "menuSettings": MessageLookupByLibrary.simpleMessage("Настройки"),
     "mixedInvalid": MessageLookupByLibrary.simpleMessage(
       "Наличные и карта вместе должны равняться сумме",
     ),
     "mixedPay": MessageLookupByLibrary.simpleMessage("Оплатить"),
-    "mixedSplitShort": m7,
+    "mixedSplitShort": m8,
     "mixedTitle": MessageLookupByLibrary.simpleMessage("Смешанная оплата"),
-    "mixedTotal": m8,
+    "mixedTotal": m9,
+    "movAdjustment": MessageLookupByLibrary.simpleMessage("Инвентаризация"),
+    "movOther": MessageLookupByLibrary.simpleMessage("Другое"),
+    "movReceipt": MessageLookupByLibrary.simpleMessage("Приход"),
+    "movRefund": MessageLookupByLibrary.simpleMessage("Возврат"),
+    "movSale": MessageLookupByLibrary.simpleMessage("Продажа"),
+    "movWriteoff": MessageLookupByLibrary.simpleMessage("Списание"),
     "noOpenShiftMessage": MessageLookupByLibrary.simpleMessage(
       "Откройте смену, чтобы начать продажи",
     ),
@@ -246,6 +308,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "Комментарий (необязательно)",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "opComment": MessageLookupByLibrary.simpleMessage(
+      "Комментарий (необязательно)",
+    ),
+    "opCount": MessageLookupByLibrary.simpleMessage("Инвентаризация"),
+    "opCountHint": MessageLookupByLibrary.simpleMessage(
+      "Сколько реально на складе сейчас? Остаток будет приведён к этому значению.",
+    ),
+    "opReason": MessageLookupByLibrary.simpleMessage("Причина"),
+    "opReasonRequired": MessageLookupByLibrary.simpleMessage(
+      "Укажите причину (минимум 2 символа)",
+    ),
+    "opReceipt": MessageLookupByLibrary.simpleMessage("Приход"),
+    "opWriteoff": MessageLookupByLibrary.simpleMessage("Списание"),
     "openShift": MessageLookupByLibrary.simpleMessage("Открыть смену"),
     "paidFromCash": MessageLookupByLibrary.simpleMessage("Из кассы"),
     "paidFromOther": MessageLookupByLibrary.simpleMessage("Другое"),
@@ -259,10 +334,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "Без принтера (чек не печатается)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Принтер чеков"),
-    "printerUnavailable": m9,
+    "printerUnavailable": m10,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "В этом баре пока нет активных товаров",
     ),
+    "qtyCountInvalid": MessageLookupByLibrary.simpleMessage(
+      "Введите посчитанное количество (0 или больше)",
+    ),
+    "qtyInvalid": MessageLookupByLibrary.simpleMessage(
+      "Введите количество (больше 0)",
+    ),
+    "qtyLabel": MessageLookupByLibrary.simpleMessage("Количество"),
     "receiptCashier": MessageLookupByLibrary.simpleMessage("Кассир"),
     "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Чек №"),
     "receiptCurrency": MessageLookupByLibrary.simpleMessage("сум"),
@@ -282,21 +364,53 @@ class MessageLookup extends MessageLookupByLibrary {
     "receiptsCount": MessageLookupByLibrary.simpleMessage("Чеки"),
     "receivedToCash": MessageLookupByLibrary.simpleMessage("В кассу"),
     "receivedToOther": MessageLookupByLibrary.simpleMessage("Другое"),
+    "recipeAddIngredient": MessageLookupByLibrary.simpleMessage(
+      "Добавить ингредиент",
+    ),
+    "recipeDuplicate": MessageLookupByLibrary.simpleMessage(
+      "Один ингредиент выбран дважды",
+    ),
+    "recipeEditorTitle": m11,
+    "recipeEmptyInfo": MessageLookupByLibrary.simpleMessage(
+      "Пусто: при продаже этого товара со склада ничего не спишется",
+    ),
+    "recipeIncomplete": MessageLookupByLibrary.simpleMessage(
+      "Заполните каждый ингредиент и его количество",
+    ),
+    "recipeIngredient": MessageLookupByLibrary.simpleMessage("Ингредиент"),
+    "recipeKindPrepared": MessageLookupByLibrary.simpleMessage(
+      "Рецепт (на порцию)",
+    ),
+    "recipeKindReady": MessageLookupByLibrary.simpleMessage(
+      "Готовый товар (за штуку)",
+    ),
+    "recipeNoItems": MessageLookupByLibrary.simpleMessage(
+      "Сначала добавьте товары на склад",
+    ),
+    "recipeSaved": MessageLookupByLibrary.simpleMessage("Рецепт сохранён"),
+    "recipesButton": MessageLookupByLibrary.simpleMessage("Рецепты"),
+    "recipesEmpty": MessageLookupByLibrary.simpleMessage(
+      "Товары для продажи не найдены",
+    ),
+    "recipesHint": MessageLookupByLibrary.simpleMessage(
+      "Выберите товар и укажите ингредиенты на порцию. При продаже они спишутся со склада автоматически.",
+    ),
+    "recipesTitle": MessageLookupByLibrary.simpleMessage("Рецепты"),
     "refresh": MessageLookupByLibrary.simpleMessage("Обновить"),
     "refreshProducts": MessageLookupByLibrary.simpleMessage("Обновить товары"),
     "refund": MessageLookupByLibrary.simpleMessage("Отменить"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Да, отменить"),
-    "refundDone": m10,
-    "refundMessage": m11,
+    "refundDone": m12,
+    "refundMessage": m13,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Причина (необязательно)",
     ),
-    "refundReasonShown": m12,
-    "refundTitle": m13,
+    "refundReasonShown": m14,
+    "refundTitle": m15,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Отменённые"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Удалить"),
     "retry": MessageLookupByLibrary.simpleMessage("Повторить"),
-    "saleCompleted": m14,
+    "saleCompleted": m16,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Нет подключения к интернету. Корзина сохранена — нажмите кнопку оплаты ещё раз, двойного списания не будет.",
     ),
@@ -309,12 +423,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Смена закрыта"),
     "shiftExpenses": MessageLookupByLibrary.simpleMessage("Расходы"),
     "shiftIncomes": MessageLookupByLibrary.simpleMessage("Приходы"),
-    "shiftOpenedAt": m15,
+    "shiftOpenedAt": m17,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Время смены"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("ВЫРУЧКА СМЕНЫ"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Отменён"),
     "total": MessageLookupByLibrary.simpleMessage("Итого"),
-    "updateAvailable": m16,
+    "unitGram": MessageLookupByLibrary.simpleMessage("Граммы (г, кг)"),
+    "unitMl": MessageLookupByLibrary.simpleMessage("Миллилитры (мл, л)"),
+    "unitPcs": MessageLookupByLibrary.simpleMessage("Штуки"),
+    "updateAvailable": m18,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "updateCheck": MessageLookupByLibrary.simpleMessage("Проверить обновления"),
     "updateConfirm": MessageLookupByLibrary.simpleMessage("Продолжить"),

@@ -1,0 +1,362 @@
+import 'package:dartz/dartz.dart' hide State;
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/error/failure.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/failure_message.dart';
+import '../../../../generated/l10n.dart';
+import '../../domain/inventory_repository.dart';
+import '../../domain/stock_item.dart';
+import '../../domain/stock_qty.dart';
+import '../cubit/inventory_cubit.dart';
+import 'qty_field.dart';
+
+/// Kirim / Brak / Sanash for one item. Returns true when saved. The request
+/// id is taken once on open, so Enter / retry after a failure re-sends the
+/// same key and cannot apply twice.
+Future<bool> showStockOpDialog(
+  BuildContext context, {
+  required StockBatchKind kind,
+  required StockItem item,
+}) async {
+  final cubit = context.read<InventoryCubit>();
+  final saved = await showDialog<bool>(
+    context: context,
+    builder: (_) => BlocProvider.value(
+      value: cubit,
+      child: _StockOpDialog(kind: kind, item: item),
+    ),
+  );
+  return saved ?? false;
+}
+
+class _StockOpDialog extends StatefulWidget {
+  const _StockOpDialog({required this.kind, required this.item});
+
+  final StockBatchKind kind;
+  final StockItem item;
+
+  @override
+  State<_StockOpDialog> createState() => _StockOpDialogState();
+}
+
+class _StockOpDialogState extends State<_StockOpDialog> {
+  late final String _requestId = context.read<InventoryCubit>().newRequestId();
+  final _reason = TextEditingController();
+  int? _qty;
+  String? _qtyError;
+  String? _reasonError;
+  String? _failure;
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _reason.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (_saving) return;
+    final l10n = AppLocalization.of(context);
+    final isCount = widget.kind == StockBatchKind.count;
+    final isWriteoff = widget.kind == StockBatchKind.writeoff;
+    final qtyError = _qty == null
+        ? (isCount ? l10n.qtyCountInvalid : l10n.qtyInvalid)
+        : null;
+    final reasonError = isWriteoff && _reason.text.trim().length < 2
+        ? l10n.opReasonRequired
+        : null;
+    if (qtyError != null || reasonError != null) {
+      setState(() {
+        _qtyError = qtyError;
+        _reasonError = reasonError;
+      });
+      return;
+    }
+    setState(() {
+      _qtyError = null;
+      _reasonError = null;
+      _failure = null;
+      _saving = true;
+    });
+    final cubit = context.read<InventoryCubit>();
+    final Either<Failure, Unit> result = await cubit.submit(
+      widget.kind,
+      requestId: _requestId,
+      stockItemId: widget.item.id,
+      qty: _qty!,
+      reason: _reason.text.trim().isEmpty ? null : _reason.text.trim(),
+    );
+    if (!mounted) return;
+    result.fold(
+      (failure) => setState(() {
+        _saving = false;
+        _failure = failureMessage(l10n, failure);
+      }),
+      (_) => Navigator.of(context).pop(true),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalization.of(context);
+    final item = widget.item;
+    final (title, icon) = switch (widget.kind) {
+      StockBatchKind.receipt => (l10n.opReceipt, Icons.add_circle_outline),
+      StockBatchKind.writeoff => (l10n.opWriteoff, Icons.delete_outline),
+      StockBatchKind.count => (l10n.opCount, Icons.fact_check_outlined),
+    };
+    final isCount = widget.kind == StockBatchKind.count;
+    final isWriteoff = widget.kind == StockBatchKind.writeoff;
+    return AlertDialog(
+      backgroundColor: AppColors.surface,
+      icon: Icon(icon, color: AppColors.accent, size: 30),
+      title: Text('$title: ${item.name}', style: AppTextStyles.h4),
+      content: SizedBox(
+        width: 420,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${l10n.inventoryOnHand}: ${formatQty(item.qtyOnHand, item.unit)}',
+              style: AppTextStyles.muted(AppTextStyles.body),
+            ),
+            if (isCount) ...[
+              const SizedBox(height: 4),
+              Text(
+                l10n.opCountHint,
+                style: AppTextStyles.muted(
+                  AppTextStyles.body,
+                ).copyWith(fontSize: 13),
+              ),
+            ],
+            const SizedBox(height: 14),
+            QtyField(
+              unit: item.unit,
+              label: l10n.qtyLabel,
+              allowZero: isCount,
+              autofocus: true,
+              onChanged: (v) => _qty = v,
+              onSubmitted: isWriteoff ? null : _save,
+            ),
+            if (_qtyError != null) _ErrorText(_qtyError!),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _reason,
+              decoration: InputDecoration(
+                labelText: isWriteoff ? l10n.opReason : l10n.opComment,
+              ),
+              onSubmitted: (_) => _save(),
+            ),
+            if (_reasonError != null) _ErrorText(_reasonError!),
+            if (_failure != null) _ErrorText(_failure!),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _saving ? null : () => Navigator.of(context).pop(false),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          style: isWriteoff
+              ? FilledButton.styleFrom(backgroundColor: AppColors.danger)
+              : null,
+          onPressed: _saving ? null : _save,
+          child: Text(l10n.inventorySave),
+        ),
+      ],
+    );
+  }
+}
+
+class _ErrorText extends StatelessWidget {
+  const _ErrorText(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: 6),
+    child: Text(
+      text,
+      style: const TextStyle(color: AppColors.danger, fontSize: 13),
+    ),
+  );
+}
+
+/// Create (item == null) or edit an item. The unit is fixed after creation.
+Future<bool> showItemFormDialog(BuildContext context, {StockItem? item}) async {
+  final cubit = context.read<InventoryCubit>();
+  final saved = await showDialog<bool>(
+    context: context,
+    builder: (_) => BlocProvider.value(
+      value: cubit,
+      child: _ItemFormDialog(item: item),
+    ),
+  );
+  return saved ?? false;
+}
+
+class _ItemFormDialog extends StatefulWidget {
+  const _ItemFormDialog({this.item});
+
+  final StockItem? item;
+
+  @override
+  State<_ItemFormDialog> createState() => _ItemFormDialogState();
+}
+
+class _ItemFormDialogState extends State<_ItemFormDialog> {
+  late final _name = TextEditingController(text: widget.item?.name ?? '');
+  late StockUnit _unit = widget.item?.unit ?? StockUnit.g;
+  late bool _active = widget.item?.active ?? true;
+  late int? _minQty = widget.item?.minQty ?? 0;
+  String? _nameError;
+  String? _minError;
+  String? _failure;
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (_saving) return;
+    final l10n = AppLocalization.of(context);
+    final nameError = _name.text.trim().isEmpty ? l10n.itemNameRequired : null;
+    final minError = _minQty == null ? l10n.itemMinQtyInvalid : null;
+    if (nameError != null || minError != null) {
+      setState(() {
+        _nameError = nameError;
+        _minError = minError;
+      });
+      return;
+    }
+    setState(() {
+      _nameError = null;
+      _minError = null;
+      _failure = null;
+      _saving = true;
+    });
+    final cubit = context.read<InventoryCubit>();
+    final item = widget.item;
+    final result = item == null
+        ? await cubit.createItem(
+            name: _name.text,
+            unit: _unit,
+            minQty: _minQty!,
+          )
+        : await cubit.updateItem(
+            item.id,
+            name: _name.text,
+            minQty: _minQty,
+            active: _active,
+          );
+    if (!mounted) return;
+    result.fold(
+      (failure) => setState(() {
+        _saving = false;
+        _failure = failureMessage(l10n, failure);
+      }),
+      (_) => Navigator.of(context).pop(true),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalization.of(context);
+    final editing = widget.item != null;
+    return AlertDialog(
+      backgroundColor: AppColors.surface,
+      title: Text(
+        editing ? l10n.itemEditTitle : l10n.inventoryNewItem,
+        style: AppTextStyles.h4,
+      ),
+      content: SizedBox(
+        width: 440,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _name,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: l10n.itemName,
+                  hintText: l10n.itemNameHint,
+                  errorText: _nameError,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Text(l10n.itemUnit, style: AppTextStyles.kicker),
+              const SizedBox(height: 6),
+              SegmentedButton<StockUnit>(
+                showSelectedIcon: false,
+                segments: [
+                  ButtonSegment(value: StockUnit.g, label: Text(l10n.unitGram)),
+                  ButtonSegment(value: StockUnit.ml, label: Text(l10n.unitMl)),
+                  ButtonSegment(
+                    value: StockUnit.pcs,
+                    label: Text(l10n.unitPcs),
+                  ),
+                ],
+                selected: {_unit},
+                // The unit cannot change once the item holds stock.
+                onSelectionChanged: editing
+                    ? null
+                    : (s) => setState(() => _unit = s.first),
+              ),
+              const SizedBox(height: 14),
+              // Re-keyed on unit so the unit switch (g/kg) matches the unit.
+              QtyField(
+                key: ValueKey(_unit),
+                unit: _unit,
+                label: l10n.itemMinQty,
+                allowZero: true,
+                initialBase: _minQty,
+                onChanged: (v) => _minQty = v,
+              ),
+              if (_minError != null)
+                Text(
+                  _minError!,
+                  style: const TextStyle(color: AppColors.danger, fontSize: 13),
+                ),
+              if (editing)
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.itemActive),
+                  value: _active,
+                  onChanged: (v) => setState(() => _active = v),
+                ),
+              if (_failure != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    _failure!,
+                    style: const TextStyle(color: AppColors.danger),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _saving ? null : () => Navigator.of(context).pop(false),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          onPressed: _saving ? null : _save,
+          child: Text(l10n.inventorySave),
+        ),
+      ],
+    );
+  }
+}

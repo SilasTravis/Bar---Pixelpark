@@ -29,6 +29,10 @@ import 'features/incomes/data/incomes_remote_data_source.dart';
 import 'features/incomes/data/incomes_repository_impl.dart';
 import 'features/incomes/domain/incomes_repository.dart';
 import 'features/incomes/presentation/cubit/incomes_cubit.dart';
+import 'features/inventory/data/inventory_remote_data_source.dart';
+import 'features/inventory/data/inventory_repository_impl.dart';
+import 'features/inventory/domain/inventory_repository.dart';
+import 'features/inventory/presentation/cubit/inventory_cubit.dart';
 import 'features/products/data/products_remote_data_source.dart';
 import 'features/products/data/products_repository_impl.dart';
 import 'features/products/domain/products_repository.dart';
@@ -86,6 +90,7 @@ Future<void> init() async {
   _saleFeature();
   _expensesFeature();
   _incomesFeature();
+  _inventoryFeature();
   _terminalFeature(packageInfo.version);
 }
 
@@ -169,5 +174,15 @@ void _incomesFeature() {
   );
   sl.registerLazySingleton<IncomesRemoteDataSource>(
     () => IncomesRemoteDataSourceImpl(sl()),
+  );
+}
+
+void _inventoryFeature() {
+  sl.registerFactory<InventoryCubit>(() => InventoryCubit(sl()));
+  sl.registerLazySingleton<InventoryRepository>(
+    () => InventoryRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<InventoryRemoteDataSource>(
+    () => InventoryRemoteDataSource(sl()),
   );
 }

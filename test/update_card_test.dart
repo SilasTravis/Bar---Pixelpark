@@ -345,53 +345,49 @@ void main() {
   // UpdateFailureCode.unsupportedPlatform) rather than replacing the
   // process, and landing in that failure state — reachable no other way
   // from UpdateReadyToRestart — is the proof restart() actually ran.
-  testWidgets(
-    'confirming the restart dialog calls UpdateCubit.restart()',
-    (tester) async {
-      late UpdateCubit cubit;
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalization.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalization.delegate.supportedLocales,
-          locale: const Locale('uz'),
-          home: Scaffold(
-            body: BlocProvider<UpdateCubit>(
-              create: (_) {
-                cubit = _StaticCubit(
-                  UpdateReadyToRestart(_release(), Directory.systemTemp),
-                );
-                return cubit;
-              },
-              child: const UpdateCard(),
-            ),
+  testWidgets('confirming the restart dialog calls UpdateCubit.restart()', (
+    tester,
+  ) async {
+    late UpdateCubit cubit;
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [
+          AppLocalization.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalization.delegate.supportedLocales,
+        locale: const Locale('uz'),
+        home: Scaffold(
+          body: BlocProvider<UpdateCubit>(
+            create: (_) {
+              cubit = _StaticCubit(
+                UpdateReadyToRestart(_release(), Directory.systemTemp),
+              );
+              return cubit;
+            },
+            child: const UpdateCard(),
           ),
         ),
-      );
-      await tester.pumpAndSettle();
+      ),
+    );
+    await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Qayta ishga tushirish'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Davom etish'));
-      await tester.pumpAndSettle();
+    await tester.tap(find.text('Qayta ishga tushirish'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Davom etish'));
+    await tester.pumpAndSettle();
 
-      final failure = cubit.state;
-      expect(failure, isA<UpdateFailureKnown>());
-      expect(
-        (failure as UpdateFailureKnown).code,
-        UpdateFailureCode.unsupportedPlatform,
-      );
-      expect(
-        find.text(
-          'Yangilanmadi: Avtomatik yangilash faqat Windows’da ishlaydi',
-        ),
-        findsOneWidget,
-      );
-    },
-    skip: Platform.isWindows,
-  );
+    final failure = cubit.state;
+    expect(failure, isA<UpdateFailureKnown>());
+    expect(
+      (failure as UpdateFailureKnown).code,
+      UpdateFailureCode.unsupportedPlatform,
+    );
+    expect(
+      find.text('Yangilanmadi: Avtomatik yangilash faqat Windows’da ishlaydi'),
+      findsOneWidget,
+    );
+  }, skip: Platform.isWindows);
 }
