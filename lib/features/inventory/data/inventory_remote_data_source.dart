@@ -84,7 +84,12 @@ class InventoryRemoteDataSource {
         'requestId': requestId,
         if (trimmed != null && trimmed.isNotEmpty) 'reason': trimmed,
         'lines': [
-          {'stockItemId': stockItemId, 'qty': qty},
+          {
+            'stockItemId': stockItemId,
+            // A count line is the counted total, not a delta: the backend
+            // names it `countedQty` (receipt / writeoff lines use `qty`).
+            if (kind == StockBatchKind.count) 'countedQty': qty else 'qty': qty,
+          },
         ],
       },
     );
