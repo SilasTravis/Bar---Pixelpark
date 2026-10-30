@@ -6,6 +6,8 @@ import 'package:bar_app/features/auth/domain/entities/bar_cashier.dart';
 import 'package:bar_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:bar_app/features/expenses/domain/bar_expense.dart';
 import 'package:bar_app/features/expenses/domain/expenses_repository.dart';
+import 'package:bar_app/features/incomes/domain/bar_income.dart';
+import 'package:bar_app/features/incomes/domain/incomes_repository.dart';
 import 'package:bar_app/features/products/domain/bar_product.dart';
 import 'package:bar_app/features/products/domain/products_repository.dart';
 import 'package:bar_app/features/sale/domain/bar_sale.dart';
@@ -184,5 +186,70 @@ class FakeExpensesRepository implements ExpensesRepository {
 
   @override
   Future<Either<Failure, List<ExpenseSuggestion>>> fetchSuggestions() async =>
+      Right(suggestions);
+}
+
+/// One recorded `POST /v1/bar/incomes`.
+class IncomeRequest {
+  IncomeRequest(
+    this.clientIncomeId,
+    this.name,
+    this.amountUzs,
+    this.receivedTo,
+    this.note,
+  );
+
+  final String clientIncomeId;
+  final String name;
+  final int amountUzs;
+  final IncomeReceivedTo receivedTo;
+  final String? note;
+}
+
+class FakeIncomesRepository implements IncomesRepository {
+  /// What `GET /v1/bar/incomes` answers (each call consumes one when
+  /// queued, else [shiftIncomes]).
+  final Queue<Either<Failure, List<BarIncome>>> fetchResults = Queue();
+  List<BarIncome> shiftIncomes = const [];
+  int fetchCalls = 0;
+
+  List<IncomeSuggestion> suggestions = const [];
+
+  final Queue<Either<Failure, BarIncome>> createResults = Queue();
+  final List<IncomeRequest> created = [];
+
+  final Queue<Either<Failure, Unit>> deleteResults = Queue();
+  final List<String> deleted = [];
+
+  @override
+  Future<Either<Failure, List<BarIncome>>> fetchShiftIncomes() async {
+    fetchCalls++;
+    return fetchResults.isNotEmpty
+        ? fetchResults.removeFirst()
+        : Right(shiftIncomes);
+  }
+
+  @override
+  Future<Either<Failure, BarIncome>> create({
+    required String clientIncomeId,
+    required String name,
+    required int amountUzs,
+    required IncomeReceivedTo receivedTo,
+    String? note,
+  }) async {
+    created.add(
+      IncomeRequest(clientIncomeId, name, amountUzs, receivedTo, note),
+    );
+    return createResults.removeFirst();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> delete(String incomeId) async {
+    deleted.add(incomeId);
+    return deleteResults.isNotEmpty ? deleteResults.removeFirst() : right(unit);
+  }
+
+  @override
+  Future<Either<Failure, List<IncomeSuggestion>>> fetchSuggestions() async =>
       Right(suggestions);
 }

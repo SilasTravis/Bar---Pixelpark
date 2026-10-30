@@ -157,6 +157,11 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                   label: l10n.shiftExpenses,
                   value: formatUzs(closed.expensesUzs),
                 ),
+              if (closed.incomesUzs > 0)
+                SummaryRow(
+                  label: l10n.shiftIncomes,
+                  value: formatUzs(closed.incomesUzs),
+                ),
               const Divider(height: 20),
               SummaryRow(
                 label: l10n.total,
@@ -167,6 +172,11 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                 SummaryRow(
                   label: l10n.cashExpenses,
                   value: formatUzs(-closed.cashExpensesUzs),
+                ),
+              if (closed.cashIncomesUzs > 0)
+                SummaryRow(
+                  label: l10n.cashIncomes,
+                  value: formatUzs(closed.cashIncomesUzs),
                 ),
               SummaryRow(
                 label: l10n.expectedCash,
@@ -284,6 +294,11 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                       label: l10n.shiftExpenses,
                       value: formatUzs(shift.expensesUzs),
                     ),
+                  if (shift.incomesUzs > 0)
+                    SummaryRow(
+                      label: l10n.shiftIncomes,
+                      value: formatUzs(shift.incomesUzs),
+                    ),
                   const Divider(height: 22),
                   SummaryRow(
                     label: l10n.total,
@@ -314,7 +329,7 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                     ),
                   ),
                   const SizedBox(height: 14),
-                  // Expected cash = cash sales − expenses paid from the drawer.
+                  // Expected cash = cash sales − cash expenses + cash incomes (server value).
                   SummaryRow(
                     label: l10n.cashSales,
                     value: formatUzs(shift.cashTotalUzs),
@@ -326,6 +341,12 @@ class _CloseShiftPageState extends State<CloseShiftPage> {
                         ? AppColors.danger
                         : null,
                   ),
+                  if (shift.cashIncomesUzs > 0)
+                    SummaryRow(
+                      label: l10n.cashIncomes,
+                      value: formatUzs(shift.cashIncomesUzs),
+                      valueColor: AppColors.cash,
+                    ),
                   SummaryRow(
                     label: l10n.expectedCash,
                     value: formatUzs(shift.expectedCashUzs),

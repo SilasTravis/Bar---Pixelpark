@@ -260,5 +260,58 @@
   "errorExpenseNotFound": "Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.",
   "cashSales": "Naqd savdo",
   "cashExpenses": "Kassadan chiqim",
-  "shiftExpenses": "Chiqimlar"
+  "shiftExpenses": "Chiqimlar",
+  "menuIncomes": "Kirimlar",
+  "incomesTitle": "Kirimlar",
+  "incomesShiftTotal": "SMENA KIRIMI",
+  "incomesFromCashTotal": "Kassaga: {amount}",
+  "@incomesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomesEmpty": "Bu smenada hali kirim yo‘q",
+  "incomesEmptyHint": "Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing",
+  "incomeNew": "Yangi kirim",
+  "incomeQuickPick": "Tez tanlash",
+  "incomeName": "Nomi",
+  "incomeNameHint": "Masalan: Depozit",
+  "incomeAmount": "Summa",
+  "incomeReceivedTo": "Qayerga tushdi",
+  "receivedToCash": "Kassaga",
+  "receivedToOther": "Boshqa",
+  "incomeNameRequired": "Nomini kiriting",
+  "incomeAmountInvalid": "Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)",
+  "incomeSave": "Saqlash",
+  "incomeSaved": "Kirim saqlandi: {name} — {amount}",
+  "@incomeSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDelete": "O‘chirish",
+  "incomeDeleteTitle": "Kirimni o‘chirish",
+  "incomeDeleteMessage": "“{name}” — {amount} o‘chiriladi. Davom etasizmi?",
+  "@incomeDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDeleteConfirm": "Ha, o‘chirish",
+  "incomeDeleted": "Kirim o‘chirildi",
+  "errorIncomeNotFound": "Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.",
+  "cashIncomes": "Kassaga kirim",
+  "shiftIncomes": "Kirimlar"
 }

@@ -260,5 +260,58 @@
   "errorExpenseNotFound": "Расход не найден. Удалить можно только свой расход в открытой смене.",
   "cashSales": "Наличные продажи",
   "cashExpenses": "Расход из кассы",
-  "shiftExpenses": "Расходы"
+  "shiftExpenses": "Расходы",
+  "menuIncomes": "Приходы",
+  "incomesTitle": "Приходы",
+  "incomesShiftTotal": "ПРИХОДЫ СМЕНЫ",
+  "incomesFromCashTotal": "В кассу: {amount}",
+  "@incomesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomesEmpty": "В этой смене ещё нет приходов",
+  "incomesEmptyHint": "Запишите деньги, поступившие в кассу или в другое место, через «Новый приход»",
+  "incomeNew": "Новый приход",
+  "incomeQuickPick": "Быстрый выбор",
+  "incomeName": "Название",
+  "incomeNameHint": "Например: Депозит",
+  "incomeAmount": "Сумма",
+  "incomeReceivedTo": "Куда поступило",
+  "receivedToCash": "В кассу",
+  "receivedToOther": "Другое",
+  "incomeNameRequired": "Введите название",
+  "incomeAmountInvalid": "Введите сумму (больше 0, не более 1 млрд)",
+  "incomeSave": "Сохранить",
+  "incomeSaved": "Приход сохранён: {name} — {amount}",
+  "@incomeSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDelete": "Удалить",
+  "incomeDeleteTitle": "Удалить приход",
+  "incomeDeleteMessage": "«{name}» — {amount} будет удалён. Продолжить?",
+  "@incomeDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDeleteConfirm": "Да, удалить",
+  "incomeDeleted": "Приход удалён",
+  "errorIncomeNotFound": "Приход не найден. Удалить можно только свой приход в открытой смене.",
+  "cashIncomes": "Приход в кассу",
+  "shiftIncomes": "Приходы"
 }

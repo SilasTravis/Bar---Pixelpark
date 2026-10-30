@@ -28,6 +28,8 @@ String failureMessage(AppLocalization l10n, Failure failure) {
       return l10n.errorInvalidPaymentSplit;
     case BarErrorCodes.expenseNotFound:
       return l10n.errorExpenseNotFound;
+    case BarErrorCodes.incomeNotFound:
+      return l10n.errorIncomeNotFound;
   }
   if (failure.statusCode == 429) return l10n.errorTooManyAttempts;
   if (failure.isServerError) return l10n.errorServer;

@@ -1318,6 +1318,216 @@ class AppLocalization {
   String get shiftExpenses {
     return Intl.message('Chiqimlar', name: 'shiftExpenses', desc: '', args: []);
   }
+
+  /// `Kirimlar`
+  String get menuIncomes {
+    return Intl.message('Kirimlar', name: 'menuIncomes', desc: '', args: []);
+  }
+
+  /// `Kirimlar`
+  String get incomesTitle {
+    return Intl.message('Kirimlar', name: 'incomesTitle', desc: '', args: []);
+  }
+
+  /// `SMENA KIRIMI`
+  String get incomesShiftTotal {
+    return Intl.message(
+      'SMENA KIRIMI',
+      name: 'incomesShiftTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga: {amount}`
+  String incomesFromCashTotal(String amount) {
+    return Intl.message(
+      'Kassaga: $amount',
+      name: 'incomesFromCashTotal',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Bu smenada hali kirim yo‘q`
+  String get incomesEmpty {
+    return Intl.message(
+      'Bu smenada hali kirim yo‘q',
+      name: 'incomesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing`
+  String get incomesEmptyHint {
+    return Intl.message(
+      'Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing',
+      name: 'incomesEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yangi kirim`
+  String get incomeNew {
+    return Intl.message('Yangi kirim', name: 'incomeNew', desc: '', args: []);
+  }
+
+  /// `Tez tanlash`
+  String get incomeQuickPick {
+    return Intl.message(
+      'Tez tanlash',
+      name: 'incomeQuickPick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nomi`
+  String get incomeName {
+    return Intl.message('Nomi', name: 'incomeName', desc: '', args: []);
+  }
+
+  /// `Masalan: Depozit`
+  String get incomeNameHint {
+    return Intl.message(
+      'Masalan: Depozit',
+      name: 'incomeNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summa`
+  String get incomeAmount {
+    return Intl.message('Summa', name: 'incomeAmount', desc: '', args: []);
+  }
+
+  /// `Qayerga tushdi`
+  String get incomeReceivedTo {
+    return Intl.message(
+      'Qayerga tushdi',
+      name: 'incomeReceivedTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga`
+  String get receivedToCash {
+    return Intl.message('Kassaga', name: 'receivedToCash', desc: '', args: []);
+  }
+
+  /// `Boshqa`
+  String get receivedToOther {
+    return Intl.message('Boshqa', name: 'receivedToOther', desc: '', args: []);
+  }
+
+  /// `Nomini kiriting`
+  String get incomeNameRequired {
+    return Intl.message(
+      'Nomini kiriting',
+      name: 'incomeNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)`
+  String get incomeAmountInvalid {
+    return Intl.message(
+      'Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)',
+      name: 'incomeAmountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saqlash`
+  String get incomeSave {
+    return Intl.message('Saqlash', name: 'incomeSave', desc: '', args: []);
+  }
+
+  /// `Kirim saqlandi: {name} — {amount}`
+  String incomeSaved(String name, String amount) {
+    return Intl.message(
+      'Kirim saqlandi: $name — $amount',
+      name: 'incomeSaved',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `O‘chirish`
+  String get incomeDelete {
+    return Intl.message('O‘chirish', name: 'incomeDelete', desc: '', args: []);
+  }
+
+  /// `Kirimni o‘chirish`
+  String get incomeDeleteTitle {
+    return Intl.message(
+      'Kirimni o‘chirish',
+      name: 'incomeDeleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{name}” — {amount} o‘chiriladi. Davom etasizmi?`
+  String incomeDeleteMessage(String name, String amount) {
+    return Intl.message(
+      '“$name” — $amount o‘chiriladi. Davom etasizmi?',
+      name: 'incomeDeleteMessage',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `Ha, o‘chirish`
+  String get incomeDeleteConfirm {
+    return Intl.message(
+      'Ha, o‘chirish',
+      name: 'incomeDeleteConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim o‘chirildi`
+  String get incomeDeleted {
+    return Intl.message(
+      'Kirim o‘chirildi',
+      name: 'incomeDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.`
+  String get errorIncomeNotFound {
+    return Intl.message(
+      'Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.',
+      name: 'errorIncomeNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga kirim`
+  String get cashIncomes {
+    return Intl.message(
+      'Kassaga kirim',
+      name: 'cashIncomes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirimlar`
+  String get shiftIncomes {
+    return Intl.message('Kirimlar', name: 'shiftIncomes', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

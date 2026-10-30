@@ -1,5 +1,6 @@
 import 'package:bar_app/features/auth/domain/entities/bar_cashier.dart';
 import 'package:bar_app/features/expenses/domain/bar_expense.dart';
+import 'package:bar_app/features/incomes/domain/bar_income.dart';
 import 'package:bar_app/features/products/domain/bar_product.dart';
 import 'package:bar_app/features/sale/domain/bar_sale.dart';
 
@@ -96,5 +97,24 @@ BarExpense expenseFixture({
   paidFrom: paidFrom,
   note: note,
   spentAt: DateTime.utc(2026, 10, 15, 7, 5),
+  createdAt: DateTime.utc(2026, 10, 15, 7, 5),
+);
+
+BarIncome incomeFixture({
+  String id = 'inc-1',
+  String name = 'Sut',
+  int amountUzs = 25000,
+  IncomeReceivedTo receivedTo = IncomeReceivedTo.cash,
+  String? note,
+}) => BarIncome(
+  id: id,
+  shiftId: 'shift-1',
+  cashierId: 'c-1',
+  cashierName: 'Aziz',
+  name: name,
+  amountUzs: amountUzs,
+  receivedTo: receivedTo,
+  note: note,
+  receivedAt: DateTime.utc(2026, 10, 15, 7, 5),
   createdAt: DateTime.utc(2026, 10, 15, 7, 5),
 );
