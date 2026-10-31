@@ -325,6 +325,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
     "opAfter": m10,
     "opComment": MessageLookupByLibrary.simpleMessage("Izoh (ixtiyoriy)"),
+    "opCost": MessageLookupByLibrary.simpleMessage(
+      "Umumiy summa, so‘m (ixtiyoriy)",
+    ),
+    "opCostHint": MessageLookupByLibrary.simpleMessage(
+      "Masalan: 5 kg shakar uchun 100 000",
+    ),
     "opCount": MessageLookupByLibrary.simpleMessage("Sanash"),
     "opCountHint": MessageLookupByLibrary.simpleMessage(
       "Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.",

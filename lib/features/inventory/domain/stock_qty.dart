@@ -1,3 +1,4 @@
+import '../../../core/utils/money.dart';
 import 'stock_item.dart';
 
 /// An input unit a quantity can be typed in, with its factor to base units.
@@ -54,3 +55,21 @@ String formatQty(int base, StockUnit unit) {
 /// Signed, for the movements journal (`+500 g`, `-1,5 kg`).
 String formatQtyDelta(int delta, StockUnit unit) =>
     '${delta > 0 ? '+' : ''}${formatQty(delta, unit)}';
+
+/// What one kg / l / dona cost, from the [totalUzs] paid for [qtyBase] base
+/// units: `5 kg for 100 000` → `1 kg = 20 000 so'm`. Null when either is not
+/// positive.
+String? unitPriceText(int totalUzs, int qtyBase, StockUnit unit) {
+  if (totalUzs <= 0 || qtyBase <= 0) return null;
+  final big = unit.bigLabel;
+  final factor = big != null ? 1000 : 1;
+  final perUnit = (totalUzs * factor / qtyBase).round();
+  return '1 ${big ?? unit.baseLabel} = ${formatUzs(perUnit)}';
+}
+
+/// The line stored in the kirim's comment so the purchase price is kept:
+/// `Jami 100 000 so'm · 1 kg = 20 000 so'm`.
+String? purchaseNote(int totalUzs, int qtyBase, StockUnit unit) {
+  final price = unitPriceText(totalUzs, qtyBase, unit);
+  return price == null ? null : 'Jami ${formatUzs(totalUzs)} · $price';
+}

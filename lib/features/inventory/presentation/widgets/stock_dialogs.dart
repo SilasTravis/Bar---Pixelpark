@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
@@ -46,6 +47,7 @@ class _StockOpDialogState extends State<_StockOpDialog> {
   late final String _requestId = context.read<InventoryCubit>().newRequestId();
   final _reason = TextEditingController();
   final _qtyKey = GlobalKey<QtyFieldState>();
+  final _cost = TextEditingController();
   late int? _qty = widget.kind == StockBatchKind.count
       ? widget.item.qtyOnHand
       : null;
@@ -57,7 +59,23 @@ class _StockOpDialogState extends State<_StockOpDialog> {
   @override
   void dispose() {
     _reason.dispose();
+    _cost.dispose();
     super.dispose();
+  }
+
+  int? get _costUzs => int.tryParse(_cost.text.replaceAll(RegExp(r'\D'), ''));
+
+  /// The comment, plus (for a kirim) the purchase price line, so what was
+  /// paid stays in the movements journal.
+  String? _composeReason() {
+    final parts = [
+      if (_reason.text.trim().isNotEmpty) _reason.text.trim(),
+      if (widget.kind == StockBatchKind.receipt &&
+          _qty != null &&
+          _costUzs != null)
+        ?purchaseNote(_costUzs!, _qty!, widget.item.unit),
+    ];
+    return parts.isEmpty ? null : parts.join(' · ');
   }
 
   Future<void> _save() async {
@@ -93,7 +111,7 @@ class _StockOpDialogState extends State<_StockOpDialog> {
       requestId: _requestId,
       stockItemId: widget.item.id,
       qty: _qty!,
-      reason: _reason.text.trim().isEmpty ? null : _reason.text.trim(),
+      reason: _composeReason(),
     );
     if (!mounted) return;
     result.fold(
@@ -191,6 +209,38 @@ class _StockOpDialogState extends State<_StockOpDialog> {
                 ),
               ),
             ],
+            if (widget.kind == StockBatchKind.receipt) ...[
+              const SizedBox(height: 14),
+              TextField(
+                controller: _cost,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+                decoration: InputDecoration(
+                  labelText: l10n.opCost,
+                  hintText: l10n.opCostHint,
+                  suffixText: l10n.receiptCurrency,
+                ),
+                onChanged: (_) => setState(() {}),
+                onSubmitted: (_) => _save(),
+              ),
+              if (_qty != null && _costUzs != null)
+                if (unitPriceText(_costUzs!, _qty!, item.unit)
+                    case final price?)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                      price,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.cash,
+                      ),
+                    ),
+                  ),
+            ],
             const SizedBox(height: 14),
             if (isWriteoff) ...[
               Wrap(
@@ -218,6 +268,7 @@ class _StockOpDialogState extends State<_StockOpDialog> {
             ],
             TextField(
               controller: _reason,
+              maxLength: 200,
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
                 labelText: isWriteoff ? l10n.opReason : l10n.opComment,

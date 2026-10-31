@@ -319,6 +319,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "opComment": MessageLookupByLibrary.simpleMessage(
       "Комментарий (необязательно)",
     ),
+    "opCost": MessageLookupByLibrary.simpleMessage(
+      "Общая сумма, сум (необязательно)",
+    ),
+    "opCostHint": MessageLookupByLibrary.simpleMessage(
+      "Например: 100 000 за 5 кг сахара",
+    ),
     "opCount": MessageLookupByLibrary.simpleMessage("Инвентаризация"),
     "opCountHint": MessageLookupByLibrary.simpleMessage(
       "Сколько реально на складе сейчас? Остаток будет приведён к этому значению.",

@@ -413,5 +413,7 @@
   "reasonExpired": "Muddati o‘tdi",
   "reasonSpilled": "To‘kilib ketdi",
   "reasonOther": "Boshqa",
-  "inventoryTapHint": "Mahsulotni bosing: sanash, tahrirlash, tarix"
+  "inventoryTapHint": "Mahsulotni bosing: sanash, tahrirlash, tarix",
+  "opCost": "Umumiy summa, so‘m (ixtiyoriy)",
+  "opCostHint": "Masalan: 5 kg shakar uchun 100 000"
 }

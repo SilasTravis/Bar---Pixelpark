@@ -2118,6 +2118,26 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `Umumiy summa, so‘m (ixtiyoriy)`
+  String get opCost {
+    return Intl.message(
+      'Umumiy summa, so‘m (ixtiyoriy)',
+      name: 'opCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Masalan: 5 kg shakar uchun 100 000`
+  String get opCostHint {
+    return Intl.message(
+      'Masalan: 5 kg shakar uchun 100 000',
+      name: 'opCostHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
