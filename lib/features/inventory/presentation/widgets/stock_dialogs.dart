@@ -45,7 +45,10 @@ class _StockOpDialog extends StatefulWidget {
 class _StockOpDialogState extends State<_StockOpDialog> {
   late final String _requestId = context.read<InventoryCubit>().newRequestId();
   final _reason = TextEditingController();
-  int? _qty;
+  final _qtyKey = GlobalKey<QtyFieldState>();
+  late int? _qty = widget.kind == StockBatchKind.count
+      ? widget.item.qtyOnHand
+      : null;
   String? _qtyError;
   String? _reasonError;
   String? _failure;
@@ -62,9 +65,12 @@ class _StockOpDialogState extends State<_StockOpDialog> {
     final l10n = AppLocalization.of(context);
     final isCount = widget.kind == StockBatchKind.count;
     final isWriteoff = widget.kind == StockBatchKind.writeoff;
+    final onHand = widget.item.qtyOnHand;
     final qtyError = _qty == null
         ? (isCount ? l10n.qtyCountInvalid : l10n.qtyInvalid)
-        : null;
+        : (isWriteoff && _qty! > onHand
+              ? l10n.opExceeds(formatQty(onHand, widget.item.unit))
+              : null);
     final reasonError = isWriteoff && _reason.text.trim().length < 2
         ? l10n.opReasonRequired
         : null;
@@ -135,17 +141,84 @@ class _StockOpDialogState extends State<_StockOpDialog> {
             ],
             const SizedBox(height: 14),
             QtyField(
+              key: _qtyKey,
               unit: item.unit,
               label: l10n.qtyLabel,
               allowZero: isCount,
               autofocus: true,
-              onChanged: (v) => _qty = v,
+              initialBase: isCount ? item.qtyOnHand : null,
+              onChanged: (v) => setState(() => _qty = v),
               onSubmitted: isWriteoff ? null : _save,
             ),
             if (_qtyError != null) _ErrorText(_qtyError!),
-            const SizedBox(height: 12),
+            if (!isCount) ...[
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final step in _quickSteps(item.unit))
+                    ActionChip(
+                      label: Text(
+                        '+ ${formatQty(step, item.unit)}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 10,
+                      ),
+                      onPressed: () => _qtyKey.currentState?.addBase(step),
+                    ),
+                ],
+              ),
+            ],
+            if (_qty != null) ...[
+              const SizedBox(height: 12),
+              Text(
+                l10n.opAfter(
+                  formatQty(switch (widget.kind) {
+                    StockBatchKind.receipt => item.qtyOnHand + _qty!,
+                    StockBatchKind.writeoff => item.qtyOnHand - _qty!,
+                    StockBatchKind.count => _qty!,
+                  }, item.unit),
+                ),
+                style: AppTextStyles.body.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.accent,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            if (isWriteoff) ...[
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final r in [
+                    l10n.reasonBroken,
+                    l10n.reasonExpired,
+                    l10n.reasonSpilled,
+                    l10n.reasonOther,
+                  ])
+                    ChoiceChip(
+                      label: Text(r, style: const TextStyle(fontSize: 16)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 10,
+                      ),
+                      selected: _reason.text == r,
+                      onSelected: (_) => setState(() => _reason.text = r),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
             TextField(
               controller: _reason,
+              onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
                 labelText: isWriteoff ? l10n.opReason : l10n.opComment,
               ),
@@ -156,21 +229,33 @@ class _StockOpDialogState extends State<_StockOpDialog> {
           ],
         ),
       ),
+      actionsPadding: const EdgeInsets.fromLTRB(24, 8, 24, 20),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(minimumSize: const Size(110, 52)),
           onPressed: _saving ? null : () => Navigator.of(context).pop(false),
           child: Text(l10n.cancel),
         ),
         FilledButton(
-          style: isWriteoff
-              ? FilledButton.styleFrom(backgroundColor: AppColors.danger)
-              : null,
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(160, 52),
+            textStyle: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+            ),
+            backgroundColor: isWriteoff ? AppColors.danger : null,
+          ),
           onPressed: _saving ? null : _save,
           child: Text(l10n.inventorySave),
         ),
       ],
     );
   }
+
+  /// Taps that cover most bar deliveries: grams/ml in 100s, pieces in 1/5/10.
+  static List<int> _quickSteps(StockUnit unit) => unit == StockUnit.pcs
+      ? const [1, 5, 10, 20]
+      : const [100, 500, 1000, 5000];
 }
 
 class _ErrorText extends StatelessWidget {
@@ -347,12 +432,15 @@ class _ItemFormDialogState extends State<_ItemFormDialog> {
           ),
         ),
       ),
+      actionsPadding: const EdgeInsets.fromLTRB(24, 8, 24, 20),
       actions: [
         TextButton(
+          style: TextButton.styleFrom(minimumSize: const Size(110, 52)),
           onPressed: _saving ? null : () => Navigator.of(context).pop(false),
           child: Text(l10n.cancel),
         ),
         FilledButton(
+          style: FilledButton.styleFrom(minimumSize: const Size(160, 52)),
           onPressed: _saving ? null : _save,
           child: Text(l10n.inventorySave),
         ),

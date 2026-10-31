@@ -112,11 +112,9 @@ void main() {
     expect(find.text('Shakar'), findsOneWidget);
   });
 
-  testWidgets('kirim from the item sheet, typing kg', (tester) async {
+  testWidgets('kirim straight from the row, typing kg', (tester) async {
     inventory.items = [stockFixture(qtyOnHand: 500)];
     await pumpPage(tester);
-    await tester.tap(find.text('Kofe'));
-    await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(FilledButton, 'Kirim'));
     await tester.pumpAndSettle();
 
@@ -130,8 +128,47 @@ void main() {
     expect(request.qty, 1500);
     expect(request.requestId, 'key-1');
     expect(request.reason, isNull);
-    // The sheet shows the new balance (2 kg).
-    expect(find.textContaining('Qoldiq: 2 kg'), findsOneWidget);
+    // The row shows the new balance (2 kg).
+    expect(find.text('2 kg'), findsOneWidget);
+  });
+
+  testWidgets('kirim quick chips add to the typed amount, with a preview', (
+    tester,
+  ) async {
+    inventory.items = [stockFixture(qtyOnHand: 500)];
+    await pumpPage(tester);
+    await tester.tap(find.widgetWithText(FilledButton, 'Kirim'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('+ 100 g'));
+    await tester.tap(find.text('+ 500 g'));
+    await tester.pumpAndSettle();
+    expect(find.text('Bo‘ladi: 1,1 kg'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'Saqlash'));
+    await tester.pumpAndSettle();
+    expect(inventory.batches.single.qty, 600);
+  });
+
+  testWidgets('brak cannot exceed the stock; reason chips fill the reason', (
+    tester,
+  ) async {
+    inventory.items = [stockFixture(qtyOnHand: 500)];
+    await pumpPage(tester);
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Brak'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Sindi'));
+    await tester.enterText(dialogField().first, '900');
+    await tester.tap(find.widgetWithText(FilledButton, 'Saqlash'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Omborda buncha yo‘q'), findsOneWidget);
+    expect(inventory.batches, isEmpty);
+
+    await tester.enterText(dialogField().first, '200');
+    await tester.tap(find.widgetWithText(FilledButton, 'Saqlash'));
+    await tester.pumpAndSettle();
+    expect(inventory.batches.single.qty, 200);
+    expect(inventory.batches.single.reason, 'Sindi');
   });
 
   testWidgets('brak needs a reason; failure keeps the dialog and the key', (
@@ -139,9 +176,7 @@ void main() {
   ) async {
     inventory.items = [stockFixture()];
     await pumpPage(tester);
-    await tester.tap(find.text('Kofe'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilledButton, 'Brak'));
+    await tester.tap(find.widgetWithText(OutlinedButton, 'Brak'));
     await tester.pumpAndSettle();
 
     await tester.enterText(dialogField().first, '200');

@@ -112,12 +112,17 @@ class _StockItemSheetState extends State<_StockItemSheet> {
                   runSpacing: 10,
                   children: [
                     FilledButton.icon(
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(140, 52),
+                        backgroundColor: AppColors.cash,
+                      ),
                       onPressed: () => _op(StockBatchKind.receipt, item),
                       icon: const Icon(PhosphorIconsRegular.plus, size: 18),
                       label: Text(l10n.opReceipt),
                     ),
                     FilledButton.icon(
                       style: FilledButton.styleFrom(
+                        minimumSize: const Size(140, 52),
                         backgroundColor: AppColors.danger,
                       ),
                       onPressed: () => _op(StockBatchKind.writeoff, item),
@@ -125,6 +130,9 @@ class _StockItemSheetState extends State<_StockItemSheet> {
                       label: Text(l10n.opWriteoff),
                     ),
                     OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(140, 52),
+                      ),
                       onPressed: () => _op(StockBatchKind.count, item),
                       icon: const Icon(
                         PhosphorIconsRegular.listChecks,
@@ -133,6 +141,9 @@ class _StockItemSheetState extends State<_StockItemSheet> {
                       label: Text(l10n.opCount),
                     ),
                     OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(140, 52),
+                      ),
                       onPressed: () => _edit(item),
                       icon: const Icon(
                         PhosphorIconsRegular.pencilSimple,

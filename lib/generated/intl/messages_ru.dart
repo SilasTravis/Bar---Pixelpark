@@ -42,25 +42,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m9(total) => "Итого: ${total}";
 
-  static String m10(name) => "${name} (сейчас не подключён)";
+  static String m10(qty) => "Станет: ${qty}";
 
-  static String m11(name) => "Рецепт: ${name}";
+  static String m11(qty) => "На складе столько нет (остаток: ${qty})";
 
-  static String m12(receiptNo) => "Чек #${receiptNo} отменён";
+  static String m12(name) => "${name} (сейчас не подключён)";
 
-  static String m13(total) =>
+  static String m13(name) => "Рецепт: ${name}";
+
+  static String m14(receiptNo) => "Чек #${receiptNo} отменён";
+
+  static String m15(total) =>
       "Вся продажа будет отменена, ${total} исключится из выручки смены. Верните деньги покупателю.";
 
-  static String m14(reason) => "Причина: ${reason}";
+  static String m16(reason) => "Причина: ${reason}";
 
-  static String m15(receiptNo) => "Отмена чека #${receiptNo}";
+  static String m17(receiptNo) => "Отмена чека #${receiptNo}";
 
-  static String m16(receiptNo, total) =>
+  static String m18(receiptNo, total) =>
       "Чек #${receiptNo} — продано на ${total}";
 
-  static String m17(time) => "Смена с ${time}";
+  static String m19(time) => "Смена с ${time}";
 
-  static String m18(version) => "Доступна новая версия: ${version}";
+  static String m20(version) => "Доступна новая версия: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -235,6 +239,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "inventoryStatusLow": MessageLookupByLibrary.simpleMessage("Мало"),
     "inventoryStatusOk": MessageLookupByLibrary.simpleMessage("В наличии"),
     "inventoryStatusOut": MessageLookupByLibrary.simpleMessage("Закончился"),
+    "inventoryTapHint": MessageLookupByLibrary.simpleMessage(
+      "Нажмите на товар: пересчёт, правка, история",
+    ),
     "inventoryTitle": MessageLookupByLibrary.simpleMessage("Склад"),
     "inventoryUnavailable": MessageLookupByLibrary.simpleMessage(
       "Склад пока недоступен. Продажи работают как обычно.",
@@ -308,6 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Комментарий (необязательно)",
     ),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "opAfter": m10,
     "opComment": MessageLookupByLibrary.simpleMessage(
       "Комментарий (необязательно)",
     ),
@@ -315,6 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "opCountHint": MessageLookupByLibrary.simpleMessage(
       "Сколько реально на складе сейчас? Остаток будет приведён к этому значению.",
     ),
+    "opExceeds": m11,
     "opReason": MessageLookupByLibrary.simpleMessage("Причина"),
     "opReasonRequired": MessageLookupByLibrary.simpleMessage(
       "Укажите причину (минимум 2 символа)",
@@ -334,7 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Без принтера (чек не печатается)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Принтер чеков"),
-    "printerUnavailable": m10,
+    "printerUnavailable": m12,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "В этом баре пока нет активных товаров",
     ),
@@ -345,6 +354,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Введите количество (больше 0)",
     ),
     "qtyLabel": MessageLookupByLibrary.simpleMessage("Количество"),
+    "reasonBroken": MessageLookupByLibrary.simpleMessage("Разбито"),
+    "reasonExpired": MessageLookupByLibrary.simpleMessage("Срок истёк"),
+    "reasonOther": MessageLookupByLibrary.simpleMessage("Другое"),
+    "reasonSpilled": MessageLookupByLibrary.simpleMessage("Пролито"),
     "receiptCashier": MessageLookupByLibrary.simpleMessage("Кассир"),
     "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Чек №"),
     "receiptCurrency": MessageLookupByLibrary.simpleMessage("сум"),
@@ -370,7 +383,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "recipeDuplicate": MessageLookupByLibrary.simpleMessage(
       "Один ингредиент выбран дважды",
     ),
-    "recipeEditorTitle": m11,
+    "recipeEditorTitle": m13,
     "recipeEmptyInfo": MessageLookupByLibrary.simpleMessage(
       "Пусто: при продаже этого товара со склада ничего не спишется",
     ),
@@ -400,17 +413,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "refreshProducts": MessageLookupByLibrary.simpleMessage("Обновить товары"),
     "refund": MessageLookupByLibrary.simpleMessage("Отменить"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Да, отменить"),
-    "refundDone": m12,
-    "refundMessage": m13,
+    "refundDone": m14,
+    "refundMessage": m15,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Причина (необязательно)",
     ),
-    "refundReasonShown": m14,
-    "refundTitle": m15,
+    "refundReasonShown": m16,
+    "refundTitle": m17,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Отменённые"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Удалить"),
     "retry": MessageLookupByLibrary.simpleMessage("Повторить"),
-    "saleCompleted": m16,
+    "saleCompleted": m18,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Нет подключения к интернету. Корзина сохранена — нажмите кнопку оплаты ещё раз, двойного списания не будет.",
     ),
@@ -423,7 +436,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Смена закрыта"),
     "shiftExpenses": MessageLookupByLibrary.simpleMessage("Расходы"),
     "shiftIncomes": MessageLookupByLibrary.simpleMessage("Приходы"),
-    "shiftOpenedAt": m17,
+    "shiftOpenedAt": m19,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Время смены"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("ВЫРУЧКА СМЕНЫ"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Отменён"),
@@ -431,7 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "unitGram": MessageLookupByLibrary.simpleMessage("Граммы (г, кг)"),
     "unitMl": MessageLookupByLibrary.simpleMessage("Миллилитры (мл, л)"),
     "unitPcs": MessageLookupByLibrary.simpleMessage("Штуки"),
-    "updateAvailable": m18,
+    "updateAvailable": m20,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "updateCheck": MessageLookupByLibrary.simpleMessage("Проверить обновления"),
     "updateConfirm": MessageLookupByLibrary.simpleMessage("Продолжить"),

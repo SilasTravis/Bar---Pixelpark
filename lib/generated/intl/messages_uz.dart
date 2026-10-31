@@ -42,25 +42,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m9(total) => "Jami: ${total}";
 
-  static String m10(name) => "${name} (hozir ulanmagan)";
+  static String m10(qty) => "Bo‘ladi: ${qty}";
 
-  static String m11(name) => "Retsept: ${name}";
+  static String m11(qty) => "Omborda buncha yo‘q (qoldiq: ${qty})";
 
-  static String m12(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+  static String m12(name) => "${name} (hozir ulanmagan)";
 
-  static String m13(total) =>
+  static String m13(name) => "Retsept: ${name}";
+
+  static String m14(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+
+  static String m15(total) =>
       "Butun sotuv bekor qilinadi va ${total} smena tushumidan chiqariladi. Pulni xaridorga qaytaring.";
 
-  static String m14(reason) => "Sabab: ${reason}";
+  static String m16(reason) => "Sabab: ${reason}";
 
-  static String m15(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
+  static String m17(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
 
-  static String m16(receiptNo, total) =>
+  static String m18(receiptNo, total) =>
       "Chek #${receiptNo} — ${total} sotildi";
 
-  static String m17(time) => "Smena: ${time} dan";
+  static String m19(time) => "Smena: ${time} dan";
 
-  static String m18(version) => "Yangi versiya mavjud: ${version}";
+  static String m20(version) => "Yangi versiya mavjud: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -247,6 +251,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "inventoryStatusLow": MessageLookupByLibrary.simpleMessage("Kam"),
     "inventoryStatusOk": MessageLookupByLibrary.simpleMessage("Yetarli"),
     "inventoryStatusOut": MessageLookupByLibrary.simpleMessage("Tugadi"),
+    "inventoryTapHint": MessageLookupByLibrary.simpleMessage(
+      "Mahsulotni bosing: sanash, tahrirlash, tarix",
+    ),
     "inventoryTitle": MessageLookupByLibrary.simpleMessage("Ombor"),
     "inventoryUnavailable": MessageLookupByLibrary.simpleMessage(
       "Ombor hozircha mavjud emas. Savdo odatdagidek ishlayveradi.",
@@ -316,11 +323,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noteOptional": MessageLookupByLibrary.simpleMessage("Izoh (ixtiyoriy)"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "opAfter": m10,
     "opComment": MessageLookupByLibrary.simpleMessage("Izoh (ixtiyoriy)"),
     "opCount": MessageLookupByLibrary.simpleMessage("Sanash"),
     "opCountHint": MessageLookupByLibrary.simpleMessage(
       "Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.",
     ),
+    "opExceeds": m11,
     "opReason": MessageLookupByLibrary.simpleMessage("Sabab"),
     "opReasonRequired": MessageLookupByLibrary.simpleMessage(
       "Sababni kiriting (kamida 2 belgi)",
@@ -340,7 +349,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Printer yo‘q (chek chop etilmaydi)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Chek printeri"),
-    "printerUnavailable": m10,
+    "printerUnavailable": m12,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "Bu barda hali faol mahsulot yo‘q",
     ),
@@ -351,6 +360,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Miqdorni kiriting (0 dan katta)",
     ),
     "qtyLabel": MessageLookupByLibrary.simpleMessage("Miqdor"),
+    "reasonBroken": MessageLookupByLibrary.simpleMessage("Sindi"),
+    "reasonExpired": MessageLookupByLibrary.simpleMessage("Muddati o‘tdi"),
+    "reasonOther": MessageLookupByLibrary.simpleMessage("Boshqa"),
+    "reasonSpilled": MessageLookupByLibrary.simpleMessage("To‘kilib ketdi"),
     "receiptCashier": MessageLookupByLibrary.simpleMessage("Kassir"),
     "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Chek №"),
     "receiptCurrency": MessageLookupByLibrary.simpleMessage("so‘m"),
@@ -376,7 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "recipeDuplicate": MessageLookupByLibrary.simpleMessage(
       "Bir ingredient ikki marta tanlangan",
     ),
-    "recipeEditorTitle": m11,
+    "recipeEditorTitle": m13,
     "recipeEmptyInfo": MessageLookupByLibrary.simpleMessage(
       "Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi",
     ),
@@ -408,17 +421,17 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "refund": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Ha, bekor qilish"),
-    "refundDone": m12,
-    "refundMessage": m13,
+    "refundDone": m14,
+    "refundMessage": m15,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Sabab (ixtiyoriy)",
     ),
-    "refundReasonShown": m14,
-    "refundTitle": m15,
+    "refundReasonShown": m16,
+    "refundTitle": m17,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Bekor qilinganlar"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Olib tashlash"),
     "retry": MessageLookupByLibrary.simpleMessage("Qayta urinish"),
-    "saleCompleted": m16,
+    "saleCompleted": m18,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Internet aloqasi yo‘q. Savat saqlandi — to‘lov tugmasini qayta bosing, pul ikki marta yechilmaydi.",
     ),
@@ -431,7 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Smena yopildi"),
     "shiftExpenses": MessageLookupByLibrary.simpleMessage("Chiqimlar"),
     "shiftIncomes": MessageLookupByLibrary.simpleMessage("Kirimlar"),
-    "shiftOpenedAt": m17,
+    "shiftOpenedAt": m19,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Smena vaqti"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("SMENA TUSHUMI"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Bekor qilingan"),
@@ -439,7 +452,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "unitGram": MessageLookupByLibrary.simpleMessage("Gramm (g, kg)"),
     "unitMl": MessageLookupByLibrary.simpleMessage("Millilitr (ml, l)"),
     "unitPcs": MessageLookupByLibrary.simpleMessage("Dona"),
-    "updateAvailable": m18,
+    "updateAvailable": m20,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "updateCheck": MessageLookupByLibrary.simpleMessage(
       "Yangilanishni tekshirish",

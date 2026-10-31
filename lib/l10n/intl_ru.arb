@@ -392,5 +392,26 @@
   "recipeIncomplete": "Заполните каждый ингредиент и его количество",
   "recipeDuplicate": "Один ингредиент выбран дважды",
   "recipeEmptyInfo": "Пусто: при продаже этого товара со склада ничего не спишется",
-  "recipeSaved": "Рецепт сохранён"
+  "recipeSaved": "Рецепт сохранён",
+  "opAfter": "Станет: {qty}",
+  "@opAfter": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "opExceeds": "На складе столько нет (остаток: {qty})",
+  "@opExceeds": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonBroken": "Разбито",
+  "reasonExpired": "Срок истёк",
+  "reasonSpilled": "Пролито",
+  "reasonOther": "Другое",
+  "inventoryTapHint": "Нажмите на товар: пересчёт, правка, история"
 }

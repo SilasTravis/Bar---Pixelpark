@@ -28,10 +28,10 @@ class QtyField extends StatefulWidget {
   final VoidCallback? onSubmitted;
 
   @override
-  State<QtyField> createState() => _QtyFieldState();
+  State<QtyField> createState() => QtyFieldState();
 }
 
-class _QtyFieldState extends State<QtyField> {
+class QtyFieldState extends State<QtyField> {
   late final List<QtyUnitOption> _options = unitOptionsFor(widget.unit);
   late final TextEditingController _controller;
   late int _selected;
@@ -59,6 +59,21 @@ class _QtyFieldState extends State<QtyField> {
     super.dispose();
   }
 
+  /// Quick-add chips: adds [base] (in base units) to what is typed, shown in
+  /// the currently selected unit.
+  void addBase(int base) {
+    final current =
+        parseQty(_controller.text, _options[_selected], allowZero: true) ?? 0;
+    final shown = (current + base) / _options[_selected].factor;
+    _controller.text = shown == shown.roundToDouble()
+        ? shown.round().toString()
+        : shown.toString();
+    _controller.selection = TextSelection.collapsed(
+      offset: _controller.text.length,
+    );
+    _report();
+  }
+
   void _report() => widget.onChanged(
     parseQty(
       _controller.text,
@@ -80,6 +95,7 @@ class _QtyFieldState extends State<QtyField> {
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
             ],
+            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
             decoration: InputDecoration(labelText: widget.label),
             onChanged: (_) => _report(),
             onSubmitted: (_) => widget.onSubmitted?.call(),

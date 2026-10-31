@@ -392,5 +392,26 @@
   "recipeIncomplete": "Har bir ingredientni va uning miqdorini to‘ldiring",
   "recipeDuplicate": "Bir ingredient ikki marta tanlangan",
   "recipeEmptyInfo": "Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi",
-  "recipeSaved": "Retsept saqlandi"
+  "recipeSaved": "Retsept saqlandi",
+  "opAfter": "Bo‘ladi: {qty}",
+  "@opAfter": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "opExceeds": "Omborda buncha yo‘q (qoldiq: {qty})",
+  "@opExceeds": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonBroken": "Sindi",
+  "reasonExpired": "Muddati o‘tdi",
+  "reasonSpilled": "To‘kilib ketdi",
+  "reasonOther": "Boshqa",
+  "inventoryTapHint": "Mahsulotni bosing: sanash, tahrirlash, tarix"
 }

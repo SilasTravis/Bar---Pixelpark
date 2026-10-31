@@ -12,6 +12,7 @@ import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/title_bar.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injector_container.dart';
+import '../../domain/inventory_repository.dart';
 import '../../domain/stock_item.dart';
 import '../../domain/stock_qty.dart';
 import '../cubit/inventory_cubit.dart';
@@ -104,39 +105,49 @@ class _InventoryBodyState extends State<_InventoryBody> {
       children: [
         Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 820),
+            constraints: const BoxConstraints(maxWidth: 1000),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _search,
-                          onChanged: _onSearch,
-                          decoration: InputDecoration(
-                            hintText: l10n.inventorySearchHint,
-                            prefixIcon: const Icon(
-                              PhosphorIconsRegular.magnifyingGlass,
-                              size: 18,
-                            ),
+                      TextField(
+                        controller: _search,
+                        onChanged: _onSearch,
+                        style: const TextStyle(fontSize: 18),
+                        decoration: InputDecoration(
+                          hintText: l10n.inventorySearchHint,
+                          prefixIcon: const Icon(
+                            PhosphorIconsRegular.magnifyingGlass,
+                            size: 22,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(height: 12),
                       BlocBuilder<InventoryCubit, InventoryState>(
                         buildWhen: (a, b) => a.lowOnly != b.lowOnly,
-                        builder: (context, state) => FilterChip(
-                          label: Text(l10n.inventoryLowFilter),
-                          avatar: const Icon(
-                            PhosphorIconsRegular.warning,
-                            size: 16,
-                          ),
-                          selected: state.lowOnly,
-                          onSelected: (v) =>
-                              context.read<InventoryCubit>().load(lowOnly: v),
+                        builder: (context, state) => Row(
+                          children: [
+                            _FilterPill(
+                              label: l10n.inventoryAll,
+                              selected: !state.lowOnly,
+                              onTap: () => context.read<InventoryCubit>().load(
+                                lowOnly: false,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            _FilterPill(
+                              label: l10n.inventoryLowFilter,
+                              icon: PhosphorIconsRegular.warning,
+                              selected: state.lowOnly,
+                              onTap: () => context.read<InventoryCubit>().load(
+                                lowOnly: true,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -151,6 +162,11 @@ class _InventoryBodyState extends State<_InventoryBody> {
           right: 24,
           bottom: 24,
           child: FloatingActionButton.extended(
+            extendedPadding: const EdgeInsets.symmetric(horizontal: 28),
+            extendedTextStyle: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+            ),
             onPressed: _create,
             backgroundColor: AppColors.accent,
             foregroundColor: AppColors.onAccent,
@@ -278,66 +294,180 @@ class _Message extends StatelessWidget {
   }
 }
 
+class _FilterPill extends StatelessWidget {
+  const _FilterPill({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.icon,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final fg = selected ? AppColors.accent : AppColors.textMuted;
+    return Material(
+      color: selected ? AppColors.accentSoft : AppColors.surface,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: selected ? AppColors.accentBorder : AppColors.border,
+        ),
+      ),
+      child: InkWell(
+        customBorder: const StadiumBorder(),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[
+                Icon(icon, size: 18, color: fg),
+                const SizedBox(width: 8),
+              ],
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: fg,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// One stock item. The two things a bartender does all day, Kirim and Brak,
+/// are one tap away on the row itself; tapping the row opens the detail
+/// sheet (sanash, edit, history).
 class _ItemRow extends StatelessWidget {
   const _ItemRow({required this.item});
 
   final StockItem item;
+
+  Future<void> _op(BuildContext context, StockBatchKind kind) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalization.of(context);
+    final saved = await showStockOpDialog(context, kind: kind, item: item);
+    if (saved) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.inventorySaved)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalization.of(context);
     final muted = AppTextStyles.muted(
       AppTextStyles.body,
-    ).copyWith(fontSize: 13);
+    ).copyWith(fontSize: 14);
+    final stripe = switch (item.status) {
+      StockStatus.ok => AppColors.cash,
+      StockStatus.low => AppColors.warning,
+      StockStatus.out => AppColors.danger,
+    };
     return Material(
-      color: AppColors.surface,
+      color: item.status == StockStatus.out
+          ? AppColors.dangerSoft
+          : AppColors.surface,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.lg),
         side: BorderSide(
-          color: switch (item.status) {
-            StockStatus.out => AppColors.dangerBorder,
-            _ => AppColors.border,
-          },
+          color: item.status == StockStatus.out
+              ? AppColors.dangerBorder
+              : AppColors.border,
         ),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
         onTap: () => showStockItemSheet(context, item.id),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(width: 6, color: stripe),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      style: AppTextStyles.h4.copyWith(
-                        fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.h3.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                StockBadge(status: item.status),
+                                const SizedBox(width: 10),
+                                Flexible(
+                                  child: Text(
+                                    [
+                                      l10n.inventoryMinQty(
+                                        formatQty(item.minQty, item.unit),
+                                      ),
+                                      if (!item.active) l10n.inventoryInactive,
+                                    ].join('  ·  '),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: muted,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      [
-                        l10n.inventoryMinQty(formatQty(item.minQty, item.unit)),
-                        if (!item.active) l10n.inventoryInactive,
-                      ].join('  ·  '),
-                      style: muted,
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                formatQty(item.qtyOnHand, item.unit),
-                style: AppTextStyles.h4.copyWith(fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(width: 14),
-              SizedBox(
-                width: 78,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: StockBadge(status: item.status),
+                      const SizedBox(width: 12),
+                      Text(
+                        formatQty(item.qtyOnHand, item.unit),
+                        style: AppTextStyles.h2.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: stripe == AppColors.cash
+                              ? AppColors.text
+                              : stripe == AppColors.warning
+                              ? AppColors.warningText
+                              : AppColors.danger,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(112, 52),
+                          backgroundColor: AppColors.cash,
+                        ),
+                        onPressed: () => _op(context, StockBatchKind.receipt),
+                        icon: const Icon(PhosphorIconsBold.plus, size: 18),
+                        label: Text(l10n.opReceipt),
+                      ),
+                      const SizedBox(width: 8),
+                      OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(104, 52),
+                          foregroundColor: AppColors.danger,
+                          side: const BorderSide(color: AppColors.dangerBorder),
+                        ),
+                        onPressed: () => _op(context, StockBatchKind.writeoff),
+                        icon: const Icon(PhosphorIconsRegular.trash, size: 18),
+                        label: Text(l10n.opWriteoff),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

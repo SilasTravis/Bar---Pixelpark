@@ -2058,6 +2058,66 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `Bo‘ladi: {qty}`
+  String opAfter(String qty) {
+    return Intl.message(
+      'Bo‘ladi: $qty',
+      name: 'opAfter',
+      desc: '',
+      args: [qty],
+    );
+  }
+
+  /// `Omborda buncha yo‘q (qoldiq: {qty})`
+  String opExceeds(String qty) {
+    return Intl.message(
+      'Omborda buncha yo‘q (qoldiq: $qty)',
+      name: 'opExceeds',
+      desc: '',
+      args: [qty],
+    );
+  }
+
+  /// `Sindi`
+  String get reasonBroken {
+    return Intl.message('Sindi', name: 'reasonBroken', desc: '', args: []);
+  }
+
+  /// `Muddati o‘tdi`
+  String get reasonExpired {
+    return Intl.message(
+      'Muddati o‘tdi',
+      name: 'reasonExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To‘kilib ketdi`
+  String get reasonSpilled {
+    return Intl.message(
+      'To‘kilib ketdi',
+      name: 'reasonSpilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Boshqa`
+  String get reasonOther {
+    return Intl.message('Boshqa', name: 'reasonOther', desc: '', args: []);
+  }
+
+  /// `Mahsulotni bosing: sanash, tahrirlash, tarix`
+  String get inventoryTapHint {
+    return Intl.message(
+      'Mahsulotni bosing: sanash, tahrirlash, tarix',
+      name: 'inventoryTapHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
