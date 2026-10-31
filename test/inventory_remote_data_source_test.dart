@@ -5,8 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   Future<({String path, Map<String, dynamic> body})> send(
-    StockBatchKind kind,
-  ) async {
+    StockBatchKind kind, {
+    int? costUzs,
+  }) async {
     late String path;
     late Map<String, dynamic> body;
     final dio = Dio(BaseOptions(baseUrl: 'https://bar.test'));
@@ -24,6 +25,7 @@ void main() {
       requestId: 'req-12345678',
       stockItemId: 'item-1',
       qty: 1800,
+      costUzs: costUzs,
     );
     return (path: path, body: body);
   }
@@ -39,6 +41,21 @@ void main() {
       });
     },
   );
+
+  test('a kirim line carries costUzs; other kinds and zero never do', () async {
+    final r = await send(StockBatchKind.receipt, costUzs: 100000);
+    expect((r.body['lines'] as List).single, {
+      'stockItemId': 'item-1',
+      'qty': 1800,
+      'costUzs': 100000,
+    });
+    for (final other in [
+      await send(StockBatchKind.receipt, costUzs: 0),
+      await send(StockBatchKind.writeoff, costUzs: 5000),
+    ]) {
+      expect((other.body['lines'] as List).single, isNot(contains('costUzs')));
+    }
+  });
 
   test('receipt and writeoff lines keep qty', () async {
     for (final kind in [StockBatchKind.receipt, StockBatchKind.writeoff]) {

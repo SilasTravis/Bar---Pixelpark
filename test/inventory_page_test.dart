@@ -149,26 +149,28 @@ void main() {
     expect(inventory.batches.single.qty, 600);
   });
 
-  testWidgets('kirim with a total price keeps the unit price in the comment', (
-    tester,
-  ) async {
-    inventory.items = [stockFixture(qtyOnHand: 0)];
-    await pumpPage(tester);
-    await tester.tap(find.widgetWithText(FilledButton, 'Kirim'));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'kirim with a total price sends it as costUzs, not in the comment',
+    (tester) async {
+      inventory.items = [stockFixture(qtyOnHand: 0)];
+      await pumpPage(tester);
+      await tester.tap(find.widgetWithText(FilledButton, 'Kirim'));
+      await tester.pumpAndSettle();
 
-    await tester.enterText(dialogField().first, '5');
-    await tester.tap(find.text('kg'));
-    await tester.enterText(dialogField().at(1), '100000');
-    await tester.pumpAndSettle();
-    expect(find.text("1 kg = 20 000 so'm"), findsOneWidget);
-    await tester.tap(find.widgetWithText(FilledButton, 'Saqlash'));
-    await tester.pumpAndSettle();
+      await tester.enterText(dialogField().first, '5');
+      await tester.tap(find.text('kg'));
+      await tester.enterText(dialogField().at(1), '100000');
+      await tester.pumpAndSettle();
+      expect(find.text("1 kg = 20 000 so'm"), findsOneWidget);
+      await tester.tap(find.widgetWithText(FilledButton, 'Saqlash'));
+      await tester.pumpAndSettle();
 
-    final request = inventory.batches.single;
-    expect(request.qty, 5000);
-    expect(request.reason, "Jami 100 000 so'm · 1 kg = 20 000 so'm");
-  });
+      final request = inventory.batches.single;
+      expect(request.qty, 5000);
+      expect(request.costUzs, 100000);
+      expect(request.reason, isNull);
+    },
+  );
 
   testWidgets('brak cannot exceed the stock; reason chips fill the reason', (
     tester,

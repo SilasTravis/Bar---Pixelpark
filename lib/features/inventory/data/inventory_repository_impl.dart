@@ -53,6 +53,7 @@ class InventoryRepositoryImpl implements InventoryRepository {
     required String stockItemId,
     required int qty,
     String? reason,
+    int? costUzs,
   }) => guardFailures(() async {
     await remote.submitBatch(
       kind,
@@ -60,6 +61,7 @@ class InventoryRepositoryImpl implements InventoryRepository {
       stockItemId: stockItemId,
       qty: qty,
       reason: reason,
+      costUzs: costUzs,
     );
     return unit;
   });

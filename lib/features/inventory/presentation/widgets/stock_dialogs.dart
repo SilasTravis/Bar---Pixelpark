@@ -65,19 +65,6 @@ class _StockOpDialogState extends State<_StockOpDialog> {
 
   int? get _costUzs => int.tryParse(_cost.text.replaceAll(RegExp(r'\D'), ''));
 
-  /// The comment, plus (for a kirim) the purchase price line, so what was
-  /// paid stays in the movements journal.
-  String? _composeReason() {
-    final parts = [
-      if (_reason.text.trim().isNotEmpty) _reason.text.trim(),
-      if (widget.kind == StockBatchKind.receipt &&
-          _qty != null &&
-          _costUzs != null)
-        ?purchaseNote(_costUzs!, _qty!, widget.item.unit),
-    ];
-    return parts.isEmpty ? null : parts.join(' · ');
-  }
-
   Future<void> _save() async {
     if (_saving) return;
     final l10n = AppLocalization.of(context);
@@ -111,7 +98,8 @@ class _StockOpDialogState extends State<_StockOpDialog> {
       requestId: _requestId,
       stockItemId: widget.item.id,
       qty: _qty!,
-      reason: _composeReason(),
+      reason: _reason.text.trim().isEmpty ? null : _reason.text.trim(),
+      costUzs: widget.kind == StockBatchKind.receipt ? _costUzs : null,
     );
     if (!mounted) return;
     result.fold(
@@ -152,9 +140,8 @@ class _StockOpDialogState extends State<_StockOpDialog> {
               const SizedBox(height: 4),
               Text(
                 l10n.opCountHint,
-                style: AppTextStyles.muted(
-                  AppTextStyles.body,
-                ).copyWith(fontSize: 13),
+                style: AppTextStyles.muted(AppTextStyles.body)
+                    .copyWith(fontSize: 13),
               ),
             ],
             const SizedBox(height: 14),

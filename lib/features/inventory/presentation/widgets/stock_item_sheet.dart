@@ -7,6 +7,7 @@ import 'package:phosphor_icons/phosphor_icons.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/failure_message.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/inventory_repository.dart';
@@ -212,7 +213,11 @@ class _MovementRow extends StatelessWidget {
       StockMovementType.adjustment => l10n.movAdjustment,
       StockMovementType.other => l10n.movOther,
     };
-    final reason = movement.reason;
+    final cost = movement.costUzs;
+    final note = [
+      if (cost != null) formatUzs(cost),
+      if (movement.reason != null) movement.reason!,
+    ].join(' · ');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -221,9 +226,8 @@ class _MovementRow extends StatelessWidget {
             width: 104,
             child: Text(
               DateFormat('dd.MM HH:mm').format(movement.createdAt.toLocal()),
-              style: AppTextStyles.muted(
-                AppTextStyles.body,
-              ).copyWith(fontSize: 13),
+              style: AppTextStyles.muted(AppTextStyles.body)
+                  .copyWith(fontSize: 13),
             ),
           ),
           SizedBox(
@@ -235,12 +239,11 @@ class _MovementRow extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              reason ?? '',
+              note,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.muted(
-                AppTextStyles.body,
-              ).copyWith(fontSize: 13),
+              style: AppTextStyles.muted(AppTextStyles.body)
+                  .copyWith(fontSize: 13),
             ),
           ),
           Text(

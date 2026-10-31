@@ -171,6 +171,7 @@ class InventoryCubit extends Cubit<InventoryState> {
     required String stockItemId,
     required int qty,
     String? reason,
+    int? costUzs,
   }) async {
     final result = await _repository.submitBatch(
       kind,
@@ -178,6 +179,7 @@ class InventoryCubit extends Cubit<InventoryState> {
       stockItemId: stockItemId,
       qty: qty,
       reason: reason,
+      costUzs: costUzs,
     );
     if (result.isRight()) await load();
     return result;

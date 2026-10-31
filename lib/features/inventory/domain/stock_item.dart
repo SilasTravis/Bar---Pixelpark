@@ -118,6 +118,7 @@ class StockMovement extends Equatable {
     required this.createdAt,
     this.stockItemName = '',
     this.reason,
+    this.costUzs,
   });
 
   final String id;
@@ -126,6 +127,9 @@ class StockMovement extends Equatable {
   final StockMovementType type;
   final int qtyDelta;
   final String? reason;
+
+  /// Kirim only: what the line cost, whole so'm (null = not recorded).
+  final int? costUzs;
   final DateTime createdAt;
 
   factory StockMovement.fromJson(Map<String, dynamic> json) => StockMovement(
@@ -135,6 +139,7 @@ class StockMovement extends Equatable {
     type: StockMovementType.parse(json['type']),
     qtyDelta: readInt(json['qtyDelta']),
     reason: readStringOrNull(json['reason']),
+    costUzs: json['costUzs'] == null ? null : readInt(json['costUzs']),
     createdAt: readDate(json['createdAt']),
   );
 
@@ -146,6 +151,7 @@ class StockMovement extends Equatable {
     type,
     qtyDelta,
     reason,
+    costUzs,
     createdAt,
   ];
 }
@@ -157,9 +163,9 @@ class MovementsPage extends Equatable {
   final int total;
 
   factory MovementsPage.fromJson(Map<String, dynamic> json) {
-    final items = readMapList(
-      json['items'],
-    ).map(StockMovement.fromJson).toList();
+    final items = readMapList(json['items'])
+        .map(StockMovement.fromJson)
+        .toList();
     return MovementsPage(
       items: items,
       total: readInt(json['total'], fallback: items.length),

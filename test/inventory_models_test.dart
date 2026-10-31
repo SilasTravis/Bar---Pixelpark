@@ -128,14 +128,11 @@ void main() {
     });
   });
 
-  test('purchase note: price per kg / l / dona from the total', () {
-    expect(
-      purchaseNote(100000, 5000, StockUnit.g),
-      "Jami 100 000 so'm · 1 kg = 20 000 so'm",
-    );
+  test('unit price: per kg / l / dona from the total', () {
+    expect(unitPriceText(100000, 5000, StockUnit.g), "1 kg = 20 000 so'm");
     expect(unitPriceText(30000, 2000, StockUnit.ml), "1 l = 15 000 so'm");
     expect(unitPriceText(50000, 10, StockUnit.pcs), "1 dona = 5 000 so'm");
     expect(unitPriceText(0, 1000, StockUnit.g), isNull);
-    expect(purchaseNote(1000, 0, StockUnit.g), isNull);
+    expect(unitPriceText(1000, 0, StockUnit.g), isNull);
   });
 }

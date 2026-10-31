@@ -263,14 +263,16 @@ class BatchRequest {
     this.requestId,
     this.stockItemId,
     this.qty,
-    this.reason,
-  );
+    this.reason, [
+    this.costUzs,
+  ]);
 
   final StockBatchKind kind;
   final String requestId;
   final String stockItemId;
   final int qty;
   final String? reason;
+  final int? costUzs;
 }
 
 class FakeInventoryRepository implements InventoryRepository {
@@ -351,8 +353,11 @@ class FakeInventoryRepository implements InventoryRepository {
     required String stockItemId,
     required int qty,
     String? reason,
+    int? costUzs,
   }) async {
-    batches.add(BatchRequest(kind, requestId, stockItemId, qty, reason));
+    batches.add(
+      BatchRequest(kind, requestId, stockItemId, qty, reason, costUzs),
+    );
     final result = batchResults.isNotEmpty
         ? batchResults.removeFirst()
         : right<Failure, Unit>(unit);

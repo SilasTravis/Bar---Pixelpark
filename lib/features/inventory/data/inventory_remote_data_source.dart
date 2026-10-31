@@ -71,6 +71,7 @@ class InventoryRemoteDataSource {
     required String stockItemId,
     required int qty,
     String? reason,
+    int? costUzs,
   }) => _guard(() async {
     final path = switch (kind) {
       StockBatchKind.receipt => 'receipts',
@@ -89,6 +90,11 @@ class InventoryRemoteDataSource {
             // A count line is the counted total, not a delta: the backend
             // names it `countedQty` (receipt / writeoff lines use `qty`).
             if (kind == StockBatchKind.count) 'countedQty': qty else 'qty': qty,
+            // Kirim only: what the line cost, whole so'm.
+            if (kind == StockBatchKind.receipt &&
+                costUzs != null &&
+                costUzs > 0)
+              'costUzs': costUzs,
           },
         ],
       },

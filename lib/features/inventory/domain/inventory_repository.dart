@@ -37,6 +37,7 @@ abstract class InventoryRepository {
     required String stockItemId,
     required int qty,
     String? reason,
+    int? costUzs,
   });
 
   Future<Either<Failure, MovementsPage>> fetchMovements({

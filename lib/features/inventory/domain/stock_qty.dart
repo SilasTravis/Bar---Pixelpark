@@ -66,10 +66,3 @@ String? unitPriceText(int totalUzs, int qtyBase, StockUnit unit) {
   final perUnit = (totalUzs * factor / qtyBase).round();
   return '1 ${big ?? unit.baseLabel} = ${formatUzs(perUnit)}';
 }
-
-/// The line stored in the kirim's comment so the purchase price is kept:
-/// `Jami 100 000 so'm · 1 kg = 20 000 so'm`.
-String? purchaseNote(int totalUzs, int qtyBase, StockUnit unit) {
-  final price = unitPriceText(totalUzs, qtyBase, unit);
-  return price == null ? null : 'Jami ${formatUzs(totalUzs)} · $price';
-}
