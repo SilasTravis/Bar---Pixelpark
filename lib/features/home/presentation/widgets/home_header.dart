@@ -12,15 +12,25 @@ import '../../../../generated/l10n.dart';
 import '../../../../injector_container.dart';
 import '../../../auth/presentation/cubit/session_cubit.dart';
 import '../../../expenses/presentation/pages/expenses_page.dart';
+import '../../../incomes/presentation/pages/incomes_page.dart';
+import '../../../inventory/presentation/pages/inventory_page.dart';
 import '../../../sales_history/presentation/pages/sales_history_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../shift/presentation/cubit/shift_cubit.dart';
 import '../../../shift/presentation/pages/close_shift_page.dart';
 
-enum _MenuAction { history, expenses, closeShift, settings, logout }
+enum _MenuAction {
+  history,
+  expenses,
+  incomes,
+  inventory,
+  closeShift,
+  settings,
+  logout,
+}
 
 /// Bar name, cashier, the open shift's running total, and the menu
-/// (history, expenses, close shift, settings, logout).
+/// (history, expenses, incomes, ombor, close shift, settings, logout).
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
@@ -188,6 +198,19 @@ class _Menu extends StatelessWidget {
             ),
           ),
         );
+      case _MenuAction.incomes:
+        await Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => BlocProvider.value(
+              value: shiftCubit,
+              child: const IncomesPage(),
+            ),
+          ),
+        );
+      case _MenuAction.inventory:
+        await Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const InventoryPage()));
       case _MenuAction.closeShift:
         await Navigator.of(context).push(
           MaterialPageRoute<void>(
@@ -233,11 +256,22 @@ class _Menu extends StatelessWidget {
               l10n.menuExpenses,
             ),
             _item(
+              _MenuAction.incomes,
+              PhosphorIconsRegular.handDeposit,
+              l10n.menuIncomes,
+            ),
+            _item(
               _MenuAction.closeShift,
               PhosphorIconsRegular.lockKey,
               l10n.menuCloseShift,
             ),
           ],
+          // Not behind the shift: stock is managed any time.
+          _item(
+            _MenuAction.inventory,
+            PhosphorIconsRegular.package,
+            l10n.menuInventory,
+          ),
           _item(
             _MenuAction.settings,
             PhosphorIconsRegular.gear,

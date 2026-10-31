@@ -1318,6 +1318,826 @@ class AppLocalization {
   String get shiftExpenses {
     return Intl.message('Chiqimlar', name: 'shiftExpenses', desc: '', args: []);
   }
+
+  /// `Kirimlar`
+  String get menuIncomes {
+    return Intl.message('Kirimlar', name: 'menuIncomes', desc: '', args: []);
+  }
+
+  /// `Kirimlar`
+  String get incomesTitle {
+    return Intl.message('Kirimlar', name: 'incomesTitle', desc: '', args: []);
+  }
+
+  /// `SMENA KIRIMI`
+  String get incomesShiftTotal {
+    return Intl.message(
+      'SMENA KIRIMI',
+      name: 'incomesShiftTotal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga: {amount}`
+  String incomesFromCashTotal(String amount) {
+    return Intl.message(
+      'Kassaga: $amount',
+      name: 'incomesFromCashTotal',
+      desc: '',
+      args: [amount],
+    );
+  }
+
+  /// `Bu smenada hali kirim yo‘q`
+  String get incomesEmpty {
+    return Intl.message(
+      'Bu smenada hali kirim yo‘q',
+      name: 'incomesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing`
+  String get incomesEmptyHint {
+    return Intl.message(
+      'Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing',
+      name: 'incomesEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yangi kirim`
+  String get incomeNew {
+    return Intl.message('Yangi kirim', name: 'incomeNew', desc: '', args: []);
+  }
+
+  /// `Tez tanlash`
+  String get incomeQuickPick {
+    return Intl.message(
+      'Tez tanlash',
+      name: 'incomeQuickPick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nomi`
+  String get incomeName {
+    return Intl.message('Nomi', name: 'incomeName', desc: '', args: []);
+  }
+
+  /// `Masalan: Depozit`
+  String get incomeNameHint {
+    return Intl.message(
+      'Masalan: Depozit',
+      name: 'incomeNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summa`
+  String get incomeAmount {
+    return Intl.message('Summa', name: 'incomeAmount', desc: '', args: []);
+  }
+
+  /// `Qayerga tushdi`
+  String get incomeReceivedTo {
+    return Intl.message(
+      'Qayerga tushdi',
+      name: 'incomeReceivedTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga`
+  String get receivedToCash {
+    return Intl.message('Kassaga', name: 'receivedToCash', desc: '', args: []);
+  }
+
+  /// `Boshqa`
+  String get receivedToOther {
+    return Intl.message('Boshqa', name: 'receivedToOther', desc: '', args: []);
+  }
+
+  /// `Nomini kiriting`
+  String get incomeNameRequired {
+    return Intl.message(
+      'Nomini kiriting',
+      name: 'incomeNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)`
+  String get incomeAmountInvalid {
+    return Intl.message(
+      'Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)',
+      name: 'incomeAmountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saqlash`
+  String get incomeSave {
+    return Intl.message('Saqlash', name: 'incomeSave', desc: '', args: []);
+  }
+
+  /// `Kirim saqlandi: {name} — {amount}`
+  String incomeSaved(String name, String amount) {
+    return Intl.message(
+      'Kirim saqlandi: $name — $amount',
+      name: 'incomeSaved',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `O‘chirish`
+  String get incomeDelete {
+    return Intl.message('O‘chirish', name: 'incomeDelete', desc: '', args: []);
+  }
+
+  /// `Kirimni o‘chirish`
+  String get incomeDeleteTitle {
+    return Intl.message(
+      'Kirimni o‘chirish',
+      name: 'incomeDeleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{name}” — {amount} o‘chiriladi. Davom etasizmi?`
+  String incomeDeleteMessage(String name, String amount) {
+    return Intl.message(
+      '“$name” — $amount o‘chiriladi. Davom etasizmi?',
+      name: 'incomeDeleteMessage',
+      desc: '',
+      args: [name, amount],
+    );
+  }
+
+  /// `Ha, o‘chirish`
+  String get incomeDeleteConfirm {
+    return Intl.message(
+      'Ha, o‘chirish',
+      name: 'incomeDeleteConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim o‘chirildi`
+  String get incomeDeleted {
+    return Intl.message(
+      'Kirim o‘chirildi',
+      name: 'incomeDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.`
+  String get errorIncomeNotFound {
+    return Intl.message(
+      'Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.',
+      name: 'errorIncomeNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kassaga kirim`
+  String get cashIncomes {
+    return Intl.message(
+      'Kassaga kirim',
+      name: 'cashIncomes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirimlar`
+  String get shiftIncomes {
+    return Intl.message('Kirimlar', name: 'shiftIncomes', desc: '', args: []);
+  }
+
+  /// `Ombor`
+  String get menuInventory {
+    return Intl.message('Ombor', name: 'menuInventory', desc: '', args: []);
+  }
+
+  /// `Ombor`
+  String get inventoryTitle {
+    return Intl.message('Ombor', name: 'inventoryTitle', desc: '', args: []);
+  }
+
+  /// `Mahsulot qidirish`
+  String get inventorySearchHint {
+    return Intl.message(
+      'Mahsulot qidirish',
+      name: 'inventorySearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hammasi`
+  String get inventoryAll {
+    return Intl.message('Hammasi', name: 'inventoryAll', desc: '', args: []);
+  }
+
+  /// `Kam qolganlar`
+  String get inventoryLowFilter {
+    return Intl.message(
+      'Kam qolganlar',
+      name: 'inventoryLowFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yangi mahsulot`
+  String get inventoryNewItem {
+    return Intl.message(
+      'Yangi mahsulot',
+      name: 'inventoryNewItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Omborda hali mahsulot yo‘q`
+  String get inventoryEmpty {
+    return Intl.message(
+      'Omborda hali mahsulot yo‘q',
+      name: 'inventoryEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“Yangi mahsulot” orqali kofe, sut, shakar kabilarni qo‘shing`
+  String get inventoryEmptyHint {
+    return Intl.message(
+      '“Yangi mahsulot” orqali kofe, sut, shakar kabilarni qo‘shing',
+      name: 'inventoryEmptyHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kam qolgan mahsulot yo‘q`
+  String get inventoryEmptyLow {
+    return Intl.message(
+      'Kam qolgan mahsulot yo‘q',
+      name: 'inventoryEmptyLow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hech narsa topilmadi`
+  String get inventoryEmptySearch {
+    return Intl.message(
+      'Hech narsa topilmadi',
+      name: 'inventoryEmptySearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ombor hozircha mavjud emas. Savdo odatdagidek ishlayveradi.`
+  String get inventoryUnavailable {
+    return Intl.message(
+      'Ombor hozircha mavjud emas. Savdo odatdagidek ishlayveradi.',
+      name: 'inventoryUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yetarli`
+  String get inventoryStatusOk {
+    return Intl.message(
+      'Yetarli',
+      name: 'inventoryStatusOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kam`
+  String get inventoryStatusLow {
+    return Intl.message('Kam', name: 'inventoryStatusLow', desc: '', args: []);
+  }
+
+  /// `Tugadi`
+  String get inventoryStatusOut {
+    return Intl.message(
+      'Tugadi',
+      name: 'inventoryStatusOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nofaol`
+  String get inventoryInactive {
+    return Intl.message(
+      'Nofaol',
+      name: 'inventoryInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kamida: {qty}`
+  String inventoryMinQty(String qty) {
+    return Intl.message(
+      'Kamida: $qty',
+      name: 'inventoryMinQty',
+      desc: '',
+      args: [qty],
+    );
+  }
+
+  /// `Yana yuklash`
+  String get inventoryLoadMore {
+    return Intl.message(
+      'Yana yuklash',
+      name: 'inventoryLoadMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saqlash`
+  String get inventorySave {
+    return Intl.message('Saqlash', name: 'inventorySave', desc: '', args: []);
+  }
+
+  /// `Yopish`
+  String get inventoryClose {
+    return Intl.message('Yopish', name: 'inventoryClose', desc: '', args: []);
+  }
+
+  /// `Tahrirlash`
+  String get inventoryEdit {
+    return Intl.message(
+      'Tahrirlash',
+      name: 'inventoryEdit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saqlandi`
+  String get inventorySaved {
+    return Intl.message('Saqlandi', name: 'inventorySaved', desc: '', args: []);
+  }
+
+  /// `Nomi`
+  String get itemName {
+    return Intl.message('Nomi', name: 'itemName', desc: '', args: []);
+  }
+
+  /// `Masalan: Kofe`
+  String get itemNameHint {
+    return Intl.message(
+      'Masalan: Kofe',
+      name: 'itemNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nomini kiriting`
+  String get itemNameRequired {
+    return Intl.message(
+      'Nomini kiriting',
+      name: 'itemNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `O‘lchov birligi`
+  String get itemUnit {
+    return Intl.message(
+      'O‘lchov birligi',
+      name: 'itemUnit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gramm (g, kg)`
+  String get unitGram {
+    return Intl.message('Gramm (g, kg)', name: 'unitGram', desc: '', args: []);
+  }
+
+  /// `Millilitr (ml, l)`
+  String get unitMl {
+    return Intl.message(
+      'Millilitr (ml, l)',
+      name: 'unitMl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dona`
+  String get unitPcs {
+    return Intl.message('Dona', name: 'unitPcs', desc: '', args: []);
+  }
+
+  /// `Kam qolish chegarasi`
+  String get itemMinQty {
+    return Intl.message(
+      'Kam qolish chegarasi',
+      name: 'itemMinQty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chegarani to‘g‘ri kiriting (0 yoki undan katta)`
+  String get itemMinQtyInvalid {
+    return Intl.message(
+      'Chegarani to‘g‘ri kiriting (0 yoki undan katta)',
+      name: 'itemMinQtyInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Faol`
+  String get itemActive {
+    return Intl.message('Faol', name: 'itemActive', desc: '', args: []);
+  }
+
+  /// `Mahsulotni tahrirlash`
+  String get itemEditTitle {
+    return Intl.message(
+      'Mahsulotni tahrirlash',
+      name: 'itemEditTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Miqdor`
+  String get qtyLabel {
+    return Intl.message('Miqdor', name: 'qtyLabel', desc: '', args: []);
+  }
+
+  /// `Miqdorni kiriting (0 dan katta)`
+  String get qtyInvalid {
+    return Intl.message(
+      'Miqdorni kiriting (0 dan katta)',
+      name: 'qtyInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sanalgan miqdorni kiriting (0 yoki undan katta)`
+  String get qtyCountInvalid {
+    return Intl.message(
+      'Sanalgan miqdorni kiriting (0 yoki undan katta)',
+      name: 'qtyCountInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim`
+  String get opReceipt {
+    return Intl.message('Kirim', name: 'opReceipt', desc: '', args: []);
+  }
+
+  /// `Brak`
+  String get opWriteoff {
+    return Intl.message('Brak', name: 'opWriteoff', desc: '', args: []);
+  }
+
+  /// `Sanash`
+  String get opCount {
+    return Intl.message('Sanash', name: 'opCount', desc: '', args: []);
+  }
+
+  /// `Izoh (ixtiyoriy)`
+  String get opComment {
+    return Intl.message(
+      'Izoh (ixtiyoriy)',
+      name: 'opComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sabab`
+  String get opReason {
+    return Intl.message('Sabab', name: 'opReason', desc: '', args: []);
+  }
+
+  /// `Sababni kiriting (kamida 2 belgi)`
+  String get opReasonRequired {
+    return Intl.message(
+      'Sababni kiriting (kamida 2 belgi)',
+      name: 'opReasonRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.`
+  String get opCountHint {
+    return Intl.message(
+      'Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.',
+      name: 'opCountHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Qoldiq`
+  String get inventoryOnHand {
+    return Intl.message('Qoldiq', name: 'inventoryOnHand', desc: '', args: []);
+  }
+
+  /// `Oxirgi harakatlar`
+  String get inventoryMovements {
+    return Intl.message(
+      'Oxirgi harakatlar',
+      name: 'inventoryMovements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Harakatlar yo‘q`
+  String get inventoryNoMovements {
+    return Intl.message(
+      'Harakatlar yo‘q',
+      name: 'inventoryNoMovements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kirim`
+  String get movReceipt {
+    return Intl.message('Kirim', name: 'movReceipt', desc: '', args: []);
+  }
+
+  /// `Savdo`
+  String get movSale {
+    return Intl.message('Savdo', name: 'movSale', desc: '', args: []);
+  }
+
+  /// `Qaytarish`
+  String get movRefund {
+    return Intl.message('Qaytarish', name: 'movRefund', desc: '', args: []);
+  }
+
+  /// `Brak`
+  String get movWriteoff {
+    return Intl.message('Brak', name: 'movWriteoff', desc: '', args: []);
+  }
+
+  /// `Sanash`
+  String get movAdjustment {
+    return Intl.message('Sanash', name: 'movAdjustment', desc: '', args: []);
+  }
+
+  /// `Boshqa`
+  String get movOther {
+    return Intl.message('Boshqa', name: 'movOther', desc: '', args: []);
+  }
+
+  /// `Retseptlar`
+  String get recipesButton {
+    return Intl.message(
+      'Retseptlar',
+      name: 'recipesButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retseptlar`
+  String get recipesTitle {
+    return Intl.message('Retseptlar', name: 'recipesTitle', desc: '', args: []);
+  }
+
+  /// `Mahsulotni tanlang va bir porsiyaga ketadigan ingredientlarni belgilang. Sotilganda ombordan avtomatik ayriladi.`
+  String get recipesHint {
+    return Intl.message(
+      'Mahsulotni tanlang va bir porsiyaga ketadigan ingredientlarni belgilang. Sotilganda ombordan avtomatik ayriladi.',
+      name: 'recipesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sotuv mahsulotlari topilmadi`
+  String get recipesEmpty {
+    return Intl.message(
+      'Sotuv mahsulotlari topilmadi',
+      name: 'recipesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retsept: {name}`
+  String recipeEditorTitle(String name) {
+    return Intl.message(
+      'Retsept: $name',
+      name: 'recipeEditorTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Retsept (porsiyaga)`
+  String get recipeKindPrepared {
+    return Intl.message(
+      'Retsept (porsiyaga)',
+      name: 'recipeKindPrepared',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tayyor mahsulot (donasiga)`
+  String get recipeKindReady {
+    return Intl.message(
+      'Tayyor mahsulot (donasiga)',
+      name: 'recipeKindReady',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ingredient qo‘shish`
+  String get recipeAddIngredient {
+    return Intl.message(
+      'Ingredient qo‘shish',
+      name: 'recipeAddIngredient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ingredient`
+  String get recipeIngredient {
+    return Intl.message(
+      'Ingredient',
+      name: 'recipeIngredient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Avval omborga mahsulot qo‘shing`
+  String get recipeNoItems {
+    return Intl.message(
+      'Avval omborga mahsulot qo‘shing',
+      name: 'recipeNoItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Har bir ingredientni va uning miqdorini to‘ldiring`
+  String get recipeIncomplete {
+    return Intl.message(
+      'Har bir ingredientni va uning miqdorini to‘ldiring',
+      name: 'recipeIncomplete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bir ingredient ikki marta tanlangan`
+  String get recipeDuplicate {
+    return Intl.message(
+      'Bir ingredient ikki marta tanlangan',
+      name: 'recipeDuplicate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi`
+  String get recipeEmptyInfo {
+    return Intl.message(
+      'Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi',
+      name: 'recipeEmptyInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retsept saqlandi`
+  String get recipeSaved {
+    return Intl.message(
+      'Retsept saqlandi',
+      name: 'recipeSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bo‘ladi: {qty}`
+  String opAfter(String qty) {
+    return Intl.message(
+      'Bo‘ladi: $qty',
+      name: 'opAfter',
+      desc: '',
+      args: [qty],
+    );
+  }
+
+  /// `Omborda buncha yo‘q (qoldiq: {qty})`
+  String opExceeds(String qty) {
+    return Intl.message(
+      'Omborda buncha yo‘q (qoldiq: $qty)',
+      name: 'opExceeds',
+      desc: '',
+      args: [qty],
+    );
+  }
+
+  /// `Sindi`
+  String get reasonBroken {
+    return Intl.message('Sindi', name: 'reasonBroken', desc: '', args: []);
+  }
+
+  /// `Muddati o‘tdi`
+  String get reasonExpired {
+    return Intl.message(
+      'Muddati o‘tdi',
+      name: 'reasonExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To‘kilib ketdi`
+  String get reasonSpilled {
+    return Intl.message(
+      'To‘kilib ketdi',
+      name: 'reasonSpilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Boshqa`
+  String get reasonOther {
+    return Intl.message('Boshqa', name: 'reasonOther', desc: '', args: []);
+  }
+
+  /// `Mahsulotni bosing: sanash, tahrirlash, tarix`
+  String get inventoryTapHint {
+    return Intl.message(
+      'Mahsulotni bosing: sanash, tahrirlash, tarix',
+      name: 'inventoryTapHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Umumiy summa, so‘m (ixtiyoriy)`
+  String get opCost {
+    return Intl.message(
+      'Umumiy summa, so‘m (ixtiyoriy)',
+      name: 'opCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Masalan: 5 kg shakar uchun 100 000`
+  String get opCostHint {
+    return Intl.message(
+      'Masalan: 5 kg shakar uchun 100 000',
+      name: 'opCostHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

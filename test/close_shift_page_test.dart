@@ -19,6 +19,7 @@ BarShift _shift({
   int? counted,
   int? difference,
   int cashExpensesUzs = 0,
+  int cashIncomesUzs = 0,
   int? expectedCashUzs,
 }) => BarShift(
   id: 'shift-1',
@@ -34,6 +35,8 @@ BarShift _shift({
   refundedCount: 1,
   expensesUzs: cashExpensesUzs,
   cashExpensesUzs: cashExpensesUzs,
+  incomesUzs: cashIncomesUzs,
+  cashIncomesUzs: cashIncomesUzs,
   expectedCashUzs: expectedCashUzs,
   countedCashUzs: counted,
   cashDifferenceUzs: difference,
@@ -189,6 +192,62 @@ void main() {
     expect(find.text("0 so'm"), findsOneWidget, reason: 'exact vs expected');
 
     await tester.enterText(find.byType(TextField).first, '50000');
+    await tester.pumpAndSettle();
+    expect(find.text("+20 000 so'm"), findsOneWidget);
+  });
+
+  testWidgets('cash incomes raise the expected cash and the difference', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1000, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    final repo = FakeShiftRepository();
+    final shift = _shift(cashIncomesUzs: 20000, expectedCashUzs: 70000);
+    repo.currentResults
+      ..add(Right(shift))
+      ..add(Right(shift));
+    final cubit = ShiftCubit(repo);
+    addTearDown(cubit.close);
+    await cubit.load();
+
+    await tester.pumpWidget(
+      BlocProvider.value(
+        value: cubit,
+        child: MaterialApp(
+          theme: appTheme,
+          locale: const Locale('uz'),
+          supportedLocales: AppLocalization.delegate.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: const CloseShiftPage(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Naqd savdo'), findsOneWidget);
+    expect(find.text('Kassaga kirim'), findsOneWidget);
+    expect(find.text('Kirimlar'), findsOneWidget);
+    expect(find.text("20 000 so'm"), findsNWidgets(2));
+    expect(
+      tester
+          .widget<SummaryRow>(find.widgetWithText(SummaryRow, 'Kutilgan naqd'))
+          .value,
+      "70 000 so'm",
+    );
+
+    await tester.enterText(find.byType(TextField).first, '70000');
+    await tester.pumpAndSettle();
+    // The zero difference and the (zero) cash expenses line.
+    expect(find.text("0 so'm"), findsNWidgets(2), reason: 'exact vs expected');
+
+    await tester.enterText(find.byType(TextField).first, '90000');
     await tester.pumpAndSettle();
     expect(find.text("+20 000 so'm"), findsOneWidget);
   });

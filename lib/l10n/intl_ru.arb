@@ -260,5 +260,160 @@
   "errorExpenseNotFound": "Расход не найден. Удалить можно только свой расход в открытой смене.",
   "cashSales": "Наличные продажи",
   "cashExpenses": "Расход из кассы",
-  "shiftExpenses": "Расходы"
+  "shiftExpenses": "Расходы",
+  "menuIncomes": "Приходы",
+  "incomesTitle": "Приходы",
+  "incomesShiftTotal": "ПРИХОДЫ СМЕНЫ",
+  "incomesFromCashTotal": "В кассу: {amount}",
+  "@incomesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomesEmpty": "В этой смене ещё нет приходов",
+  "incomesEmptyHint": "Запишите деньги, поступившие в кассу или в другое место, через «Новый приход»",
+  "incomeNew": "Новый приход",
+  "incomeQuickPick": "Быстрый выбор",
+  "incomeName": "Название",
+  "incomeNameHint": "Например: Депозит",
+  "incomeAmount": "Сумма",
+  "incomeReceivedTo": "Куда поступило",
+  "receivedToCash": "В кассу",
+  "receivedToOther": "Другое",
+  "incomeNameRequired": "Введите название",
+  "incomeAmountInvalid": "Введите сумму (больше 0, не более 1 млрд)",
+  "incomeSave": "Сохранить",
+  "incomeSaved": "Приход сохранён: {name} — {amount}",
+  "@incomeSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDelete": "Удалить",
+  "incomeDeleteTitle": "Удалить приход",
+  "incomeDeleteMessage": "«{name}» — {amount} будет удалён. Продолжить?",
+  "@incomeDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDeleteConfirm": "Да, удалить",
+  "incomeDeleted": "Приход удалён",
+  "errorIncomeNotFound": "Приход не найден. Удалить можно только свой приход в открытой смене.",
+  "cashIncomes": "Приход в кассу",
+  "shiftIncomes": "Приходы",
+  "menuInventory": "Склад",
+  "inventoryTitle": "Склад",
+  "inventorySearchHint": "Поиск товара",
+  "inventoryAll": "Все",
+  "inventoryLowFilter": "Заканчиваются",
+  "inventoryNewItem": "Новый товар",
+  "inventoryEmpty": "На складе пока нет товаров",
+  "inventoryEmptyHint": "Добавьте кофе, молоко, сахар и т. д. через «Новый товар»",
+  "inventoryEmptyLow": "Нет товаров с низким остатком",
+  "inventoryEmptySearch": "Ничего не найдено",
+  "inventoryUnavailable": "Склад пока недоступен. Продажи работают как обычно.",
+  "inventoryStatusOk": "В наличии",
+  "inventoryStatusLow": "Мало",
+  "inventoryStatusOut": "Закончился",
+  "inventoryInactive": "Неактивен",
+  "inventoryMinQty": "Минимум: {qty}",
+  "@inventoryMinQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "inventoryLoadMore": "Загрузить ещё",
+  "inventorySave": "Сохранить",
+  "inventoryClose": "Закрыть",
+  "inventoryEdit": "Изменить",
+  "inventorySaved": "Сохранено",
+  "itemName": "Название",
+  "itemNameHint": "Например: Кофе",
+  "itemNameRequired": "Введите название",
+  "itemUnit": "Единица измерения",
+  "unitGram": "Граммы (г, кг)",
+  "unitMl": "Миллилитры (мл, л)",
+  "unitPcs": "Штуки",
+  "itemMinQty": "Порог «мало»",
+  "itemMinQtyInvalid": "Введите порог (0 или больше)",
+  "itemActive": "Активен",
+  "itemEditTitle": "Редактирование товара",
+  "qtyLabel": "Количество",
+  "qtyInvalid": "Введите количество (больше 0)",
+  "qtyCountInvalid": "Введите посчитанное количество (0 или больше)",
+  "opReceipt": "Приход",
+  "opWriteoff": "Списание",
+  "opCount": "Инвентаризация",
+  "opComment": "Комментарий (необязательно)",
+  "opReason": "Причина",
+  "opReasonRequired": "Укажите причину (минимум 2 символа)",
+  "opCountHint": "Сколько реально на складе сейчас? Остаток будет приведён к этому значению.",
+  "inventoryOnHand": "Остаток",
+  "inventoryMovements": "Последние движения",
+  "inventoryNoMovements": "Движений нет",
+  "movReceipt": "Приход",
+  "movSale": "Продажа",
+  "movRefund": "Возврат",
+  "movWriteoff": "Списание",
+  "movAdjustment": "Инвентаризация",
+  "movOther": "Другое",
+  "recipesButton": "Рецепты",
+  "recipesTitle": "Рецепты",
+  "recipesHint": "Выберите товар и укажите ингредиенты на порцию. При продаже они спишутся со склада автоматически.",
+  "recipesEmpty": "Товары для продажи не найдены",
+  "recipeEditorTitle": "Рецепт: {name}",
+  "@recipeEditorTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeKindPrepared": "Рецепт (на порцию)",
+  "recipeKindReady": "Готовый товар (за штуку)",
+  "recipeAddIngredient": "Добавить ингредиент",
+  "recipeIngredient": "Ингредиент",
+  "recipeNoItems": "Сначала добавьте товары на склад",
+  "recipeIncomplete": "Заполните каждый ингредиент и его количество",
+  "recipeDuplicate": "Один ингредиент выбран дважды",
+  "recipeEmptyInfo": "Пусто: при продаже этого товара со склада ничего не спишется",
+  "recipeSaved": "Рецепт сохранён",
+  "opAfter": "Станет: {qty}",
+  "@opAfter": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "opExceeds": "На складе столько нет (остаток: {qty})",
+  "@opExceeds": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonBroken": "Разбито",
+  "reasonExpired": "Срок истёк",
+  "reasonSpilled": "Пролито",
+  "reasonOther": "Другое",
+  "inventoryTapHint": "Нажмите на товар: пересчёт, правка, история",
+  "opCost": "Общая сумма, сум (необязательно)",
+  "opCostHint": "Например: 100 000 за 5 кг сахара"
 }

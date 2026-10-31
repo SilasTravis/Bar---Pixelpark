@@ -51,6 +51,13 @@ flutter build macos --debug
 5. **Smenani yopish**: shift totals, counted cash, live difference, confirm,
    then a summary.
 6. **Sozlamalar**: receipt printer, version + update check, logout.
+7. **Ombor** (menu, any time, no shift needed): the bar's own stock via
+   `/bar/inventory/*`. Items (g / ml / dona, low-stock threshold), kirim,
+   brak (reason required), sanash, movements, and **Retseptlar** (per
+   product: ingredients per portion, or a ready product's stock link) so
+   sales deduct stock. Quantities are integer base units, shown as kg / l from
+   1000. It is optional: if the inventory API is missing or fails, only this
+   page shows an error; selling is untouched.
 
 ### Retry safety
 

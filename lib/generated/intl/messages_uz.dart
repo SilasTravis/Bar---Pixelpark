@@ -29,27 +29,42 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(amount) => "Kassadan: ${amount}";
 
-  static String m4(cash, card) => "N ${cash} · K ${card}";
+  static String m4(name, amount) =>
+      "“${name}” — ${amount} o‘chiriladi. Davom etasizmi?";
 
-  static String m5(total) => "Jami: ${total}";
+  static String m5(name, amount) => "Kirim saqlandi: ${name} — ${amount}";
 
-  static String m6(name) => "${name} (hozir ulanmagan)";
+  static String m6(amount) => "Kassaga: ${amount}";
 
-  static String m7(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+  static String m7(qty) => "Kamida: ${qty}";
 
-  static String m8(total) =>
+  static String m8(cash, card) => "N ${cash} · K ${card}";
+
+  static String m9(total) => "Jami: ${total}";
+
+  static String m10(qty) => "Bo‘ladi: ${qty}";
+
+  static String m11(qty) => "Omborda buncha yo‘q (qoldiq: ${qty})";
+
+  static String m12(name) => "${name} (hozir ulanmagan)";
+
+  static String m13(name) => "Retsept: ${name}";
+
+  static String m14(receiptNo) => "Chek #${receiptNo} bekor qilindi";
+
+  static String m15(total) =>
       "Butun sotuv bekor qilinadi va ${total} smena tushumidan chiqariladi. Pulni xaridorga qaytaring.";
 
-  static String m9(reason) => "Sabab: ${reason}";
+  static String m16(reason) => "Sabab: ${reason}";
 
-  static String m10(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
+  static String m17(receiptNo) => "Chek #${receiptNo} ni bekor qilish";
 
-  static String m11(receiptNo, total) =>
+  static String m18(receiptNo, total) =>
       "Chek #${receiptNo} — ${total} sotildi";
 
-  static String m12(time) => "Smena: ${time} dan";
+  static String m19(time) => "Smena: ${time} dan";
 
-  static String m13(version) => "Yangi versiya mavjud: ${version}";
+  static String m20(version) => "Yangi versiya mavjud: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -69,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cartTitle": MessageLookupByLibrary.simpleMessage("Savat"),
     "cashDifference": MessageLookupByLibrary.simpleMessage("Farq"),
     "cashExpenses": MessageLookupByLibrary.simpleMessage("Kassadan chiqim"),
+    "cashIncomes": MessageLookupByLibrary.simpleMessage("Kassaga kirim"),
     "cashSales": MessageLookupByLibrary.simpleMessage("Naqd savdo"),
     "categoryAll": MessageLookupByLibrary.simpleMessage("Hammasi"),
     "closeShift": MessageLookupByLibrary.simpleMessage("Smenani yopish"),
@@ -94,6 +110,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmptyCart": MessageLookupByLibrary.simpleMessage("Savat bo‘sh"),
     "errorExpenseNotFound": MessageLookupByLibrary.simpleMessage(
       "Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.",
+    ),
+    "errorIncomeNotFound": MessageLookupByLibrary.simpleMessage(
+      "Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.",
     ),
     "errorInvalidPaymentSplit": MessageLookupByLibrary.simpleMessage(
       "Naqd va karta summasi jami summaga to‘g‘ri kelmadi. Aralash to‘lovni qaytadan kiriting.",
@@ -164,7 +183,93 @@ class MessageLookup extends MessageLookupByLibrary {
       "Bu smenada hali sotuv yo‘q",
     ),
     "historyTitle": MessageLookupByLibrary.simpleMessage("Smena tarixi"),
+    "incomeAmount": MessageLookupByLibrary.simpleMessage("Summa"),
+    "incomeAmountInvalid": MessageLookupByLibrary.simpleMessage(
+      "Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)",
+    ),
+    "incomeDelete": MessageLookupByLibrary.simpleMessage("O‘chirish"),
+    "incomeDeleteConfirm": MessageLookupByLibrary.simpleMessage(
+      "Ha, o‘chirish",
+    ),
+    "incomeDeleteMessage": m4,
+    "incomeDeleteTitle": MessageLookupByLibrary.simpleMessage(
+      "Kirimni o‘chirish",
+    ),
+    "incomeDeleted": MessageLookupByLibrary.simpleMessage("Kirim o‘chirildi"),
+    "incomeName": MessageLookupByLibrary.simpleMessage("Nomi"),
+    "incomeNameHint": MessageLookupByLibrary.simpleMessage("Masalan: Depozit"),
+    "incomeNameRequired": MessageLookupByLibrary.simpleMessage(
+      "Nomini kiriting",
+    ),
+    "incomeNew": MessageLookupByLibrary.simpleMessage("Yangi kirim"),
+    "incomeQuickPick": MessageLookupByLibrary.simpleMessage("Tez tanlash"),
+    "incomeReceivedTo": MessageLookupByLibrary.simpleMessage("Qayerga tushdi"),
+    "incomeSave": MessageLookupByLibrary.simpleMessage("Saqlash"),
+    "incomeSaved": m5,
+    "incomesEmpty": MessageLookupByLibrary.simpleMessage(
+      "Bu smenada hali kirim yo‘q",
+    ),
+    "incomesEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing",
+    ),
+    "incomesFromCashTotal": m6,
+    "incomesShiftTotal": MessageLookupByLibrary.simpleMessage("SMENA KIRIMI"),
+    "incomesTitle": MessageLookupByLibrary.simpleMessage("Kirimlar"),
     "increase": MessageLookupByLibrary.simpleMessage("Ko‘paytirish"),
+    "inventoryAll": MessageLookupByLibrary.simpleMessage("Hammasi"),
+    "inventoryClose": MessageLookupByLibrary.simpleMessage("Yopish"),
+    "inventoryEdit": MessageLookupByLibrary.simpleMessage("Tahrirlash"),
+    "inventoryEmpty": MessageLookupByLibrary.simpleMessage(
+      "Omborda hali mahsulot yo‘q",
+    ),
+    "inventoryEmptyHint": MessageLookupByLibrary.simpleMessage(
+      "“Yangi mahsulot” orqali kofe, sut, shakar kabilarni qo‘shing",
+    ),
+    "inventoryEmptyLow": MessageLookupByLibrary.simpleMessage(
+      "Kam qolgan mahsulot yo‘q",
+    ),
+    "inventoryEmptySearch": MessageLookupByLibrary.simpleMessage(
+      "Hech narsa topilmadi",
+    ),
+    "inventoryInactive": MessageLookupByLibrary.simpleMessage("Nofaol"),
+    "inventoryLoadMore": MessageLookupByLibrary.simpleMessage("Yana yuklash"),
+    "inventoryLowFilter": MessageLookupByLibrary.simpleMessage("Kam qolganlar"),
+    "inventoryMinQty": m7,
+    "inventoryMovements": MessageLookupByLibrary.simpleMessage(
+      "Oxirgi harakatlar",
+    ),
+    "inventoryNewItem": MessageLookupByLibrary.simpleMessage("Yangi mahsulot"),
+    "inventoryNoMovements": MessageLookupByLibrary.simpleMessage(
+      "Harakatlar yo‘q",
+    ),
+    "inventoryOnHand": MessageLookupByLibrary.simpleMessage("Qoldiq"),
+    "inventorySave": MessageLookupByLibrary.simpleMessage("Saqlash"),
+    "inventorySaved": MessageLookupByLibrary.simpleMessage("Saqlandi"),
+    "inventorySearchHint": MessageLookupByLibrary.simpleMessage(
+      "Mahsulot qidirish",
+    ),
+    "inventoryStatusLow": MessageLookupByLibrary.simpleMessage("Kam"),
+    "inventoryStatusOk": MessageLookupByLibrary.simpleMessage("Yetarli"),
+    "inventoryStatusOut": MessageLookupByLibrary.simpleMessage("Tugadi"),
+    "inventoryTapHint": MessageLookupByLibrary.simpleMessage(
+      "Mahsulotni bosing: sanash, tahrirlash, tarix",
+    ),
+    "inventoryTitle": MessageLookupByLibrary.simpleMessage("Ombor"),
+    "inventoryUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Ombor hozircha mavjud emas. Savdo odatdagidek ishlayveradi.",
+    ),
+    "itemActive": MessageLookupByLibrary.simpleMessage("Faol"),
+    "itemEditTitle": MessageLookupByLibrary.simpleMessage(
+      "Mahsulotni tahrirlash",
+    ),
+    "itemMinQty": MessageLookupByLibrary.simpleMessage("Kam qolish chegarasi"),
+    "itemMinQtyInvalid": MessageLookupByLibrary.simpleMessage(
+      "Chegarani to‘g‘ri kiriting (0 yoki undan katta)",
+    ),
+    "itemName": MessageLookupByLibrary.simpleMessage("Nomi"),
+    "itemNameHint": MessageLookupByLibrary.simpleMessage("Masalan: Kofe"),
+    "itemNameRequired": MessageLookupByLibrary.simpleMessage("Nomini kiriting"),
+    "itemUnit": MessageLookupByLibrary.simpleMessage("O‘lchov birligi"),
     "language": MessageLookupByLibrary.simpleMessage("Til"),
     "languageRussian": MessageLookupByLibrary.simpleMessage("Русский"),
     "languageUzbek": MessageLookupByLibrary.simpleMessage("O‘zbekcha"),
@@ -191,14 +296,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "menuCloseShift": MessageLookupByLibrary.simpleMessage("Smenani yopish"),
     "menuExpenses": MessageLookupByLibrary.simpleMessage("Chiqimlar"),
     "menuHistory": MessageLookupByLibrary.simpleMessage("Smena tarixi"),
+    "menuIncomes": MessageLookupByLibrary.simpleMessage("Kirimlar"),
+    "menuInventory": MessageLookupByLibrary.simpleMessage("Ombor"),
     "menuSettings": MessageLookupByLibrary.simpleMessage("Sozlamalar"),
     "mixedInvalid": MessageLookupByLibrary.simpleMessage(
       "Naqd va karta jami summaga teng bo‘lishi kerak",
     ),
     "mixedPay": MessageLookupByLibrary.simpleMessage("To‘lash"),
-    "mixedSplitShort": m4,
+    "mixedSplitShort": m8,
     "mixedTitle": MessageLookupByLibrary.simpleMessage("Aralash to‘lov"),
-    "mixedTotal": m5,
+    "mixedTotal": m9,
+    "movAdjustment": MessageLookupByLibrary.simpleMessage("Sanash"),
+    "movOther": MessageLookupByLibrary.simpleMessage("Boshqa"),
+    "movReceipt": MessageLookupByLibrary.simpleMessage("Kirim"),
+    "movRefund": MessageLookupByLibrary.simpleMessage("Qaytarish"),
+    "movSale": MessageLookupByLibrary.simpleMessage("Savdo"),
+    "movWriteoff": MessageLookupByLibrary.simpleMessage("Brak"),
     "noOpenShiftMessage": MessageLookupByLibrary.simpleMessage(
       "Sotuvni boshlash uchun smenani oching",
     ),
@@ -210,6 +323,25 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noteOptional": MessageLookupByLibrary.simpleMessage("Izoh (ixtiyoriy)"),
     "ok": MessageLookupByLibrary.simpleMessage("OK"),
+    "opAfter": m10,
+    "opComment": MessageLookupByLibrary.simpleMessage("Izoh (ixtiyoriy)"),
+    "opCost": MessageLookupByLibrary.simpleMessage(
+      "Umumiy summa, so‘m (ixtiyoriy)",
+    ),
+    "opCostHint": MessageLookupByLibrary.simpleMessage(
+      "Masalan: 5 kg shakar uchun 100 000",
+    ),
+    "opCount": MessageLookupByLibrary.simpleMessage("Sanash"),
+    "opCountHint": MessageLookupByLibrary.simpleMessage(
+      "Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.",
+    ),
+    "opExceeds": m11,
+    "opReason": MessageLookupByLibrary.simpleMessage("Sabab"),
+    "opReasonRequired": MessageLookupByLibrary.simpleMessage(
+      "Sababni kiriting (kamida 2 belgi)",
+    ),
+    "opReceipt": MessageLookupByLibrary.simpleMessage("Kirim"),
+    "opWriteoff": MessageLookupByLibrary.simpleMessage("Brak"),
     "openShift": MessageLookupByLibrary.simpleMessage("Smenani ochish"),
     "paidFromCash": MessageLookupByLibrary.simpleMessage("Kassadan"),
     "paidFromOther": MessageLookupByLibrary.simpleMessage("Boshqa"),
@@ -223,10 +355,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "Printer yo‘q (chek chop etilmaydi)",
     ),
     "printerSettings": MessageLookupByLibrary.simpleMessage("Chek printeri"),
-    "printerUnavailable": m6,
+    "printerUnavailable": m12,
     "productsEmpty": MessageLookupByLibrary.simpleMessage(
       "Bu barda hali faol mahsulot yo‘q",
     ),
+    "qtyCountInvalid": MessageLookupByLibrary.simpleMessage(
+      "Sanalgan miqdorni kiriting (0 yoki undan katta)",
+    ),
+    "qtyInvalid": MessageLookupByLibrary.simpleMessage(
+      "Miqdorni kiriting (0 dan katta)",
+    ),
+    "qtyLabel": MessageLookupByLibrary.simpleMessage("Miqdor"),
+    "reasonBroken": MessageLookupByLibrary.simpleMessage("Sindi"),
+    "reasonExpired": MessageLookupByLibrary.simpleMessage("Muddati o‘tdi"),
+    "reasonOther": MessageLookupByLibrary.simpleMessage("Boshqa"),
+    "reasonSpilled": MessageLookupByLibrary.simpleMessage("To‘kilib ketdi"),
     "receiptCashier": MessageLookupByLibrary.simpleMessage("Kassir"),
     "receiptCheckNo": MessageLookupByLibrary.simpleMessage("Chek №"),
     "receiptCurrency": MessageLookupByLibrary.simpleMessage("so‘m"),
@@ -244,23 +387,57 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "receiptTotal": MessageLookupByLibrary.simpleMessage("JAMI"),
     "receiptsCount": MessageLookupByLibrary.simpleMessage("Cheklar"),
+    "receivedToCash": MessageLookupByLibrary.simpleMessage("Kassaga"),
+    "receivedToOther": MessageLookupByLibrary.simpleMessage("Boshqa"),
+    "recipeAddIngredient": MessageLookupByLibrary.simpleMessage(
+      "Ingredient qo‘shish",
+    ),
+    "recipeDuplicate": MessageLookupByLibrary.simpleMessage(
+      "Bir ingredient ikki marta tanlangan",
+    ),
+    "recipeEditorTitle": m13,
+    "recipeEmptyInfo": MessageLookupByLibrary.simpleMessage(
+      "Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi",
+    ),
+    "recipeIncomplete": MessageLookupByLibrary.simpleMessage(
+      "Har bir ingredientni va uning miqdorini to‘ldiring",
+    ),
+    "recipeIngredient": MessageLookupByLibrary.simpleMessage("Ingredient"),
+    "recipeKindPrepared": MessageLookupByLibrary.simpleMessage(
+      "Retsept (porsiyaga)",
+    ),
+    "recipeKindReady": MessageLookupByLibrary.simpleMessage(
+      "Tayyor mahsulot (donasiga)",
+    ),
+    "recipeNoItems": MessageLookupByLibrary.simpleMessage(
+      "Avval omborga mahsulot qo‘shing",
+    ),
+    "recipeSaved": MessageLookupByLibrary.simpleMessage("Retsept saqlandi"),
+    "recipesButton": MessageLookupByLibrary.simpleMessage("Retseptlar"),
+    "recipesEmpty": MessageLookupByLibrary.simpleMessage(
+      "Sotuv mahsulotlari topilmadi",
+    ),
+    "recipesHint": MessageLookupByLibrary.simpleMessage(
+      "Mahsulotni tanlang va bir porsiyaga ketadigan ingredientlarni belgilang. Sotilganda ombordan avtomatik ayriladi.",
+    ),
+    "recipesTitle": MessageLookupByLibrary.simpleMessage("Retseptlar"),
     "refresh": MessageLookupByLibrary.simpleMessage("Yangilash"),
     "refreshProducts": MessageLookupByLibrary.simpleMessage(
       "Mahsulotlarni yangilash",
     ),
     "refund": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "refundConfirm": MessageLookupByLibrary.simpleMessage("Ha, bekor qilish"),
-    "refundDone": m7,
-    "refundMessage": m8,
+    "refundDone": m14,
+    "refundMessage": m15,
     "refundReasonOptional": MessageLookupByLibrary.simpleMessage(
       "Sabab (ixtiyoriy)",
     ),
-    "refundReasonShown": m9,
-    "refundTitle": m10,
+    "refundReasonShown": m16,
+    "refundTitle": m17,
     "refundedCount": MessageLookupByLibrary.simpleMessage("Bekor qilinganlar"),
     "removeLine": MessageLookupByLibrary.simpleMessage("Olib tashlash"),
     "retry": MessageLookupByLibrary.simpleMessage("Qayta urinish"),
-    "saleCompleted": m11,
+    "saleCompleted": m18,
     "saleErrorNetwork": MessageLookupByLibrary.simpleMessage(
       "Internet aloqasi yo‘q. Savat saqlandi — to‘lov tugmasini qayta bosing, pul ikki marta yechilmaydi.",
     ),
@@ -272,12 +449,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "shiftClosedTitle": MessageLookupByLibrary.simpleMessage("Smena yopildi"),
     "shiftExpenses": MessageLookupByLibrary.simpleMessage("Chiqimlar"),
-    "shiftOpenedAt": m12,
+    "shiftIncomes": MessageLookupByLibrary.simpleMessage("Kirimlar"),
+    "shiftOpenedAt": m19,
     "shiftPeriod": MessageLookupByLibrary.simpleMessage("Smena vaqti"),
     "shiftRevenue": MessageLookupByLibrary.simpleMessage("SMENA TUSHUMI"),
     "statusRefunded": MessageLookupByLibrary.simpleMessage("Bekor qilingan"),
     "total": MessageLookupByLibrary.simpleMessage("Jami"),
-    "updateAvailable": m13,
+    "unitGram": MessageLookupByLibrary.simpleMessage("Gramm (g, kg)"),
+    "unitMl": MessageLookupByLibrary.simpleMessage("Millilitr (ml, l)"),
+    "unitPcs": MessageLookupByLibrary.simpleMessage("Dona"),
+    "updateAvailable": m20,
     "updateCancel": MessageLookupByLibrary.simpleMessage("Bekor qilish"),
     "updateCheck": MessageLookupByLibrary.simpleMessage(
       "Yangilanishni tekshirish",

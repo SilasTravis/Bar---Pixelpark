@@ -260,5 +260,160 @@
   "errorExpenseNotFound": "Chiqim topilmadi. Faqat ochiq smenadagi o‘z chiqimingizni o‘chirish mumkin.",
   "cashSales": "Naqd savdo",
   "cashExpenses": "Kassadan chiqim",
-  "shiftExpenses": "Chiqimlar"
+  "shiftExpenses": "Chiqimlar",
+  "menuIncomes": "Kirimlar",
+  "incomesTitle": "Kirimlar",
+  "incomesShiftTotal": "SMENA KIRIMI",
+  "incomesFromCashTotal": "Kassaga: {amount}",
+  "@incomesFromCashTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomesEmpty": "Bu smenada hali kirim yo‘q",
+  "incomesEmptyHint": "Kassaga yoki boshqa joyga kelgan pulni “Yangi kirim” orqali yozing",
+  "incomeNew": "Yangi kirim",
+  "incomeQuickPick": "Tez tanlash",
+  "incomeName": "Nomi",
+  "incomeNameHint": "Masalan: Depozit",
+  "incomeAmount": "Summa",
+  "incomeReceivedTo": "Qayerga tushdi",
+  "receivedToCash": "Kassaga",
+  "receivedToOther": "Boshqa",
+  "incomeNameRequired": "Nomini kiriting",
+  "incomeAmountInvalid": "Summani kiriting (0 dan katta, 1 mlrd dan oshmasin)",
+  "incomeSave": "Saqlash",
+  "incomeSaved": "Kirim saqlandi: {name} — {amount}",
+  "@incomeSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDelete": "O‘chirish",
+  "incomeDeleteTitle": "Kirimni o‘chirish",
+  "incomeDeleteMessage": "“{name}” — {amount} o‘chiriladi. Davom etasizmi?",
+  "@incomeDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeDeleteConfirm": "Ha, o‘chirish",
+  "incomeDeleted": "Kirim o‘chirildi",
+  "errorIncomeNotFound": "Kirim topilmadi. Faqat ochiq smenadagi o‘z kirimingizni o‘chirish mumkin.",
+  "cashIncomes": "Kassaga kirim",
+  "shiftIncomes": "Kirimlar",
+  "menuInventory": "Ombor",
+  "inventoryTitle": "Ombor",
+  "inventorySearchHint": "Mahsulot qidirish",
+  "inventoryAll": "Hammasi",
+  "inventoryLowFilter": "Kam qolganlar",
+  "inventoryNewItem": "Yangi mahsulot",
+  "inventoryEmpty": "Omborda hali mahsulot yo‘q",
+  "inventoryEmptyHint": "“Yangi mahsulot” orqali kofe, sut, shakar kabilarni qo‘shing",
+  "inventoryEmptyLow": "Kam qolgan mahsulot yo‘q",
+  "inventoryEmptySearch": "Hech narsa topilmadi",
+  "inventoryUnavailable": "Ombor hozircha mavjud emas. Savdo odatdagidek ishlayveradi.",
+  "inventoryStatusOk": "Yetarli",
+  "inventoryStatusLow": "Kam",
+  "inventoryStatusOut": "Tugadi",
+  "inventoryInactive": "Nofaol",
+  "inventoryMinQty": "Kamida: {qty}",
+  "@inventoryMinQty": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "inventoryLoadMore": "Yana yuklash",
+  "inventorySave": "Saqlash",
+  "inventoryClose": "Yopish",
+  "inventoryEdit": "Tahrirlash",
+  "inventorySaved": "Saqlandi",
+  "itemName": "Nomi",
+  "itemNameHint": "Masalan: Kofe",
+  "itemNameRequired": "Nomini kiriting",
+  "itemUnit": "O‘lchov birligi",
+  "unitGram": "Gramm (g, kg)",
+  "unitMl": "Millilitr (ml, l)",
+  "unitPcs": "Dona",
+  "itemMinQty": "Kam qolish chegarasi",
+  "itemMinQtyInvalid": "Chegarani to‘g‘ri kiriting (0 yoki undan katta)",
+  "itemActive": "Faol",
+  "itemEditTitle": "Mahsulotni tahrirlash",
+  "qtyLabel": "Miqdor",
+  "qtyInvalid": "Miqdorni kiriting (0 dan katta)",
+  "qtyCountInvalid": "Sanalgan miqdorni kiriting (0 yoki undan katta)",
+  "opReceipt": "Kirim",
+  "opWriteoff": "Brak",
+  "opCount": "Sanash",
+  "opComment": "Izoh (ixtiyoriy)",
+  "opReason": "Sabab",
+  "opReasonRequired": "Sababni kiriting (kamida 2 belgi)",
+  "opCountHint": "Hozir omborda haqiqatda qancha bor? Qoldiq shunga tenglashtiriladi.",
+  "inventoryOnHand": "Qoldiq",
+  "inventoryMovements": "Oxirgi harakatlar",
+  "inventoryNoMovements": "Harakatlar yo‘q",
+  "movReceipt": "Kirim",
+  "movSale": "Savdo",
+  "movRefund": "Qaytarish",
+  "movWriteoff": "Brak",
+  "movAdjustment": "Sanash",
+  "movOther": "Boshqa",
+  "recipesButton": "Retseptlar",
+  "recipesTitle": "Retseptlar",
+  "recipesHint": "Mahsulotni tanlang va bir porsiyaga ketadigan ingredientlarni belgilang. Sotilganda ombordan avtomatik ayriladi.",
+  "recipesEmpty": "Sotuv mahsulotlari topilmadi",
+  "recipeEditorTitle": "Retsept: {name}",
+  "@recipeEditorTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeKindPrepared": "Retsept (porsiyaga)",
+  "recipeKindReady": "Tayyor mahsulot (donasiga)",
+  "recipeAddIngredient": "Ingredient qo‘shish",
+  "recipeIngredient": "Ingredient",
+  "recipeNoItems": "Avval omborga mahsulot qo‘shing",
+  "recipeIncomplete": "Har bir ingredientni va uning miqdorini to‘ldiring",
+  "recipeDuplicate": "Bir ingredient ikki marta tanlangan",
+  "recipeEmptyInfo": "Bo‘sh: bu mahsulot sotilganda ombordan hech narsa ayirilmaydi",
+  "recipeSaved": "Retsept saqlandi",
+  "opAfter": "Bo‘ladi: {qty}",
+  "@opAfter": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "opExceeds": "Omborda buncha yo‘q (qoldiq: {qty})",
+  "@opExceeds": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonBroken": "Sindi",
+  "reasonExpired": "Muddati o‘tdi",
+  "reasonSpilled": "To‘kilib ketdi",
+  "reasonOther": "Boshqa",
+  "inventoryTapHint": "Mahsulotni bosing: sanash, tahrirlash, tarix",
+  "opCost": "Umumiy summa, so‘m (ixtiyoriy)",
+  "opCostHint": "Masalan: 5 kg shakar uchun 100 000"
 }
